@@ -1,6 +1,8 @@
 " Setup Pathogen
+filetype off
 runtime bundle/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect()
+call pathogen#infect()
+call pathogen#helptags()
 
 " Setup syntax and filetype
 syntax on
