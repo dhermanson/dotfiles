@@ -64,3 +64,6 @@
 [submodule "vim/.vim/bundle/vim-tmux-navigator"]
 	path = vim/.vim/bundle/vim-tmux-navigator
 	url = https://github.com/christoomey/vim-tmux-navigator
+[submodule "vim/.vim/bundle/nerdtree"]
+	path = vim/.vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree
