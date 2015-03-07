@@ -46,3 +46,6 @@
 [submodule "vim/.vim/bundle/delimitMate"]
 	path = vim/.vim/bundle/delimitMate
 	url = https://github.com/Raimondi/delimitMate
+[submodule "vim/.vim/bundle/molokai"]
+	path = vim/.vim/bundle/molokai
+	url = https://github.com/tomasr/molokai

@@ -4,17 +4,18 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 call pathogen#helptags()
 
-" Setup syntax and filetype
+" Global settings
 syntax on
 filetype plugin indent on
-
-" Global settings for indentation
+set nocompatible
 set tabstop=2
 set shiftwidth=2
 set noexpandtab
-
-" Show line numbers
 set number
+
+" Color Scheme
+colorscheme molokai
+let g:rehash256=1
 
 " Emmet Settings
 " Only use for html, css
