@@ -31,3 +31,12 @@
 [submodule "vim/.vim/bundle/python-mode"]
 	path = vim/.vim/bundle/python-mode
 	url = https://github.com/klen/python-mode
+[submodule "vim/.vim/bundle/vim-bundler"]
+	path = vim/.vim/bundle/vim-bundler
+	url = https://github.com/tpope/vim-bundler
+[submodule "vim/.vim/bundle/vim-javascript"]
+	path = vim/.vim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript
+[submodule "vim/.vim/bundle/vim-endwise"]
+	path = vim/.vim/bundle/vim-endwise
+	url = https://github.com/tpope/vim-endwise
