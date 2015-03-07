@@ -13,3 +13,8 @@ set noexpandtab
 
 " Show line numbers
 set number
+
+" Emmet Settings
+" Only use for html, css
+let g:user_emmet_install_global=0
+autocmd FileType html,css EmmetInstall

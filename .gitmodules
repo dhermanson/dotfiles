@@ -13,3 +13,9 @@
 [submodule "vim/.vim/bundle/vim-ruby"]
 	path = vim/.vim/bundle/vim-ruby
 	url = https://github.com/vim-ruby/vim-ruby
+[submodule "vim/.vim/bundle/vim-markdown"]
+	path = vim/.vim/bundle/vim-markdown
+	url = https://github.com/tpope/vim-markdown
+[submodule "vim/.vim/bundle/emmet-vim"]
+	path = vim/.vim/bundle/emmet-vim
+	url = https://github.com/mattn/emmet-vim
