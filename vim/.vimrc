@@ -16,6 +16,7 @@ set number
 " color scheme
 colorscheme molokai
 let g:rehash256=1
+"colorscheme jellybeans
 
 " emmet settings
 " Only use for html, css
@@ -51,3 +52,6 @@ nmap <F8> :TagbarToggle<CR>
 " delimitmate settings
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
+
+" airline settings
+let g:airline_theme='jellybeans'

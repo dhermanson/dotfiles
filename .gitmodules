@@ -91,3 +91,6 @@
 [submodule "vim/.vim/bundle/tern_for_vim"]
 	path = vim/.vim/bundle/tern_for_vim
 	url = https://github.com/marijnh/tern_for_vim
+[submodule "vim/.vim/bundle/jellybeans.vim"]
+	path = vim/.vim/bundle/jellybeans.vim
+	url = https://github.com/nanotech/jellybeans.vim
