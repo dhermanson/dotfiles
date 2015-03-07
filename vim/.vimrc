@@ -47,3 +47,7 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 " tagbar settings
 nmap <F8> :TagbarToggle<CR>
+
+" delimitmate settings
+let g:delimitMate_expand_cr=1
+let g:delimitMate_expand_space=1
