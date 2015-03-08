@@ -55,3 +55,6 @@ let g:delimitMate_expand_space=1
 
 " airline settings
 let g:airline_theme='jellybeans'
+
+" NERDtree settings
+map <C-n> :NERDTreeToggle<CR>
