@@ -12,11 +12,15 @@ set tabstop=2
 set shiftwidth=2
 set noexpandtab
 set number
+set omnifunc=syntaxcomplete#Complete
 
 " color scheme
 colorscheme molokai
 let g:rehash256=1
 "colorscheme jellybeans
+
+" supertab settings
+let g:SuperTabDefaultCompletionType="<C-X><C-O>"
 
 " emmet settings
 " Only use for html, css
@@ -58,3 +62,9 @@ let g:airline_theme='jellybeans'
 
 " NERDtree settings
 map <C-n> :NERDTreeToggle<CR>
+
+" vim-ruby settings
+let g:rubycomplete_buffer_loading=1
+let g:rubycomplete_classes_in_global=1
+let g:rubycomplete_rails=1
+let g:rubycomplete_load_gemfile=1
