@@ -97,3 +97,6 @@
 [submodule "vim/.vim/bundle/html5.vim"]
 	path = vim/.vim/bundle/html5.vim
 	url = https://github.com/othree/html5.vim
+[submodule "vim/.vim/bundle/supertab"]
+	path = vim/.vim/bundle/supertab
+	url = https://github.com/ervandew/supertab
