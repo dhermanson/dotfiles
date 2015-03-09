@@ -1,3 +1,4 @@
+set nocompatible
 " setup pathogen
 filetype off
 runtime bundle/vim-pathogen/autoload/pathogen.vim
@@ -7,22 +8,17 @@ call pathogen#helptags()
 " global settings
 syntax on
 filetype plugin indent on
-set nocompatible
 set tabstop=2
 set shiftwidth=2
 set noexpandtab
 set number
-
-" use html autocompletion in html and eruby files
-autocmd FileType html,eruby set omnifunc=htmlcomplete#CompleteTags
+set omnifunc=syntaxcomplete#Complete
+set completefunc=syntaxcomplete#Complete
 
 " color scheme
 colorscheme molokai
 let g:rehash256=1
 "colorscheme jellybeans
-
-" supertab settings
-let g:SuperTabDefaultCompletionType="<C-X><C-O>"
 
 " syntastic settings
 set statusline+=%#warningsmsg#
