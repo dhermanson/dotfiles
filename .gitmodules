@@ -94,3 +94,6 @@
 [submodule "vim/.vim/bundle/jellybeans.vim"]
 	path = vim/.vim/bundle/jellybeans.vim
 	url = https://github.com/nanotech/jellybeans.vim
+[submodule "vim/.vim/bundle/vim-eunuch"]
+	path = vim/.vim/bundle/vim-eunuch
+	url = https://github.com/tpope/vim-eunuch
