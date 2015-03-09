@@ -17,9 +17,9 @@ set number
 autocmd FileType html,eruby set omnifunc=htmlcomplete#CompleteTags
 
 " color scheme
-"colorscheme molokai
-"let g:rehash256=1
-colorscheme jellybeans
+colorscheme molokai
+let g:rehash256=1
+"colorscheme jellybeans
 
 " supertab settings
 let g:SuperTabDefaultCompletionType="<C-X><C-O>"
