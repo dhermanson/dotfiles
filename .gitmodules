@@ -100,3 +100,6 @@
 [submodule "vim/.vim/bundle/supertab"]
 	path = vim/.vim/bundle/supertab
 	url = https://github.com/ervandew/supertab
+[submodule "vim/.vim/bundle/vim-indent-guides"]
+	path = vim/.vim/bundle/vim-indent-guides
+	url = https://github.com/nathanaelkane/vim-indent-guides

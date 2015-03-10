@@ -16,9 +16,9 @@ set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 
 " color scheme
-colorscheme molokai
-let g:rehash256=1
-"colorscheme jellybeans
+"colorscheme molokai
+"let g:rehash256=1
+colorscheme jellybeans
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -62,3 +62,12 @@ let g:rubycomplete_buffer_loading=1
 let g:rubycomplete_classes_in_global=1
 let g:rubycomplete_rails=1
 let g:rubycomplete_load_gemfile=1
+
+" surround settings for erb templates
+autocmd FileType erb let b:surround_{char2nr('=')} = "<%= \r %>"
+autocmd FileType erb let b:surround_{char2nr('-')} = "<% \r %>"
+
+" indent-guides settings
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 2
