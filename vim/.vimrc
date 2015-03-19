@@ -42,7 +42,6 @@ nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:40,results:40'
 
 " tagbar settings
 nmap <F8> :TagbarToggle<CR>
