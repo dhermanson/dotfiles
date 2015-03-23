@@ -1,1 +1,3 @@
-export PS1="\w λ "
+if [ -f ~/.bashrc  ]; then
+	source ~/.bashrc
+fi
