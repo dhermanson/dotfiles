@@ -28,9 +28,6 @@
 [submodule "vim/.vim/bundle/vim-jade"]
 	path = vim/.vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade
-[submodule "vim/.vim/bundle/python-mode"]
-	path = vim/.vim/bundle/python-mode
-	url = https://github.com/klen/python-mode
 [submodule "vim/.vim/bundle/vim-bundler"]
 	path = vim/.vim/bundle/vim-bundler
 	url = https://github.com/tpope/vim-bundler
