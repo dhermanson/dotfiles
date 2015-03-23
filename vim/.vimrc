@@ -16,6 +16,9 @@ set number
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 
+" supertab settings
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+
 " color scheme
 "colorscheme molokai
 "let g:rehash256=1
