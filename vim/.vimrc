@@ -10,10 +10,14 @@ syntax on
 filetype plugin indent on
 set tabstop=2
 set shiftwidth=2
+set backspace=indent,eol,start
 set noexpandtab
 set number
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
+
+" supertab settings
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 
 " color scheme
 "colorscheme molokai
