@@ -22,8 +22,8 @@ let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 " color scheme
 "colorscheme molokai
 "let g:rehash256=1
-"colorscheme jellybeans
-colorscheme Monokai
+colorscheme jellybeans
+"colorscheme Monokai
 
 " syntastic settings
 set statusline+=%#warningsmsg#
