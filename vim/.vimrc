@@ -11,7 +11,7 @@ filetype plugin indent on
 set tabstop=2
 set shiftwidth=2
 set backspace=indent,eol,start
-set noexpandtab
+set expandtab
 set number
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
@@ -34,6 +34,9 @@ let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
+
+" language specific checkers
+let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 
 " vim-tmux-navigator settings
 let g:tmux_navigator_no_mappings = 1
