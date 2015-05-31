@@ -112,3 +112,6 @@
 [submodule "vim/.vim/bundle/vim-colorschemes"]
 	path = vim/.vim/bundle/vim-colorschemes
 	url = https://github.com/flazz/vim-colorschemes
+[submodule "vim/.vim/bundle/jedi-vim"]
+	path = vim/.vim/bundle/jedi-vim
+	url = http://github.com/davidhalter/jedi-vim
