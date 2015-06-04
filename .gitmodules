@@ -115,3 +115,6 @@
 [submodule "vim/.vim/bundle/jedi-vim"]
 	path = vim/.vim/bundle/jedi-vim
 	url = http://github.com/davidhalter/jedi-vim
+[submodule "/home/derick/.vim/bundle/vim-go"]
+	path = /home/derick/.vim/bundle/vim-go
+	url = https://github.com/fatih/vim-go.git

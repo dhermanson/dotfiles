@@ -13,6 +13,7 @@ set shiftwidth=2
 set backspace=indent,eol,start
 set expandtab
 set number
+set noshowmode
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 
@@ -80,3 +81,8 @@ autocmd FileType erb let b:surround_{char2nr('-')} = "<% \r %>"
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 2
+
+" tern_for_vim settings
+set updatetime=1000
+let g:tern_show_argument_hints = 'on_hold'
+let g:tern_show_signature_in_pum = 1
