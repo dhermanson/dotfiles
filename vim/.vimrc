@@ -23,8 +23,8 @@ let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 " color scheme
 "colorscheme molokai
 "let g:rehash256=1
-colorscheme jellybeans
-"colorscheme Monokai
+"colorscheme jellybeans
+colorscheme Monokai
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -37,7 +37,7 @@ let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
 
 " language specific checkers
-let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_ruby_checkers = ['mri']
 
 " vim-tmux-navigator settings
 let g:tmux_navigator_no_mappings = 1
@@ -78,7 +78,7 @@ autocmd FileType erb let b:surround_{char2nr('=')} = "<%= \r %>"
 autocmd FileType erb let b:surround_{char2nr('-')} = "<% \r %>"
 
 " indent-guides settings
-let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_enable_on_vim_startup = 0
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 2
 
@@ -86,3 +86,7 @@ let g:indent_guides_guide_size = 2
 set updatetime=1000
 let g:tern_show_argument_hints = 'on_hold'
 let g:tern_show_signature_in_pum = 1
+
+" sql_complete settings
+let g:ftplugin_sql_omni_key = '<C-C>'
+let g:sql_type_default = 'pgsql'

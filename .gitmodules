@@ -118,3 +118,12 @@
 [submodule "/home/derick/.vim/bundle/vim-go"]
 	path = /home/derick/.vim/bundle/vim-go
 	url = https://github.com/fatih/vim-go.git
+[submodule "vim/.vim/bundle/dbext.vim"]
+	path = vim/.vim/bundle/dbext.vim
+	url = https://github.com/vim-scripts/dbext.vim
+[submodule "vim/.vim/bundle/pgsql.vim"]
+	path = vim/.vim/bundle/pgsql.vim
+	url = https://github.com/exu/pgsql.vim
+[submodule "vim/.vim/bundle/vim-rvm"]
+	path = vim/.vim/bundle/vim-rvm
+	url = git://github.com/tpope/vim-rvm.git
