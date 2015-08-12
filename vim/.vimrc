@@ -17,9 +17,6 @@ set noshowmode
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 
-" supertab settings
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-
 " color scheme
 "colorscheme molokai
 "let g:rehash256=1
@@ -42,12 +39,6 @@ let g:syntastic_ruby_checkers = ['mri']
 " vim-tmux-navigator settings
 let g:tmux_navigator_no_mappings = 1
 
-nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
-nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
-nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-"nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
-
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
@@ -63,9 +54,6 @@ let g:delimitMate_expand_space=1
 " airline settings
 let g:airline_theme='jellybeans'
 "let g:airline_theme='badwolf'
-
-" NERDtree settings
-map <C-n> :NERDTreeToggle<CR>
 
 " vim-ruby settings
 let g:rubycomplete_buffer_loading=1
