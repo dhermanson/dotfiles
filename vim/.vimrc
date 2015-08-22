@@ -17,6 +17,15 @@ set noshowmode
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 
+let mapleader=","
+
+nmap <Leader><Space> <Esc>
+imap <Leader><Space> <Esc>
+vmap <Leader><Space> <Esc>
+omap <Leader><Space> <Esc>
+cmap <Leader><Space> <C-u>
+
+
 " color scheme
 "colorscheme molokai
 "let g:rehash256=1
