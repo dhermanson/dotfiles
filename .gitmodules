@@ -124,3 +124,9 @@
 [submodule "vim/.vim/bundle/vim-jsx"]
 	path = vim/.vim/bundle/vim-jsx
 	url = https://github.com/mxw/vim-jsx.git
+[submodule "vim/.vim/bundle/base16-vim"]
+	path = vim/.vim/bundle/base16-vim
+	url = https://github.com/chriskempson/base16-vim.git
+[submodule "vim/.vim/bundle/vim-rake"]
+	path = vim/.vim/bundle/vim-rake
+	url = https://github.com/tpope/vim-rake

@@ -22,9 +22,7 @@ let mapleader=","
 map <C-n> :NERDTreeToggle<CR>
 
 " color scheme
-"colorscheme molokai
-"let g:rehash256=1
-"colorscheme jellybeans
+"colorscheme base16-monokai
 colorscheme Monokai
 
 " syntastic settings
@@ -40,9 +38,6 @@ let g:syntastic_check_on_wq=0
 " language specific checkers
 let g:syntastic_ruby_checkers = ['mri']
 
-" vim-tmux-navigator settings
-let g:tmux_navigator_no_mappings = 1
-
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
@@ -56,8 +51,7 @@ let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-let g:airline_theme='jellybeans'
-"let g:airline_theme='badwolf'
+let g:airline_theme='base16'
 
 " vim-ruby settings
 let g:rubycomplete_buffer_loading=1
