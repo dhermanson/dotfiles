@@ -19,12 +19,7 @@ set completefunc=syntaxcomplete#Complete
 
 let mapleader=","
 
-nmap <Leader><Space> <Esc>
-imap <Leader><Space> <Esc>
-vmap <Leader><Space> <Esc>
-omap <Leader><Space> <Esc>
-cmap <Leader><Space> <C-u>
-
+map <C-n> :NERDTreeToggle<CR>
 
 " color scheme
 "colorscheme molokai
