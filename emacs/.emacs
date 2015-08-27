@@ -15,26 +15,45 @@
 
 (require-package 'evil)
 (require-package 'evil-leader)
+(require-package 'evil-nerd-commenter)
+(require-package 'evil-matchit)
 (require-package 'ace-jump-mode)
 (require-package 'base16-theme)
+(require-package 'rvm)
+(require-package 'robe)
 
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 
+(require 'rvm)
+(rvm-use-default)
+(add-hook 'ruby-mode-hook 'robe-mode)
+
 (require 'evil)
 (require 'evil-leader)
+(require 'evil-matchit)
 (require 'ace-jump-mode)
 
 (setq evil-leader/in-all-states 1)
+
 (global-evil-leader-mode)
+(global-evil-matchit-mode 1)
+
 (evil-leader/set-leader ",")
 (evil-leader/set-key
   "b" 'switch-to-buffer
   "k" 'kill-buffer
   "SPC w" 'ace-jump-word-mode
   "SPC c" 'ace-jump-char-mode
-  "SPC l" 'ace-jump-line-mode)
+  "SPC l" 'ace-jump-line-mode
+  "ci" 'evilnc-comment-or-uncomment-lines
+  "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+  "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
+  "cc" 'evilnc-copy-and-comment-lines
+  "cp" 'evilnc-comment-or-uncomment-paragraphs
+  "cr" 'comment-or-uncomment-region
+  "cv" 'evilnc-toggle-invert-comment-line-by-line)
 
 (evil-mode 1)
 
