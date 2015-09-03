@@ -26,6 +26,7 @@
 (require-package 'evil-surround)
 (require-package 'smartparens)
 (require-package 'neotree)
+(require-package 'auto-indent-mode)
 
 (setq make-backup-files nil)
 
@@ -44,6 +45,9 @@
 (require 'powerline)
 (require 'smartparens-config)
 (require 'neotree)
+(require 'auto-indent-mode)
+
+(auto-indent-global-mode)
 
 ;; powerline settings
 (powerline-evil-vim-color-theme)
