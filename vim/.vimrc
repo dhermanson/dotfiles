@@ -17,6 +17,8 @@ set noshowmode
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 
+autocmd CompleteDone * pclose
+
 let mapleader=","
 
 map <C-n> :NERDTreeToggle<CR>
@@ -51,7 +53,7 @@ let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-let g:airline_theme='base16'
+let g:airline_theme='powerlineish'
 
 " vim-ruby settings
 let g:rubycomplete_buffer_loading=1
@@ -76,3 +78,4 @@ let g:tern_show_signature_in_pum = 1
 " sql_complete settings
 let g:ftplugin_sql_omni_key = '<C-C>'
 let g:sql_type_default = 'pgsql'
+
