@@ -25,7 +25,8 @@ map <C-n> :NERDTreeToggle<CR>
 
 " color scheme
 "colorscheme base16-monokai
-colorscheme Monokai
+"colorscheme Monokai
+colorscheme zenburn
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -53,7 +54,8 @@ let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-let g:airline_theme='powerlineish'
+"let g:airline_theme='powerlineish'
+let g:airline_theme='zenburn'
 
 " vim-ruby settings
 let g:rubycomplete_buffer_loading=1
