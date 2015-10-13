@@ -19,14 +19,17 @@ set completefunc=syntaxcomplete#Complete
 
 autocmd CompleteDone * pclose
 
-let mapleader=","
+let mapleader="\<Space>"
 
-map <C-n> :NERDTreeToggle<CR>
+"map <C-n> :NERDTreeToggle<CR>
+map <Leader>tn :NERDTreeToggle<CR>
+
+" tagbar settings
+"nmap <F8> :TagbarToggle<CR>
+map <Leader>tt :TagbarToggle<CR>
 
 " color scheme
-"colorscheme base16-monokai
-"colorscheme Monokai
-colorscheme zenburn
+colorscheme Monokai
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -46,16 +49,13 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = 'node_modules'
 
-" tagbar settings
-nmap <F8> :TagbarToggle<CR>
 
 " delimitmate settings
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-"let g:airline_theme='powerlineish'
-let g:airline_theme='zenburn'
+let g:airline_theme='jellybeans'
 
 " vim-ruby settings
 let g:rubycomplete_buffer_loading=1
@@ -81,3 +81,6 @@ let g:tern_show_signature_in_pum = 1
 let g:ftplugin_sql_omni_key = '<C-C>'
 let g:sql_type_default = 'pgsql'
 
+" vim-slime
+let g:slime_target = "tmux"
+nmap <space>msb gg<S-v><S-g><C-c><C-C>

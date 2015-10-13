@@ -133,3 +133,9 @@
 [submodule "vim/.vim/bundle/vim-go"]
 	path = vim/.vim/bundle/vim-go
 	url = https://github.com/fatih/vim-go.git
+[submodule "vim/.vim/bundle/vim-tmux-navigator"]
+	path = vim/.vim/bundle/vim-tmux-navigator
+	url = https://github.com/christoomey/vim-tmux-navigator.git
+[submodule "vim/.vim/bundle/vim-slime"]
+	path = vim/.vim/bundle/vim-slime
+	url = https://github.com/jpalardy/vim-slime.git
