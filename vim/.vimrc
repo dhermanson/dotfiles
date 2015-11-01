@@ -29,7 +29,7 @@ map <Leader>tn :NERDTreeToggle<CR>
 map <Leader>tt :TagbarToggle<CR>
 
 " color scheme
-colorscheme Monokai
+colorscheme jellybeans
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -84,3 +84,6 @@ let g:sql_type_default = 'pgsql'
 " vim-slime
 let g:slime_target = "tmux"
 nmap <space>msb gg<S-v><S-g><C-c><C-C>
+
+" typescript
+autocmd FileType typescript setlocal completeopt-=menu,preview
