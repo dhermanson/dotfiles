@@ -22,13 +22,17 @@ set completefunc=syntaxcomplete#Complete
 let mapleader=","
 nmap <Leader>; :
 imap jk <Esc>
+nmap <Leader>w <C-w>
 
 "easymotion settings
 let g:EasyMotion_smartcase = 1
-nmap s <Plug>(easymotion-s2)
+nmap <Space> <Plug>(easymotion-s)
 map <Leader><Space> <Plug>(easymotion-prefix)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
+
+" fugitive
+map <Leader>gs :Gstatus<CR>
 
 " nerdtree
 map <Leader>tn :NERDTreeToggle<CR>
