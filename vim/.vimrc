@@ -17,15 +17,23 @@ set noshowmode
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 
-autocmd CompleteDone * pclose
+"autocmd CompleteDone * pclose
 
-let mapleader="\<Space>"
+let mapleader=","
+nmap <Leader>; :
+imap jk <Esc>
 
-"map <C-n> :NERDTreeToggle<CR>
+"easymotion settings
+let g:EasyMotion_smartcase = 1
+nmap s <Plug>(easymotion-s2)
+map <Leader><Space> <Plug>(easymotion-prefix)
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+" nerdtree
 map <Leader>tn :NERDTreeToggle<CR>
 
 " tagbar settings
-"nmap <F8> :TagbarToggle<CR>
 map <Leader>tt :TagbarToggle<CR>
 
 " color scheme
@@ -83,7 +91,19 @@ let g:sql_type_default = 'pgsql'
 
 " vim-slime
 let g:slime_target = "tmux"
-nmap <space>msb gg<S-v><S-g><C-c><C-C>
+nmap <space>bs gg<S-v><S-g><C-c><C-C>
 
 " typescript
 autocmd FileType typescript setlocal completeopt-=menu,preview
+
+" rails
+map <Leader>rev :Eview<CR>
+map <Leader>rem :Emodel<CR>
+map <Leader>rec :Econtroller<CR>
+map <Leader>rsv :Sview<CR>
+map <Leader>rsm :Smodel<CR>
+map <Leader>rsc :Scontroller<CR>
+map <Leader>rvv :Vview<CR>
+map <Leader>rvm :Vmodel<CR>
+map <Leader>rvc :Vcontroller<CR>
+map <Leader>rgc :Rgenerate controller 
