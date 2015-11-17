@@ -105,16 +105,16 @@ nmap <space>bs gg<S-v><S-g><C-c><C-C>
 autocmd FileType typescript setlocal completeopt-=menu,preview
 
 " rails
-map <Leader>revb :Eview<CR>
-map <Leader>remb :Emodel<CR>
-map <Leader>recb :Econtroller<CR>
-map <Leader>rsvb :Sview<CR>
-map <Leader>rsmb :Smodel<CR>
-map <Leader>rscb :Scontroller<CR>
-map <Leader>rvvb :Vview<CR>
-map <Leader>rvmb :Vmodel<CR>
-map <Leader>rvcb :Vcontroller<CR>
-map <Leader>rgcb :Rgenerate controller 
+map <Leader>rev :Eview<CR>
+map <Leader>rem :Emodel<CR>
+map <Leader>rec :Econtroller<CR>
+map <Leader>rsv :Sview<CR>
+map <Leader>rsm :Smodel<CR>
+map <Leader>rsc :Scontroller<CR>
+map <Leader>rvv :Vview<CR>
+map <Leader>rvm :Vmodel<CR>
+map <Leader>rvc :Vcontroller<CR>
+map <Leader>rgc :Rgenerate controller 
 
 map <Leader>rev<Space> :Eview 
 map <Leader>rem<Space> :Emodel 
@@ -125,4 +125,3 @@ map <Leader>rsc<Space> :Scontroller
 map <Leader>rvv<Space> :Vview 
 map <Leader>rvm<Space> :Vmodel 
 map <Leader>rvc<Space> :Vcontroller 
-map <Leader>rgc<Space> :Rgenerate controller 
