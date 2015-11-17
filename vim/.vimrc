@@ -28,6 +28,9 @@ nmap <Leader>w <C-w>
 map <Leader>bs :w<CR>
 map <Leader>ba gg<S-v><S-g>
 
+" syntax on
+map <Leader>.s :syntax on<CR>
+
 "easymotion settings
 let g:EasyMotion_smartcase = 1
 nmap <Space> <Plug>(easymotion-s)
@@ -59,6 +62,10 @@ let g:syntastic_check_on_wq=0
 
 " language specific checkers
 let g:syntastic_ruby_checkers = ['mri']
+
+" dispatch
+nmap <Leader>dp :Dispatch 
+nmap <Leader>ds :Start 
 
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
@@ -105,6 +112,7 @@ nmap <space>bs gg<S-v><S-g><C-c><C-C>
 autocmd FileType typescript setlocal completeopt-=menu,preview
 
 " rails
+map <Leader>rr :Rake 
 map <Leader>rev :Eview<CR>
 map <Leader>rem :Emodel<CR>
 map <Leader>rec :Econtroller<CR>
