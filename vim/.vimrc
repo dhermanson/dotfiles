@@ -13,6 +13,7 @@ set shiftwidth=2
 set backspace=indent,eol,start
 set expandtab
 set number
+set relativenumber
 set noshowmode
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
@@ -133,3 +134,5 @@ map <Leader>rsc<Space> :Scontroller
 map <Leader>rvv<Space> :Vview 
 map <Leader>rvm<Space> :Vmodel 
 map <Leader>rvc<Space> :Vcontroller 
+
+autocmd FileType php setlocal shiftwidth=4 tabstop=4 expandtab softtabstop=4
