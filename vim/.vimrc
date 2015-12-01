@@ -18,6 +18,13 @@ set noshowmode
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 
+" color scheme
+set t_Co=256
+let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : ''  }
+set background=dark
+"colorscheme jellybeans
+colorscheme base16-chalk
+
 "autocmd CompleteDone * pclose
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -57,9 +64,6 @@ map <Leader>tn :NERDTreeToggle<CR>
 " tagbar settings
 map <Leader>tt :TagbarToggle<CR>
 
-" color scheme
-colorscheme jellybeans
-
 " syntastic settings
 set statusline+=%#warningsmsg#
 set statusline+={SyntasticStatuslineFlag()}
@@ -88,7 +92,8 @@ let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-let g:airline_theme='jellybeans'
+"let g:airline_theme='jellybeans'
+let g:airline_theme='base16'
 
 " vim-ruby settings
 let g:rubycomplete_buffer_loading=1
