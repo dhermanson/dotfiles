@@ -17,6 +17,14 @@ set relativenumber
 set noshowmode
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
+"
+" Sets the directory to store .swp files in.
+" " The double '//' ensures that there will be no name conflicts 
+" " amongst the swap files by replacing path separators with %
+ set directory=~/.vim/tmp/swap//
+" " You can also do this for the other directories
+ set backupdir=~/.vim/tmp/backup//
+ set undodir=~/.vim/tmp/undo//
 
 " color scheme
 set t_Co=256
