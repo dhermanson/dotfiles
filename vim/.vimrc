@@ -76,13 +76,10 @@ map <Leader>tt :TagbarToggle<CR>
 set statusline+=%#warningsmsg#
 set statusline+={SyntasticStatuslineFlag()}
 set statusline+=%*
-
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
-
-" language specific checkers
 let g:syntastic_ruby_checkers = ['mri']
 
 " dispatch
@@ -94,13 +91,11 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = 'node_modules'
 
-
 " delimitmate settings
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-"let g:airline_theme='jellybeans'
 let g:airline_theme='base16'
 
 " vim-ruby settings
@@ -129,10 +124,17 @@ let g:sql_type_default = 'pgsql'
 
 " vim-slime
 let g:slime_target = "tmux"
+" selects entire buffer
 nmap <space>bs gg<S-v><S-g><C-c><C-C>
 
 " typescript
 autocmd FileType typescript setlocal completeopt-=menu,preview
+"
+" dbext configuration
+let g:dbext_default_use_sep_result_buffer = 1
+let g:dbext_default_window_use_horiz = 0  " Use vertical split
+let g:dbext_default_window_use_right = 1   " Right
+let g:dbext_default_window_width = 80
 
 " rails
 map <Leader>rr :Rake 
@@ -157,4 +159,5 @@ map <Leader>rvv<Space> :Vview
 map <Leader>rvm<Space> :Vmodel 
 map <Leader>rvc<Space> :Vcontroller 
 
+" php
 autocmd FileType php setlocal shiftwidth=4 tabstop=4 expandtab softtabstop=4
