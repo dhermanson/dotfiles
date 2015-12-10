@@ -17,6 +17,8 @@ set relativenumber
 set noshowmode
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
+set mouse=a
+set ttymouse=xterm2
 "
 " Sets the directory to store .swp files in.
 " " The double '//' ensures that there will be no name conflicts 
