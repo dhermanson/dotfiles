@@ -52,11 +52,10 @@ imap jk <Esc>
 nmap <Leader>w <C-w>
 
 "buffer
-map <Leader>bs :w<CR>
-map <Leader>ba gg<S-v><S-g>
+map <Leader>a gg<S-v><S-g>
 
 " syntax on
-map <Leader>.s :syntax on<CR>
+"map <Leader>.s :syntax on<CR>
 
 "easymotion settings
 let g:EasyMotion_smartcase = 1
@@ -69,10 +68,10 @@ omap / <Plug>(easymotion-tn)
 map <Leader>gs :Gstatus<CR>
 
 " nerdtree
-map <Leader>tn :NERDTreeToggle<CR>
+map <Leader>n :NERDTreeToggle<CR>
 
 " tagbar settings
-map <Leader>tt :TagbarToggle<CR>
+map <Leader>b :TagbarToggle<CR>
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -92,6 +91,7 @@ nmap <Leader>ds :Start
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = 'node_modules'
+nnoremap <Leader>. :CtrlPTag<CR>
 
 " delimitmate settings
 let g:delimitMate_expand_cr=1
