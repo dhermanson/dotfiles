@@ -11,10 +11,16 @@ snippet label "Create a label"
 endsnippet
 
 snippet textfield "Label with text"
-{!! Form::label('$1', '$2') !!}
-{!! Form::${3:text}('$1', ${4:null}, ${5:['class' => 'form-control']}) !!}
+<div class="form-group">
+	{!! Form::label('$1', '$2') !!}
+	{!! Form::${3:text}('$1', ${4:null}, ${5:['class' => 'form-control']}) !!}
+</div>
+$6
 endsnippet
 
 snippet submit "Submit button"
-{!! Form::submit('$1', ${2:['class' => 'btn btn-primary form-control']}) !!}
+<div class="form-group">
+	{!! Form::submit('$1', ${2:['class' => 'btn btn-primary form-control']}) !!}
+</div>
+$3
 endsnippet
