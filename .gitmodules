@@ -172,3 +172,9 @@
 [submodule "vim/.vim/bundle/todo.txt-vim"]
 	path = vim/.vim/bundle/todo.txt-vim
 	url = https://github.com/freitass/todo.txt-vim.git
+[submodule "vim/.vim/bundle/apiblueprint.vim"]
+	path = vim/.vim/bundle/apiblueprint.vim
+	url = https://github.com/kylef/apiblueprint.vim.git
+[submodule "vim/.vim/bundle/vim-table-mode"]
+	path = vim/.vim/bundle/vim-table-mode
+	url = https://github.com/dhruvasagar/vim-table-mode.git
