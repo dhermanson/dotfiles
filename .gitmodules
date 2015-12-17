@@ -112,6 +112,7 @@
 [submodule "vim/.vim/bundle/dbext.vim"]
 	path = vim/.vim/bundle/dbext.vim
 	url = https://github.com/vim-scripts/dbext.vim
+  ignore = dirty
 [submodule "vim/.vim/bundle/pgsql.vim"]
 	path = vim/.vim/bundle/pgsql.vim
 	url = https://github.com/exu/pgsql.vim
@@ -154,6 +155,7 @@
 [submodule "vim/.vim/bundle/tsuquyomi"]
 	path = vim/.vim/bundle/tsuquyomi
 	url = https://github.com/Quramy/tsuquyomi.git
+  ignore = dirty
 [submodule "vim/.vim/bundle/vim-rbenv"]
 	path = vim/.vim/bundle/vim-rbenv
 	url = https://github.com/tpope/vim-rbenv.git
