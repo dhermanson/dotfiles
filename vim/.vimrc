@@ -82,6 +82,7 @@ let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
 let g:syntastic_ruby_checkers = ['mri']
+let g:syntastic_javascript_checkers = ['eslint', 'jshint']
 let g:syntastic_apiblueprint_checkers = ['drafter']
 
 " table mode
@@ -167,3 +168,9 @@ map <Leader>rvc<Space> :Vcontroller
 
 " php
 autocmd FileType php setlocal shiftwidth=4 tabstop=4 expandtab softtabstop=4
+
+" vim-http-client
+let g:http_client_bind_hotkey = 0
+"let g:http_client_json_ft = 'json'
+nmap <Leader>,r :HTTPClientDoRequest<CR>
+

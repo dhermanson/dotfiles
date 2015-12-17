@@ -180,3 +180,6 @@
 [submodule "vim/.vim/bundle/vim-table-mode"]
 	path = vim/.vim/bundle/vim-table-mode
 	url = https://github.com/dhruvasagar/vim-table-mode.git
+[submodule "vim/.vim/bundle/vim-http-client"]
+	path = vim/.vim/bundle/vim-http-client
+	url = https://github.com/aquach/vim-http-client.git
