@@ -64,9 +64,6 @@
 [submodule "vim/.vim/bundle/tagbar"]
 	path = vim/.vim/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar
-[submodule "vim/.vim/bundle/tmuxline.vim"]
-	path = vim/.vim/bundle/tmuxline.vim
-	url = https://github.com/edkolev/tmuxline.vim
 [submodule "vim/.vim/bundle/nerdcommenter"]
 	path = vim/.vim/bundle/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter

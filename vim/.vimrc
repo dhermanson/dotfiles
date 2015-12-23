@@ -104,6 +104,13 @@ let g:delimitMate_expand_space=1
 
 " airline settings
 let g:airline_theme='base16'
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+      let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 1
 
 " vim-ruby settings
 let g:rubycomplete_buffer_loading=1
@@ -167,7 +174,7 @@ map <Leader>rvm<Space> :Vmodel
 map <Leader>rvc<Space> :Vcontroller 
 
 " php
-autocmd FileType php setlocal shiftwidth=4 tabstop=4 expandtab softtabstop=4
+autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
 
 " vim-http-client
 let g:http_client_bind_hotkey = 0
