@@ -162,9 +162,6 @@
 [submodule "vim/.vim/bundle/ultisnips"]
 	path = vim/.vim/bundle/ultisnips
 	url = https://github.com/SirVer/ultisnips.git
-[submodule "vim/.vim/bundle/vim-togglelist"]
-	path = vim/.vim/bundle/vim-togglelist
-	url = https://github.com/milkypostman/vim-togglelist.git
 [submodule "vim/.vim/bundle/csapprox"]
 	path = vim/.vim/bundle/csapprox
 	url = https://github.com/godlygeek/csapprox

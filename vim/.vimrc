@@ -46,21 +46,25 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-let mapleader=","
+let mapleader=" "
 nmap <Leader>; :
 imap jk <Esc>
 nmap <Leader>w <C-w>
 
 "buffer
 map <Leader>a gg<S-v><S-g>
+map <Leader>h :bprevious<CR>
+map <Leader>l :bnext<CR>
+
+"tabs
+map <Leader>k :tabprevious<CR>
+map <Leader>j :tabnext<CR>
 
 " syntax on
 "map <Leader>.s :syntax on<CR>
 
 "easymotion settings
 let g:EasyMotion_smartcase = 1
-nmap <Space> <Plug>(easymotion-s)
-map <Leader><Space> <Plug>(easymotion-prefix)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
@@ -68,10 +72,10 @@ omap / <Plug>(easymotion-tn)
 map <Leader>gs :Gstatus<CR>
 
 " nerdtree
-map <Leader>n :NERDTreeToggle<CR>
+map <Leader>2 :NERDTreeToggle<CR>
 
 " tagbar settings
-map <Leader>b :TagbarToggle<CR>
+map <Leader>3 :TagbarToggle<CR>
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -96,7 +100,9 @@ nmap <Leader>ds :Start
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = 'node_modules'
-nnoremap <Leader>. :CtrlPTag<CR>
+nnoremap <Leader>pf :CtrlP<CR>
+nnoremap <Leader>pt :CtrlPTag<CR>
+nnoremap <Leader>pb :CtrlPBuffer<CR>
 
 " delimitmate settings
 let g:delimitMate_expand_cr=1
