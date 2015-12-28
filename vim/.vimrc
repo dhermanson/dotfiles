@@ -52,13 +52,14 @@ imap jk <Esc>
 nmap <Leader>w <C-w>
 
 "buffer
-map <Leader>a gg<S-v><S-g>
-map <Leader>h :bprevious<CR>
-map <Leader>l :bnext<CR>
+map <Leader>ba gg<S-v><S-g>
+map <Leader>bd :bdelete<CR>
+map <Leader><s-tab> :bprevious<CR>
+map <Leader><tab> :bnext<CR>
 
 "tabs
-map <Leader>k :tabprevious<CR>
-map <Leader>j :tabnext<CR>
+"map <Leader><s-tab> :tabprevious<CR>
+"map <Leader><tab> :tabnext<CR>
 
 " syntax on
 "map <Leader>.s :syntax on<CR>
@@ -185,5 +186,5 @@ autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
 " vim-http-client
 let g:http_client_bind_hotkey = 0
 "let g:http_client_json_ft = 'json'
-nmap <Leader>,r :HTTPClientDoRequest<CR>
+nmap <Leader>mr :HTTPClientDoRequest<CR>
 
