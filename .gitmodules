@@ -177,3 +177,12 @@
 [submodule "vim/.vim/bundle/vim-http-client"]
 	path = vim/.vim/bundle/vim-http-client
 	url = https://github.com/aquach/vim-http-client.git
+[submodule "vim/.vim/bundle/vim-hack"]
+	path = vim/.vim/bundle/vim-hack
+	url = https://github.com/hhvm/vim-hack.git
+[submodule "vim/.vim/bundle/browserlink.vim"]
+	path = vim/.vim/bundle/browserlink.vim
+	url = https://github.com/jaxbot/browserlink.vim.git
+[submodule "vim/.vim/bundle/vim-css3-syntax"]
+	path = vim/.vim/bundle/vim-css3-syntax
+	url = https://github.com/hail2u/vim-css3-syntax.git

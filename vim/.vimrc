@@ -21,12 +21,12 @@ set mouse=a
 set ttymouse=xterm2
 "
 " Sets the directory to store .swp files in.
-" " The double '//' ensures that there will be no name conflicts 
-" " amongst the swap files by replacing path separators with %
- set directory=~/.vim/tmp/swap//
-" " You can also do this for the other directories
- set backupdir=~/.vim/tmp/backup//
- set undodir=~/.vim/tmp/undo//
+" The double '//' ensures that there will be no name conflicts
+" amongst the swap files by replacing path separators with %
+set directory=~/.vim/tmp/swap//
+" You can also do this for the other directories
+set backupdir=~/.vim/tmp/backup//
+set undodir=~/.vim/tmp/undo//
 
 " color scheme
 set t_Co=256
@@ -47,36 +47,45 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsEditSplit="vertical"
 
 let mapleader=" "
-nmap <Leader>; :
-imap jk <Esc>
-nmap <Leader>w <C-w>
+let maplocalleader = ","
+nnoremap <Leader>; :
+inoremap jk <Esc>
+nnoremap <Leader>w <C-w>
 
 "buffer
-map <Leader>ba gg<S-v><S-g>
-map <Leader>bd :bdelete<CR>
-map <Leader><s-tab> :bprevious<CR>
-map <Leader><tab> :bnext<CR>
+nnoremap <Leader>ba gg<S-v><S-g>
+nnoremap <Leader>bs :w<CR>
+nnoremap <Leader>bd :bdelete<CR>
+nnoremap <Leader>bbd :bdelete!<CR>
+nnoremap <Leader>bn :new<CR>
+nnoremap <Leader>bvn :vnew<CR>
+nnoremap <s-tab> :bprevious<CR>
+nnoremap <tab> :bnext<CR>
 
 "tabs
-"map <Leader><s-tab> :tabprevious<CR>
-"map <Leader><tab> :tabnext<CR>
+"noremap <Leader><s-tab> :tabprevious<CR>
+"noremap <Leader><tab> :tabnext<CR>
 
 " syntax on
-"map <Leader>.s :syntax on<CR>
+"noremap <Leader>.s :syntax on<CR>
 
 "easymotion settings
 let g:EasyMotion_smartcase = 1
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
+nmap s <Plug>(easymotion-s)
+"nmap f <Plug>(easymotion-sl)
+nmap <Leader><Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader><Leader>e <Plug>(easymotion-bd-e)
 
 " fugitive
-map <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gs :Gstatus<CR>
 
 " nerdtree
-map <Leader>2 :NERDTreeToggle<CR>
+nnoremap <Leader>2 :NERDTreeToggle<CR>
 
 " tagbar settings
-map <Leader>3 :TagbarToggle<CR>
+nnoremap <Leader>3 :TagbarToggle<CR>
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -94,8 +103,8 @@ let g:syntastic_apiblueprint_checkers = ['drafter']
 let g:table_mode_corner = "|"
 
 " dispatch
-nmap <Leader>dp :Dispatch 
-nmap <Leader>ds :Start 
+nnoremap <Leader>dp :Dispatch 
+nnoremap <Leader>ds :Start 
 
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
@@ -126,8 +135,11 @@ let g:rubycomplete_rails=1
 let g:rubycomplete_load_gemfile=1
 
 " surround settings for erb templates
-autocmd FileType erb let b:surround_{char2nr('=')} = "<%= \r %>"
-autocmd FileType erb let b:surround_{char2nr('-')} = "<% \r %>"
+augroup filetype_erb
+  autocmd!
+  autocmd FileType erb let b:surround_{char2nr('=')} = "<%= \r %>"
+  autocmd FileType erb let b:surround_{char2nr('-')} = "<% \r %>"
+augroup END
 
 " indent-guides settings
 let g:indent_guides_enable_on_vim_startup = 0
@@ -145,12 +157,12 @@ let g:sql_type_default = 'pgsql'
 
 " vim-slime
 let g:slime_target = "tmux"
-" selects entire buffer
-nmap <space>bs gg<S-v><S-g><C-c><C-C>
+" selects entire buffer and slimes it
+"nnoremap <space>bs gg<S-v><S-g><C-c><C-C>
 
 " typescript
 autocmd FileType typescript setlocal completeopt-=menu,preview
-"
+
 " dbext configuration
 let g:dbext_default_use_sep_result_buffer = 1
 let g:dbext_default_window_use_horiz = 0  " Use vertical split
@@ -186,5 +198,27 @@ autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
 " vim-http-client
 let g:http_client_bind_hotkey = 0
 "let g:http_client_json_ft = 'json'
-nmap <Leader>mr :HTTPClientDoRequest<CR>
+nnoremap <Leader>mr :HTTPClientDoRequest<CR>
 
+nnoremap <Leader>.p :set paste!<CR>
+nnoremap <Leader>.ev :vsplit $MYVIMRC<CR>
+nnoremap <Leader>.sv :source $MYVIMRC<CR>
+nnoremap <Leader>lr :BLReloadPage<CR>
+
+vnoremap <Leader>,b64e :!python -m base64 -e<CR>
+vnoremap <Leader>,b64d :!python -m base64 -d<CR>
+
+nnoremap - ddp
+nnoremap _ ddk<s-p>
+
+
+augroup html
+  autocmd!
+  autocmd BufWritePre,BufRead *.html :normal; gg=G
+  autocmd BufNewFile,BufRead *.html setlocal nowrap
+  autocmd FileType html nnoremap <buffer> <localleader>e :echo "You've opened a html file!"<CR>
+augroup END
+augroup javascript
+  autocmd FileType javascript nnoremap <buffer> <localleader>e :echo "You've opened a javascript file!"<CR>
+  autocmd Filetype *.txt set spell
+augroup END
