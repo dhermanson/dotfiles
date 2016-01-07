@@ -59,8 +59,6 @@ nnoremap <Leader>bd :bdelete<CR>
 nnoremap <Leader>bbd :bdelete!<CR>
 nnoremap <Leader>bn :new<CR>
 nnoremap <Leader>bvn :vnew<CR>
-nnoremap <s-tab> :bprevious<CR>
-nnoremap <tab> :bnext<CR>
 
 "tabs
 "noremap <Leader><s-tab> :tabprevious<CR>
@@ -91,13 +89,22 @@ nnoremap <Leader>3 :TagbarToggle<CR>
 set statusline+=%#warningsmsg#
 set statusline+={SyntasticStatuslineFlag()}
 set statusline+=%*
+
+let g:syntastic_error_symbol = "✗"
+let g:syntastic_warning_symbol = "⚠"
+let g:syntastic_debug = 0
 let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=0
+let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
+let g:syntastic_aggregate_errors=1
 let g:syntastic_ruby_checkers = ['mri']
 let g:syntastic_javascript_checkers = ['eslint', 'jshint']
 let g:syntastic_apiblueprint_checkers = ['drafter']
+let g:syntastic_apiblueprint_drafter_exec = "/usr/local/bin/drafter"
+let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+let g:syntastic_python_checkers = ['mypy', 'python']
+"let g:syntastic_python_mypy_exec = '/usr/local/bin/mypy'
 
 " table mode
 let g:table_mode_corner = "|"
@@ -122,7 +129,7 @@ let g:delimitMate_expand_space=1
 let g:airline_theme='base16'
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
-      let g:airline_symbols = {}
+  let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\ua0"
 let g:airline#extensions#tabline#enabled = 1
@@ -194,6 +201,10 @@ map <Leader>rvc<Space> :Vcontroller
 
 " php
 autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
+let g:phpcomplete_parse_docblock_comments = 1
+
+" python
+let g:jedi#auto_close_doc = 0
 
 " vim-http-client
 let g:http_client_bind_hotkey = 0
@@ -222,3 +233,16 @@ augroup javascript
   autocmd FileType javascript nnoremap <buffer> <localleader>e :echo "You've opened a javascript file!"<CR>
   autocmd Filetype *.txt set spell
 augroup END
+
+
+function! SetupDebugger()
+  let g:vdebug_options['path_maps'] = {"/home/vagrant/Code": "/Users/derick/workspace/homestead/code"}
+endfunction
+
+"let g:pymode_rope_autoimport = 1
+"let g:pymode_run_bind = '<localleader>r'
+"let g:pymode_breakpoint_bind = '<localleader>b'
+"let g:pymode_lint = 0
+"let g:pymode_lint_cwindow = 0
+"let g:pymode_lint_checkers = []
+
