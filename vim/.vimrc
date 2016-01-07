@@ -67,6 +67,9 @@ nnoremap <Leader>bvn :vnew<CR>
 " syntax on
 "noremap <Leader>.s :syntax on<CR>
 
+" ack.vim
+let g:ack_use_dispatch = 1
+
 "easymotion settings
 let g:EasyMotion_smartcase = 1
 map  / <Plug>(easymotion-sn)
