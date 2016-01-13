@@ -19,6 +19,8 @@ set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 set mouse=a
 set ttymouse=xterm2
+set completeopt=menu,preview
+
 "
 " Sets the directory to store .swp files in.
 " The double '//' ensures that there will be no name conflicts
@@ -37,11 +39,18 @@ colorscheme base16-chalk
 
 "autocmd CompleteDone * pclose
 
+" YouCompleteMe
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsListSnippets="<c-l>"
+"let g:UltiSnipsListSnippets="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+nnoremap <leader>ue :UltiSnipsEdit<CR>
 
 " " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
@@ -81,6 +90,9 @@ nmap <Leader><Leader>e <Plug>(easymotion-bd-e)
 
 " fugitive
 nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>ge :Gedit<CR>
+nnoremap <Leader>gl :Glog<CR>
+nnoremap <Leader>gb :Gblame<CR>
 
 " nerdtree
 nnoremap <Leader>2 :NERDTreeToggle<CR>
@@ -109,6 +121,7 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_python_mypy_exec = '/usr/local/bin/mypy'
+"let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 
 " table mode
 let g:table_mode_corner = "|"
@@ -172,7 +185,7 @@ let g:slime_target = "tmux"
 "nnoremap <space>bs gg<S-v><S-g><C-c><C-C>
 
 " typescript
-autocmd FileType typescript setlocal completeopt-=menu,preview
+"autocmd FileType typescript setlocal completeopt-=menu,preview
 
 " dbext configuration
 let g:dbext_default_use_sep_result_buffer = 1
@@ -210,10 +223,9 @@ let g:phpcomplete_parse_docblock_comments = 1
 " python
 let g:jedi#auto_close_doc = 0
 
-" vim-http-client
-let g:http_client_bind_hotkey = 0
-"let g:http_client_json_ft = 'json'
-nnoremap <Leader>mr :HTTPClientDoRequest<CR>
+" vim-rest-console
+let g:vrc_trigger = '<Leader>mr'
+
 
 nnoremap <Leader>.p :set paste!<CR>
 nnoremap <Leader>.ev :vsplit $MYVIMRC<CR>
@@ -250,3 +262,42 @@ endfunction
 "let g:pymode_lint_cwindow = 0
 "let g:pymode_lint_checkers = []
 
+" view
+set viewdir=$HOME/.vim_view//
+au BufWritePost,BufLeave,WinLeave *.rest mkview " for tabs
+au BufWinEnter *.rest silent loadview
+
+nnoremap <Leader>jd :YcmCompleter GetDoc<CR>
+nnoremap <Leader>jg :YcmCompleter GoToDefinition<CR>
+nnoremap <Leader>js :YcmCompleter GetType<CR>
+
+function! RunTypescriptFile()
+  execute "Dispatch tsc --module commonjs % && node " . expand('%:r') . ".js"
+endfunction
+
+augroup typescript
+  autocmd!
+  autocmd FileType typescript nnoremap <buffer> <localleader>r :call RunTypescriptFile()<CR>
+augroup END
+
+" ctags
+let g:tagbar_type_typescript = {
+  \ 'ctagstype': 'typescript',
+  \ 'kinds': [
+    \ 'c:classes',
+    \ 'n:modules',
+    \ 'f:functions',
+    \ 'v:variables',
+    \ 'v:varlambdas',
+    \ 'm:members',
+    \ 'i:interfaces',
+    \ 'e:enums',
+  \ ]
+\ }
+
+let g:tagbar_type_snippets = {
+    \ 'ctagstype' : 'snippets',
+    \ 'kinds' : [
+        \ 's:snippets',
+    \ ]
+\ }

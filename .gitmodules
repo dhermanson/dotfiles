@@ -146,10 +146,6 @@
 [submodule "vim/.vim/bundle/vimproc.vim"]
 	path = vim/.vim/bundle/vimproc.vim
 	url = https://github.com/Shougo/vimproc.vim.git
-[submodule "vim/.vim/bundle/tsuquyomi"]
-	path = vim/.vim/bundle/tsuquyomi
-	url = https://github.com/Quramy/tsuquyomi.git
-  ignore = dirty
 [submodule "vim/.vim/bundle/vim-rbenv"]
 	path = vim/.vim/bundle/vim-rbenv
 	url = https://github.com/tpope/vim-rbenv.git
@@ -171,9 +167,6 @@
 [submodule "vim/.vim/bundle/vim-table-mode"]
 	path = vim/.vim/bundle/vim-table-mode
 	url = https://github.com/dhruvasagar/vim-table-mode.git
-[submodule "vim/.vim/bundle/vim-http-client"]
-	path = vim/.vim/bundle/vim-http-client
-	url = https://github.com/aquach/vim-http-client.git
 [submodule "vim/.vim/bundle/vim-hack"]
 	path = vim/.vim/bundle/vim-hack
 	url = https://github.com/hhvm/vim-hack.git
@@ -195,3 +188,9 @@
 [submodule "vim/.vim/bundle/ack.vim"]
 	path = vim/.vim/bundle/ack.vim
 	url = https://github.com/mileszs/ack.vim.git
+[submodule "vim/.vim/bundle/vim-rest-console"]
+	path = vim/.vim/bundle/vim-rest-console
+	url = https://github.com/diepm/vim-rest-console.git
+[submodule "vim/.vim/bundle/YouCompleteMe"]
+	path = vim/.vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe.git
