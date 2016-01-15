@@ -45,15 +45,6 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsListSnippets="<c-l>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-nnoremap <leader>ue :UltiSnipsEdit<CR>
-
-" " If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
 
 let mapleader=" "
 let maplocalleader = ","
@@ -93,6 +84,7 @@ nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gl :Glog<CR>
 nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gw :Gwrite<CR>
 
 " nerdtree
 nnoremap <Leader>2 :NERDTreeToggle<CR>
@@ -110,7 +102,7 @@ let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_debug = 0
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
-let g:syntastic_check_on_open=1
+let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 let g:syntastic_aggregate_errors=1
 let g:syntastic_ruby_checkers = ['mri']
@@ -121,7 +113,7 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_python_mypy_exec = '/usr/local/bin/mypy'
-"let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
+let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 
 " table mode
 let g:table_mode_corner = "|"
@@ -132,8 +124,9 @@ nnoremap <Leader>ds :Start
 
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = 'node_modules'
+"let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+"let g:ctrlp_custom_ignore = 'node_modules'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 nnoremap <Leader>pf :CtrlP<CR>
 nnoremap <Leader>pt :CtrlPTag<CR>
 nnoremap <Leader>pb :CtrlPBuffer<CR>
@@ -217,7 +210,10 @@ map <Leader>rvm<Space> :Vmodel
 map <Leader>rvc<Space> :Vcontroller 
 
 " php
-autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
+augroup derick_php
+  autocmd!
+  autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
+augroup END
 let g:phpcomplete_parse_docblock_comments = 1
 
 " python
@@ -301,3 +297,17 @@ let g:tagbar_type_snippets = {
         \ 's:snippets',
     \ ]
 \ }
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsListSnippets="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsEditSplit="vertical"
+nnoremap <Leader>.es :UltiSnipsEdit<CR>
+nnoremap <Leader>.eas :e ~/.vim/Ultisnips/all.snippets<CR>
+
+nnoremap <Leader>.os :syntax on<CR>
+
+nnoremap <Leader>.sc :SyntasticCheck<CR>
+nnoremap <Leader>.st :SyntasticToggleMode<CR>
