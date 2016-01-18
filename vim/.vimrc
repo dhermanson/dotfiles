@@ -107,6 +107,9 @@ nnoremap <Leader>ndv :Vexplore<CR>
 nnoremap <Leader>nps :Hexplore.<CR>
 nnoremap <Leader>nds :Hexplore<CR>
 
+" NERDTree
+nnoremap <C-n> :NERDTreeToggle<CR>
+
 " tagbar settings
 nnoremap <Leader>9 :TagbarToggle<CR>
 
@@ -133,6 +136,7 @@ let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_python_mypy_exec = '/usr/local/bin/mypy'
 "let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 let g:syntastic_typescript_tsc_fname = ''
+"let g:syntastic_elixir_checkers = ['elixir']
 
 " table mode
 let g:table_mode_corner = "|"
