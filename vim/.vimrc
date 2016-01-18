@@ -37,6 +37,7 @@ set background=dark
 "colorscheme jellybeans
 colorscheme base16-chalk
 
+
 "autocmd CompleteDone * pclose
 
 " YouCompleteMe
@@ -44,6 +45,17 @@ let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'qf' : 1,
+      \ 'notes' : 1,
+      \ 'unite' : 1,
+      \ 'text' : 1,
+      \ 'vimwiki' : 1,
+      \ 'pandoc' : 1,
+      \ 'infolog' : 1,
+      \ 'mail' : 1
+      \}
 
 
 let mapleader=" "
@@ -56,7 +68,6 @@ nnoremap <Leader>w <C-w>
 nnoremap <Leader>ba gg<S-v><S-g>
 nnoremap <Leader>bs :w<CR>
 nnoremap <Leader>bd :bdelete<CR>
-nnoremap <Leader>bbd :bdelete!<CR>
 nnoremap <Leader>bn :new<CR>
 nnoremap <Leader>bvn :vnew<CR>
 
@@ -86,11 +97,18 @@ nnoremap <Leader>gl :Glog<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 
-" nerdtree
-nnoremap <Leader>2 :NERDTreeToggle<CR>
+" netrw
+nnoremap <Leader>1 :Explore.<CR>
+nnoremap <Leader>2 :Explore<CR>
+nnoremap <Leader>npe :Explore.<CR>
+nnoremap <Leader>nde :Explore<CR>
+nnoremap <Leader>npv :Vexplore.<CR>
+nnoremap <Leader>ndv :Vexplore<CR>
+nnoremap <Leader>nps :Hexplore.<CR>
+nnoremap <Leader>nds :Hexplore<CR>
 
 " tagbar settings
-nnoremap <Leader>3 :TagbarToggle<CR>
+nnoremap <Leader>9 :TagbarToggle<CR>
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -101,7 +119,7 @@ let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_debug = 0
 let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
+let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 let g:syntastic_aggregate_errors=1
@@ -113,7 +131,8 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_python_mypy_exec = '/usr/local/bin/mypy'
-let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
+"let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
+let g:syntastic_typescript_tsc_fname = ''
 
 " table mode
 let g:table_mode_corner = "|"
@@ -127,6 +146,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 "let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 "let g:ctrlp_custom_ignore = 'node_modules'
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
+let g:ctrlp_show_hidden = 1
 nnoremap <Leader>pf :CtrlP<CR>
 nnoremap <Leader>pt :CtrlPTag<CR>
 nnoremap <Leader>pb :CtrlPBuffer<CR>
@@ -186,6 +206,7 @@ let g:dbext_default_window_use_horiz = 0  " Use vertical split
 let g:dbext_default_window_use_right = 1   " Right
 let g:dbext_default_window_width = 80
 
+" TODO: clean this rails stuff up
 " rails
 map <Leader>rr :Rake 
 map <Leader>rev :Eview<CR>
@@ -263,17 +284,19 @@ set viewdir=$HOME/.vim_view//
 au BufWritePost,BufLeave,WinLeave *.rest mkview " for tabs
 au BufWinEnter *.rest silent loadview
 
-nnoremap <Leader>jd :YcmCompleter GetDoc<CR>
-nnoremap <Leader>jg :YcmCompleter GoToDefinition<CR>
-nnoremap <Leader>js :YcmCompleter GetType<CR>
-
-function! RunTypescriptFile()
-  execute "Dispatch tsc --module commonjs % && node " . expand('%:r') . ".js"
-endfunction
 
 augroup typescript
   autocmd!
-  autocmd FileType typescript nnoremap <buffer> <localleader>r :call RunTypescriptFile()<CR>
+  " tsuquyomi
+  autocmd FileType typescript nnoremap <localleader>d :TsuquyomiDefinition<CR>
+  autocmd FileType typescript nnoremap <localleader>r :TsuquyomiReferences<CR>
+  autocmd FileType typescript nnoremap <localleader>c :TsuquyomiRenameSymbolC<CR>
+  autocmd FileType typescript nnoremap <localleader>b :TsuquyomiGoBack<CR>
+  autocmd FileType typescript nnoremap <localleader>ef :TsuquyomiGeterr<CR>
+  autocmd FileType typescript nnoremap <localleader>ep :TsuquyomiGeterrProject<CR>
+  autocmd FileType typescript nnoremap <localleader>t :YcmCompleter GetType<CR>
+  autocmd FileType typescript setlocal completeopt+=menu,preview
+  "autocmd FileType typescript nnoremap <buffer> <localleader>r :call RunTypescriptFile()<CR>
 augroup END
 
 " ctags
@@ -311,3 +334,5 @@ nnoremap <Leader>.os :syntax on<CR>
 
 nnoremap <Leader>.sc :SyntasticCheck<CR>
 nnoremap <Leader>.st :SyntasticToggleMode<CR>
+
+

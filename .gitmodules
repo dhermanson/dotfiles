@@ -110,9 +110,6 @@
 [submodule "vim/.vim/bundle/pgsql.vim"]
 	path = vim/.vim/bundle/pgsql.vim
 	url = https://github.com/exu/pgsql.vim
-[submodule "vim/.vim/bundle/nerdtree"]
-	path = vim/.vim/bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
 [submodule "vim/.vim/bundle/vim-jsx"]
 	path = vim/.vim/bundle/vim-jsx
 	url = https://github.com/mxw/vim-jsx.git
@@ -194,3 +191,12 @@
 [submodule "vim/.vim/bundle/YouCompleteMe"]
 	path = vim/.vim/bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe.git
+[submodule "vim/.vim/bundle/javascript-libraries-syntax.vim"]
+	path = vim/.vim/bundle/javascript-libraries-syntax.vim
+	url = https://github.com/othree/javascript-libraries-syntax.vim.git
+[submodule "vim/.vim/bundle/vim-node"]
+	path = vim/.vim/bundle/vim-node
+	url = https://github.com/moll/vim-node.git
+[submodule "vim/.vim/bundle/tsuquyomi"]
+	path = vim/.vim/bundle/tsuquyomi
+	url = https://github.com/Quramy/tsuquyomi.git
