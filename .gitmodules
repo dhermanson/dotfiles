@@ -13,9 +13,6 @@
 [submodule "vim/.vim/bundle/vim-ruby"]
 	path = vim/.vim/bundle/vim-ruby
 	url = https://github.com/vim-ruby/vim-ruby
-[submodule "vim/.vim/bundle/vim-markdown"]
-	path = vim/.vim/bundle/vim-markdown
-	url = https://github.com/plasticboy/vim-markdown.git
 [submodule "vim/.vim/bundle/emmet-vim"]
 	path = vim/.vim/bundle/emmet-vim
 	url = https://github.com/mattn/emmet-vim
@@ -167,9 +164,6 @@
 [submodule "vim/.vim/bundle/vim-hack"]
 	path = vim/.vim/bundle/vim-hack
 	url = https://github.com/hhvm/vim-hack.git
-[submodule "vim/.vim/bundle/browserlink.vim"]
-	path = vim/.vim/bundle/browserlink.vim
-	url = https://github.com/jaxbot/browserlink.vim.git
 [submodule "vim/.vim/bundle/vim-css3-syntax"]
 	path = vim/.vim/bundle/vim-css3-syntax
 	url = https://github.com/hail2u/vim-css3-syntax.git
@@ -188,9 +182,6 @@
 [submodule "vim/.vim/bundle/vim-rest-console"]
 	path = vim/.vim/bundle/vim-rest-console
 	url = https://github.com/diepm/vim-rest-console.git
-[submodule "vim/.vim/bundle/YouCompleteMe"]
-	path = vim/.vim/bundle/YouCompleteMe
-	url = https://github.com/Valloric/YouCompleteMe.git
 [submodule "vim/.vim/bundle/javascript-libraries-syntax.vim"]
 	path = vim/.vim/bundle/javascript-libraries-syntax.vim
 	url = https://github.com/othree/javascript-libraries-syntax.vim.git
@@ -209,6 +200,6 @@
 [submodule "vim/.vim/bundle/vim-coloresque"]
 	path = vim/.vim/bundle/vim-coloresque
 	url = https://github.com/gorodinskiy/vim-coloresque.git
-[submodule "vim/.vim/bundle/nerdtree"]
-	path = vim/.vim/bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
+[submodule "vim/.vim/bundle/vim-vinegar"]
+	path = vim/.vim/bundle/vim-vinegar
+	url = https://github.com/tpope/vim-vinegar.git

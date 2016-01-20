@@ -19,9 +19,7 @@ set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 set mouse=a
 set ttymouse=xterm2
-set completeopt=menu,preview
 
-"
 " Sets the directory to store .swp files in.
 " The double '//' ensures that there will be no name conflicts
 " amongst the swap files by replacing path separators with %
@@ -40,22 +38,6 @@ colorscheme base16-chalk
 
 "autocmd CompleteDone * pclose
 
-" YouCompleteMe
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar' : 1,
-      \ 'qf' : 1,
-      \ 'notes' : 1,
-      \ 'unite' : 1,
-      \ 'text' : 1,
-      \ 'vimwiki' : 1,
-      \ 'pandoc' : 1,
-      \ 'infolog' : 1,
-      \ 'mail' : 1
-      \}
 
 
 let mapleader=" "
@@ -85,7 +67,7 @@ let g:ack_use_dispatch = 1
 let g:EasyMotion_smartcase = 1
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
-nmap s <Plug>(easymotion-s)
+nmap <Leader>f <Plug>(easymotion-s)
 "nmap f <Plug>(easymotion-sl)
 nmap <Leader><Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader><Leader>e <Plug>(easymotion-bd-e)
@@ -98,20 +80,16 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 
 " netrw
-nnoremap <Leader>1 :Explore.<CR>
-nnoremap <Leader>2 :Explore<CR>
-nnoremap <Leader>npe :Explore.<CR>
-nnoremap <Leader>nde :Explore<CR>
-nnoremap <Leader>npv :Vexplore.<CR>
-nnoremap <Leader>ndv :Vexplore<CR>
-nnoremap <Leader>nps :Hexplore.<CR>
-nnoremap <Leader>nds :Hexplore<CR>
+nnoremap <Leader>e.<space> :edit .<CR>
+nnoremap <Leader>e.s :split . <CR>
+nnoremap <Leader>e.v :vsplit . <CR>
 
-" NERDTree
-nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <Leader>e<space> :Explore<CR>
+nnoremap <Leader>es :SExplore<CR>
+nnoremap <Leader>ev :VExplore<CR>
 
 " tagbar settings
-nnoremap <Leader>9 :TagbarToggle<CR>
+nnoremap <Leader>0 :TagbarToggle<CR>
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -251,7 +229,6 @@ let g:vrc_trigger = '<Leader>mr'
 nnoremap <Leader>.p :set paste!<CR>
 nnoremap <Leader>.ev :vsplit $MYVIMRC<CR>
 nnoremap <Leader>.sv :source $MYVIMRC<CR>
-nnoremap <Leader>lr :BLReloadPage<CR>
 
 vnoremap <Leader>,b64e :!python -m base64 -e<CR>
 vnoremap <Leader>,b64d :!python -m base64 -d<CR>
@@ -338,5 +315,3 @@ nnoremap <Leader>.os :syntax on<CR>
 
 nnoremap <Leader>.sc :SyntasticCheck<CR>
 nnoremap <Leader>.st :SyntasticToggleMode<CR>
-
-
