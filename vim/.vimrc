@@ -38,7 +38,8 @@ colorscheme base16-chalk
 
 "autocmd CompleteDone * pclose
 
-
+" neocomplete
+let g:neocomplete#enable_at_startup = 1
 
 let mapleader=" "
 let maplocalleader = ","
@@ -104,7 +105,7 @@ let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 let g:syntastic_aggregate_errors=1
-let g:syntastic_ruby_checkers = ['mri']
+let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:syntastic_javascript_checkers = ['eslint']
 "let g:syntastic_apiblueprint_checkers = ['drafter']
 "let g:syntastic_apiblueprint_drafter_exec = "/usr/local/bin/drafter"
