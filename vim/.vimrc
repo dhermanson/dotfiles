@@ -86,8 +86,8 @@ nnoremap <Leader>e.s :split . <CR>
 nnoremap <Leader>e.v :vsplit . <CR>
 
 nnoremap <Leader>e<space> :Explore<CR>
-nnoremap <Leader>es :SExplore<CR>
-nnoremap <Leader>ev :VExplore<CR>
+nnoremap <Leader>es :Sexplore<CR>
+nnoremap <Leader>ev :Vexplore<CR>
 
 " tagbar settings
 nnoremap <Leader>0 :TagbarToggle<CR>
