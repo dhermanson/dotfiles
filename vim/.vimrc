@@ -40,6 +40,7 @@ colorscheme base16-chalk
 
 " neocomplete
 let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_ignore_case = 1
 
 let mapleader=" "
 let maplocalleader = ","
@@ -75,22 +76,23 @@ nmap <Leader><Leader>e <Plug>(easymotion-bd-e)
 
 " fugitive
 nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gl :Glog<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gw :Gwrite<CR>
+set statusline+=%{fugitive#statusline()}
 
 " netrw
 nnoremap <Leader>e.<space> :edit .<CR>
 nnoremap <Leader>e.s :split . <CR>
 nnoremap <Leader>e.v :vsplit . <CR>
 
+nnoremap <Leader>2 :Explore<CR>
 nnoremap <Leader>e<space> :Explore<CR>
 nnoremap <Leader>es :Sexplore<CR>
 nnoremap <Leader>ev :Vexplore<CR>
 
-" tagbar settings
-nnoremap <Leader>0 :TagbarToggle<CR>
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -130,9 +132,12 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 "let g:ctrlp_custom_ignore = 'node_modules'
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
 nnoremap <Leader>pf :CtrlP<CR>
 nnoremap <Leader>pt :CtrlPTag<CR>
 nnoremap <Leader>pb :CtrlPBuffer<CR>
+nnoremap <Leader>pm :CtrlPMRUFiles<CR>
+nnoremap <Leader>pa :CtrlPMixed<CR>
 
 " delimitmate settings
 let g:delimitMate_expand_cr=1
@@ -281,7 +286,36 @@ augroup typescript
   "autocmd FileType typescript nnoremap <buffer> <localleader>r :call RunTypescriptFile()<CR>
 augroup END
 
-" ctags
+" tagbar settings
+nnoremap <Leader>0 :TagbarToggle<CR>
+let g:tagbar_type_ruby = {
+    \ 'kinds' : [
+        \ 'm:modules',
+        \ 'c:classes',
+        \ 'd:describes',
+        \ 'C:contexts',
+        \ 'f:methods',
+        \ 'F:singleton methods'
+    \ ]
+\ }
+
+let g:tagbar_type_elixir = {
+    \ 'ctagstype' : 'elixir',
+    \ 'kinds' : [
+        \ 'f:functions',
+        \ 'functions:functions',
+        \ 'c:callbacks',
+        \ 'd:delegates',
+        \ 'e:exceptions',
+        \ 'i:implementations',
+        \ 'a:macros',
+        \ 'o:operators',
+        \ 'm:modules',
+        \ 'p:protocols',
+        \ 'r:records'
+    \ ]
+\ }
+
 let g:tagbar_type_typescript = {
   \ 'ctagstype': 'typescript',
   \ 'kinds': [
