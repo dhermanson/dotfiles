@@ -1,9 +1,17 @@
+extends html
+
 snippet form "Create a Blade Form"
 {!! Form::open() !!}
 
 	$1
 
 {!! Form::close() !!}
+endsnippet
+
+snippet fg "Form Group"
+<div class="form-group">
+	$1
+</div>
 endsnippet
 
 snippet label "Create a label"

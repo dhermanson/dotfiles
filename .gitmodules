@@ -119,9 +119,6 @@
 [submodule "vim/.vim/bundle/vim-go"]
 	path = vim/.vim/bundle/vim-go
 	url = https://github.com/fatih/vim-go.git
-[submodule "vim/.vim/bundle/vim-tmux-navigator"]
-	path = vim/.vim/bundle/vim-tmux-navigator
-	url = https://github.com/christoomey/vim-tmux-navigator.git
 [submodule "vim/.vim/bundle/vim-slime"]
 	path = vim/.vim/bundle/vim-slime
 	url = https://github.com/jpalardy/vim-slime.git
@@ -203,3 +200,9 @@
 [submodule "vim/.vim/bundle/neocomplete.vim"]
 	path = vim/.vim/bundle/neocomplete.vim
 	url = https://github.com/Shougo/neocomplete.vim.git
+[submodule "vim/.vim/bundle/gem-ctags"]
+	path = vim/.vim/bundle/gem-ctags
+	url = https://github.com/tpope/gem-ctags.git
+[submodule "rbenv/plugins/rbenv-ctags"]
+	path = rbenv/plugins/rbenv-ctags
+	url = https://github.com/tpope/rbenv-ctags.git
