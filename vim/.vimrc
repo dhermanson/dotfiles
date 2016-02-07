@@ -32,7 +32,6 @@ set undodir=~/.vim/tmp/undo//
 set t_Co=256
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : ''  }
 set background=dark
-"colorscheme jellybeans
 colorscheme base16-chalk
 
 
@@ -107,7 +106,7 @@ let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 let g:syntastic_aggregate_errors=1
-let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_ruby_checkers = ['mri']
 let g:syntastic_javascript_checkers = ['eslint']
 "let g:syntastic_apiblueprint_checkers = ['drafter']
 "let g:syntastic_apiblueprint_drafter_exec = "/usr/local/bin/drafter"
@@ -223,7 +222,6 @@ augroup derick_php
   autocmd!
   autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
 augroup END
-let g:phpcomplete_parse_docblock_comments = 1
 
 " python
 let g:jedi#auto_close_doc = 0

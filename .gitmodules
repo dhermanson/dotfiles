@@ -88,9 +88,6 @@
 [submodule "vim/.vim/bundle/vim-mustache-handlebars"]
 	path = vim/.vim/bundle/vim-mustache-handlebars
 	url = https://github.com/mustache/vim-mustache-handlebars
-[submodule "vim/.vim/bundle/phpcomplete.vim"]
-	path = vim/.vim/bundle/phpcomplete.vim
-	url = https://github.com/shawncplus/phpcomplete.vim
 [submodule "vim/.vim/bundle/php.vim"]
 	path = vim/.vim/bundle/php.vim
 	url = https://github.com/StanAngeloff/php.vim
@@ -206,3 +203,12 @@
 [submodule "rbenv/plugins/rbenv-ctags"]
 	path = rbenv/plugins/rbenv-ctags
 	url = https://github.com/tpope/rbenv-ctags.git
+[submodule "vim/.vim/bundle/vim-airline-themes"]
+	path = vim/.vim/bundle/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes.git
+[submodule "vim/.vim/bundle/csv.vim"]
+	path = vim/.vim/bundle/csv.vim
+	url = https://github.com/chrisbra/csv.vim.git
+[submodule "vim/.vim/bundle/vim-abolish"]
+	path = vim/.vim/bundle/vim-abolish
+	url = https://github.com/tpope/vim-abolish.git

@@ -19,16 +19,14 @@ snippet label "Create a label"
 endsnippet
 
 snippet textfield "Label with text"
-<div class="form-group">
-	{!! Form::label('$1', '$2') !!}
-	{!! Form::${3:text}('$1', ${4:null}, ${5:['class' => 'form-control']}) !!}
-</div>
-$6
+{!! Form::label('$1', '$2') !!}
+{!! Form::${3:text}('$1', ${4:null}, ${5:['class' => 'form-control']}) !!}
 endsnippet
 
 snippet submit "Submit button"
-<div class="form-group">
-	{!! Form::submit('$1', ${2:['class' => 'btn btn-primary form-control']}) !!}
-</div>
-$3
+{!! Form::submit('$1', ${2:['class' => 'btn btn-primary form-control']}) !!}
+endsnippet
+
+snippet checkbox "Checkbox"
+{!! Form::checkbox('${1:name}', '${2:value}') !!}
 endsnippet
