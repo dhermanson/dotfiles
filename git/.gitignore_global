@@ -47,3 +47,7 @@ tags
 # DERICK NOTES #
 ################
 .derick/**/*
+
+# vim projectionist #
+#####################
+.projections.json

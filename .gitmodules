@@ -212,3 +212,9 @@
 [submodule "vim/.vim/bundle/vim-abolish"]
 	path = vim/.vim/bundle/vim-abolish
 	url = https://github.com/tpope/vim-abolish.git
+[submodule "vim/.vim/bundle/vim-projectionist"]
+	path = vim/.vim/bundle/vim-projectionist
+	url = https://github.com/tpope/vim-projectionist.git
+[submodule "vim/.vim/bundle/vim-salve"]
+	path = vim/.vim/bundle/vim-salve
+	url = https://github.com/tpope/vim-salve.git

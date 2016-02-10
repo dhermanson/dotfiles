@@ -68,13 +68,13 @@ let g:ack_use_dispatch = 1
 let g:EasyMotion_smartcase = 1
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
-nmap <Leader>f <Plug>(easymotion-s)
+nmap s <Plug>(easymotion-s)
 "nmap f <Plug>(easymotion-sl)
 nmap <Leader><Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader><Leader>e <Plug>(easymotion-bd-e)
 
 " fugitive
-nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gs :Gstatus<CR><C-w>o<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gl :Glog<CR>
@@ -83,15 +83,8 @@ nnoremap <Leader>gw :Gwrite<CR>
 set statusline+=%{fugitive#statusline()}
 
 " netrw
-nnoremap <Leader>e.<space> :edit .<CR>
-nnoremap <Leader>e.s :split . <CR>
-nnoremap <Leader>e.v :vsplit . <CR>
-
+nnoremap <Leader>1 :edit .<CR>
 nnoremap <Leader>2 :Explore<CR>
-nnoremap <Leader>e<space> :Explore<CR>
-nnoremap <Leader>es :Sexplore<CR>
-nnoremap <Leader>ev :Vexplore<CR>
-
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -106,7 +99,7 @@ let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 let g:syntastic_aggregate_errors=1
-let g:syntastic_ruby_checkers = ['mri']
+let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:syntastic_javascript_checkers = ['eslint']
 "let g:syntastic_apiblueprint_checkers = ['drafter']
 "let g:syntastic_apiblueprint_drafter_exec = "/usr/local/bin/drafter"
@@ -116,6 +109,7 @@ let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_python_mypy_exec = '/usr/local/bin/mypy'
 "let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 let g:syntastic_typescript_tsc_fname = ''
+let g:syntastic_typescript_checkers = ['']
 "let g:syntastic_elixir_checkers = ['elixir']
 
 " table mode
@@ -132,11 +126,11 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
-nnoremap <Leader>pf :CtrlP<CR>
-nnoremap <Leader>pt :CtrlPTag<CR>
-nnoremap <Leader>pb :CtrlPBuffer<CR>
-nnoremap <Leader>pm :CtrlPMRUFiles<CR>
-nnoremap <Leader>pa :CtrlPMixed<CR>
+
+nnoremap <Leader>fl :CtrlP<CR>
+nnoremap <Leader>fmru :CtrlPMRUFiles<CR>
+nnoremap <Leader>bl :CtrlPBuffer<CR>
+nnoremap <Leader>tl :CtrlPTag<CR>
 
 " delimitmate settings
 let g:delimitMate_expand_cr=1
@@ -348,3 +342,8 @@ nnoremap <Leader>.os :syntax on<CR>
 
 nnoremap <Leader>.sc :SyntasticCheck<CR>
 nnoremap <Leader>.st :SyntasticToggleMode<CR>
+
+augroup filetype_css
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+augroup END
