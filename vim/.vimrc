@@ -32,7 +32,7 @@ set undodir=~/.vim/tmp/undo//
 set t_Co=256
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : ''  }
 set background=dark
-colorscheme base16-chalk
+colorscheme base16-ashes
 
 
 "autocmd CompleteDone * pclose
@@ -51,6 +51,7 @@ nnoremap <Leader>w <C-w>
 nnoremap <Leader>ba gg<S-v><S-g>
 nnoremap <Leader>bs :w<CR>
 nnoremap <Leader>bd :bdelete<CR>
+nnoremap <Leader>!bd :bdelete!<CR>
 nnoremap <Leader>bn :new<CR>
 nnoremap <Leader>bvn :vnew<CR>
 
@@ -74,7 +75,7 @@ nmap <Leader><Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader><Leader>e <Plug>(easymotion-bd-e)
 
 " fugitive
-nnoremap <Leader>gs :Gstatus<CR><C-w>o<CR>
+nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gl :Glog<CR>
@@ -118,6 +119,8 @@ let g:table_mode_corner = "|"
 " dispatch
 nnoremap <Leader>dp :Dispatch 
 nnoremap <Leader>ds :Start 
+vnoremap <Leader>dp y:call DispatchCommand(@@)<CR>
+vnoremap <Leader>ds y:call DispatchCommand(@@, "Start")<CR>
 
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
@@ -127,10 +130,10 @@ let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|sv
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
 
-nnoremap <Leader>fl :CtrlP<CR>
-nnoremap <Leader>fmru :CtrlPMRUFiles<CR>
-nnoremap <Leader>bl :CtrlPBuffer<CR>
-nnoremap <Leader>tl :CtrlPTag<CR>
+nnoremap <Leader>lf :CtrlP<CR>
+nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
+nnoremap <Leader>lb :CtrlPBuffer<CR>
+nnoremap <Leader>lt :CtrlPTag<CR>
 
 " delimitmate settings
 let g:delimitMate_expand_cr=1
@@ -347,3 +350,30 @@ augroup filetype_css
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 augroup END
+
+function! DispatchCommand(command, ...)
+  let l:choice = confirm("Execute command: " . a:command, "&Yes\n&No")
+  let l:dispatch = a:0 ? a:1 : "Dispatch"
+
+  if l:choice == 1
+    execute l:dispatch " " . a:command
+  endif
+endfunction
+
+function! WriteNumberList(numbers)
+  ruby <<EOL
+  buffer = Vim::Buffer.current
+  current_line = buffer.line_number
+  numbers = Vim::evaluate("a:numbers")
+
+  numbers.times do |num|
+    Vim::Buffer.current.append current_line, num.to_s
+    current_line += 1
+  end
+EOL
+endfunction
+
+" ack.vim
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
