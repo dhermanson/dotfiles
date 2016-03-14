@@ -1,0 +1,24 @@
+snippet ngcomp "Angular2 Component"
+@Component({
+	selector: '',
+	styles: [],
+	template: \`\`,
+	directives: [],
+	providers: []
+})
+export class ${1:classname} {
+
+	public constructor(
+	) {
+	}
+
+}
+endsnippet
+
+snippet ngimport "Typical Angular2 imports"
+import {Component} from 'angular2/core';
+import {RouteConfig, RouterOutlet} from 'angular2/router';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {Subscription} from 'rxjs/Subscription';
+endsnippet

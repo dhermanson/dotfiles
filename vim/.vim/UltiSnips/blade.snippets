@@ -1,11 +1,28 @@
 extends html
 
-snippet form "Create a Blade Form"
-{!! Form::open() !!}
-
-	$1
-
+snippet form#open "Create a Blade Form"
+{!! Form::open([${1:'route' => ${2:'routedata'}}, ${3:'method' => '${4:post}'}${5:, 'files => true'}]) !!}
 {!! Form::close() !!}
+endsnippet
+
+snippet hidden "Hidden"
+{!! Form::hidden('$1', ${2:'value'}) !!}
+endsnippet
+
+snippet text "Text Field"
+{!! Form::text('$1', ${2:'default'}) !!}
+endsnippet
+
+snippet email "Email Field"
+{!! Form::email('$1', ${2:'default'}) !!}
+endsnippet
+
+snippet email. "Email Field with class"
+{!! Form::email('$1', ${2:'default'}, ${3:['class' => 'form-control']}) !!}
+endsnippet
+
+snippet text. "Text Field with Class"
+{!! Form::text('$1', ${2:'default'}, ${3:['class' => 'form-control']}) !!}
 endsnippet
 
 snippet fg "Form Group"

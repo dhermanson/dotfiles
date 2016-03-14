@@ -32,8 +32,13 @@ set undodir=~/.vim/tmp/undo//
 set t_Co=256
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : ''  }
 set background=dark
-colorscheme base16-ashes
-
+colorscheme base16-chalk
+"
+" move between splits by holding ctrl
+nnoremap <silent> <c-h> <c-w>h
+nnoremap <silent> <c-j> <c-w>j
+nnoremap <silent> <c-k> <c-w>k
+nnoremap <silent> <c-l> <c-w>l
 
 "autocmd CompleteDone * pclose
 
@@ -43,9 +48,10 @@ let g:neocomplete#enable_ignore_case = 1
 
 let mapleader=" "
 let maplocalleader = ","
-nnoremap <Leader>; :
+nnoremap ; :
 inoremap jk <Esc>
 nnoremap <Leader>w <C-w>
+nnoremap <Leader>q :w<CR>
 
 "buffer
 nnoremap <Leader>ba gg<S-v><S-g>
@@ -66,13 +72,17 @@ nnoremap <Leader>bvn :vnew<CR>
 let g:ack_use_dispatch = 1
 
 "easymotion settings
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
 let g:EasyMotion_smartcase = 1
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-nmap s <Plug>(easymotion-s)
+map <silent> / <Plug>(easymotion-sn)
+omap <silent> / <Plug>(easymotion-tn)
+"map <Leader>' <Plug>(easymotion-bd-f)
+map <Leader><Leader> <Plug>(easymotion-bd-f)
+"nmap <silent> f <Plug>(easymotion-overwin-bd-f)
+"nmap <silent> s <Plug>(easymotion-overwin-f2)
 "nmap f <Plug>(easymotion-sl)
-nmap <Leader><Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader><Leader>e <Plug>(easymotion-bd-e)
+"nmap <Leader><Leader>w <Plug>(easymotion-bd-w)
+"nmap <Leader><Leader>e <Plug>(easymotion-bd-e)
 
 " fugitive
 nnoremap <Leader>gs :Gstatus<CR>
@@ -86,6 +96,8 @@ set statusline+=%{fugitive#statusline()}
 " netrw
 nnoremap <Leader>1 :edit .<CR>
 nnoremap <Leader>2 :Explore<CR>
+nnoremap <Leader>3 :Sexplore<CR>
+nnoremap <Leader>4 :Vexplore<CR>
 
 " syntastic settings
 set statusline+=%#warningsmsg#
@@ -134,6 +146,7 @@ nnoremap <Leader>lf :CtrlP<CR>
 nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
 nnoremap <Leader>lb :CtrlPBuffer<CR>
 nnoremap <Leader>lt :CtrlPTag<CR>
+nnoremap <Leader>ld :CtrlPDir<CR>
 
 " delimitmate settings
 let g:delimitMate_expand_cr=1
@@ -186,9 +199,10 @@ let g:slime_target = "tmux"
 
 " dbext configuration
 let g:dbext_default_use_sep_result_buffer = 1
-let g:dbext_default_window_use_horiz = 0  " Use vertical split
-let g:dbext_default_window_use_right = 1   " Right
-let g:dbext_default_window_width = 80
+let g:dbext_default_buffer_lines = 25
+"let g:dbext_default_window_use_horiz = 0  " Use vertical split
+"let g:dbext_default_window_use_right = 1   " Right
+"let g:dbext_default_window_width = 80
 
 " TODO: clean this rails stuff up
 " rails
@@ -231,8 +245,8 @@ nnoremap <Leader>.p :set paste!<CR>
 nnoremap <Leader>.ev :vsplit $MYVIMRC<CR>
 nnoremap <Leader>.sv :source $MYVIMRC<CR>
 
-vnoremap <Leader>,b64e :!python -m base64 -e<CR>
-vnoremap <Leader>,b64d :!python -m base64 -d<CR>
+"vnoremap <Leader>,b64e :!python -m base64 -e<CR>
+"vnoremap <Leader>,b64d :!python -m base64 -d<CR>
 
 nnoremap - ddp
 nnoremap _ ddk<s-p>
@@ -283,6 +297,7 @@ augroup END
 
 " tagbar settings
 nnoremap <Leader>0 :TagbarToggle<CR>
+nnoremap <Leader>9 :TagbarTogglePause<CR>
 let g:tagbar_type_ruby = {
     \ 'kinds' : [
         \ 'm:modules',
@@ -377,3 +392,32 @@ endfunction
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+
+function! Base64Encode(value)
+ruby <<EOF
+  require 'base64'
+
+  value = Vim::evaluate('a:value').strip
+  encoded = Base64.encode64(value).strip
+  line = Vim::Buffer.current.line_number
+
+  Vim::Buffer.current.append(line, encoded)
+EOF
+endfunction
+
+function! Base64Decode(value)
+ruby <<EOF
+  require 'base64'
+
+  value = Vim::evaluate('a:value').strip
+  encoded = Base64.decode64(value).strip
+  line = Vim::Buffer.current.line_number
+
+  Vim::Buffer.current.append(line, encoded)
+EOF
+endfunction
+
+vnoremap <Leader>be y:call Base64Encode(@@)<CR>
+vnoremap <Leader>bd y:call Base64Decode(@@)<CR>
+
+nnoremap <Leader>,jt :%!python -m json.tool<CR>
