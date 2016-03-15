@@ -421,3 +421,9 @@ vnoremap <Leader>be y:call Base64Encode(@@)<CR>
 vnoremap <Leader>bd y:call Base64Decode(@@)<CR>
 
 nnoremap <Leader>,jt :%!python -m json.tool<CR>
+
+function! AckSearchWord(word, directory)
+  execute "Ack " . a:word . " " . a:directory
+endfunction
+
+nnoremap <Leader>,a yiw:call AckSearchWord(@@, '.')<CR>
