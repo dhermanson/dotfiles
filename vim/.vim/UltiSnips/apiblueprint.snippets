@@ -1,0 +1,40 @@
+extends markdown
+
+snippet req "Request"
++ Request (${1:application/json})
+endsnippet
+
+snippet res "Response"
++ Response 200 (${1:application/json})
+endsnippet
+
+snippet r404 "404 Not Found"
++ Response 404
+endsnippet
+
+snippet r200ok "200 OK"
++ Response 200 (${1:application/json})
+
+				ok
+endsnippet
+
+snippet fractal_collection_paginated "Paginated JSON"
+        {
+          "data": [
+						$8
+          ],
+          "meta": {
+            "pagination": {
+              "count": ${1:5},
+              "current_page": ${2:3},
+              "links": {
+                "next": "http://${3:app-name}.myriadapps.com/api/v1/notifications/?page=${4:4}",
+                "previous": "http://$3.myriadapps.com/api/v1/notifications/?page=${5:2}"
+              },
+              "per_page": $1,
+              "total": ${6:50},
+              "total_pages": ${7:10}
+            }
+          }
+        }
+endsnippet

@@ -19,6 +19,12 @@ set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 set mouse=a
 set ttymouse=xterm2
+set complete=.,w,b,u
+set autowriteall
+
+"-----------split management----------------------- 
+set splitbelow
+set splitright
 
 " Sets the directory to store .swp files in.
 " The double '//' ensures that there will be no name conflicts
@@ -32,15 +38,13 @@ set undodir=~/.vim/tmp/undo//
 set t_Co=256
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : ''  }
 set background=dark
-colorscheme base16-chalk
+colorscheme jellybeans
 "
 " move between splits by holding ctrl
 nnoremap <silent> <c-h> <c-w>h
 nnoremap <silent> <c-j> <c-w>j
 nnoremap <silent> <c-k> <c-w>k
 nnoremap <silent> <c-l> <c-w>l
-
-"autocmd CompleteDone * pclose
 
 " neocomplete
 let g:neocomplete#enable_at_startup = 1
@@ -77,7 +81,7 @@ let g:EasyMotion_smartcase = 1
 map <silent> / <Plug>(easymotion-sn)
 omap <silent> / <Plug>(easymotion-tn)
 "map <Leader>' <Plug>(easymotion-bd-f)
-map <Leader><Leader> <Plug>(easymotion-bd-f)
+map <Leader>; <Plug>(easymotion-bd-f)
 "nmap <silent> f <Plug>(easymotion-overwin-bd-f)
 "nmap <silent> s <Plug>(easymotion-overwin-f2)
 "nmap f <Plug>(easymotion-sl)
@@ -112,7 +116,7 @@ let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 let g:syntastic_aggregate_errors=1
-let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_ruby_checkers = ['mri']
 let g:syntastic_javascript_checkers = ['eslint']
 "let g:syntastic_apiblueprint_checkers = ['drafter']
 "let g:syntastic_apiblueprint_drafter_exec = "/usr/local/bin/drafter"
@@ -127,6 +131,7 @@ let g:syntastic_typescript_checkers = ['']
 
 " table mode
 let g:table_mode_corner = "|"
+let g:table_mode_map_prefix = '<Leader>.t'
 
 " dispatch
 nnoremap <Leader>dp :Dispatch 
@@ -146,6 +151,7 @@ nnoremap <Leader>lf :CtrlP<CR>
 nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
 nnoremap <Leader>lb :CtrlPBuffer<CR>
 nnoremap <Leader>lt :CtrlPTag<CR>
+nnoremap <Leader>lr :CtrlPBufTag<CR>
 nnoremap <Leader>ld :CtrlPDir<CR>
 
 " delimitmate settings
@@ -168,12 +174,6 @@ let g:rubycomplete_classes_in_global=1
 let g:rubycomplete_rails=1
 let g:rubycomplete_load_gemfile=1
 
-" surround settings for erb templates
-augroup filetype_erb
-  autocmd!
-  autocmd FileType erb let b:surround_{char2nr('=')} = "<%= \r %>"
-  autocmd FileType erb let b:surround_{char2nr('-')} = "<% \r %>"
-augroup END
 
 " indent-guides settings
 let g:indent_guides_enable_on_vim_startup = 0
@@ -194,45 +194,12 @@ let g:slime_target = "tmux"
 " selects entire buffer and slimes it
 "nnoremap <space>bs gg<S-v><S-g><C-c><C-C>
 
-" typescript
-"autocmd FileType typescript setlocal completeopt-=menu,preview
-
 " dbext configuration
 let g:dbext_default_use_sep_result_buffer = 1
 let g:dbext_default_buffer_lines = 25
 "let g:dbext_default_window_use_horiz = 0  " Use vertical split
 "let g:dbext_default_window_use_right = 1   " Right
 "let g:dbext_default_window_width = 80
-
-" TODO: clean this rails stuff up
-" rails
-map <Leader>rr :Rake 
-map <Leader>rev :Eview<CR>
-map <Leader>rem :Emodel<CR>
-map <Leader>rec :Econtroller<CR>
-map <Leader>rsv :Sview<CR>
-map <Leader>rsm :Smodel<CR>
-map <Leader>rsc :Scontroller<CR>
-map <Leader>rvv :Vview<CR>
-map <Leader>rvm :Vmodel<CR>
-map <Leader>rvc :Vcontroller<CR>
-map <Leader>rgc :Rgenerate controller 
-
-map <Leader>rev<Space> :Eview 
-map <Leader>rem<Space> :Emodel 
-map <Leader>rec<Space> :Econtroller 
-map <Leader>rsv<Space> :Sview 
-map <Leader>rsm<Space> :Smodel 
-map <Leader>rsc<Space> :Scontroller 
-map <Leader>rvv<Space> :Vview 
-map <Leader>rvm<Space> :Vmodel 
-map <Leader>rvc<Space> :Vcontroller 
-
-" php
-augroup derick_php
-  autocmd!
-  autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
-augroup END
 
 " python
 let g:jedi#auto_close_doc = 0
@@ -242,7 +209,7 @@ let g:vrc_trigger = '<Leader>mr'
 
 
 nnoremap <Leader>.p :set paste!<CR>
-nnoremap <Leader>.ev :vsplit $MYVIMRC<CR>
+nnoremap <Leader>.ev :split $MYVIMRC<CR>
 nnoremap <Leader>.sv :source $MYVIMRC<CR>
 
 "vnoremap <Leader>,b64e :!python -m base64 -e<CR>
@@ -250,23 +217,6 @@ nnoremap <Leader>.sv :source $MYVIMRC<CR>
 
 nnoremap - ddp
 nnoremap _ ddk<s-p>
-
-
-augroup html
-  autocmd!
-  autocmd BufWritePre,BufRead *.html :normal; gg=G
-  autocmd BufNewFile,BufRead *.html setlocal nowrap
-  autocmd FileType html nnoremap <buffer> <localleader>e :echo "You've opened a html file!"<CR>
-augroup END
-augroup javascript
-  autocmd FileType javascript nnoremap <buffer> <localleader>e :echo "You've opened a javascript file!"<CR>
-  autocmd Filetype *.txt set spell
-augroup END
-
-
-function! SetupDebugger()
-  let g:vdebug_options['path_maps'] = {"/home/vagrant/Code": "/Users/derick/workspace/homestead/code"}
-endfunction
 
 "let g:pymode_rope_autoimport = 1
 "let g:pymode_run_bind = '<localleader>r'
@@ -281,19 +231,6 @@ au BufWritePost,BufLeave,WinLeave *.rest mkview " for tabs
 au BufWinEnter *.rest silent loadview
 
 
-augroup typescript
-  autocmd!
-  " tsuquyomi
-  autocmd FileType typescript nnoremap <localleader>d :TsuquyomiDefinition<CR>
-  autocmd FileType typescript nnoremap <localleader>r :TsuquyomiReferences<CR>
-  autocmd FileType typescript nnoremap <localleader>c :TsuquyomiRenameSymbolC<CR>
-  autocmd FileType typescript nnoremap <localleader>b :TsuquyomiGoBack<CR>
-  autocmd FileType typescript nnoremap <localleader>ef :TsuquyomiGeterr<CR>
-  autocmd FileType typescript nnoremap <localleader>ep :TsuquyomiGeterrProject<CR>
-  autocmd FileType typescript nnoremap <localleader>t :YcmCompleter GetType<CR>
-  autocmd FileType typescript setlocal completeopt+=menu,preview
-  "autocmd FileType typescript nnoremap <buffer> <localleader>r :call RunTypescriptFile()<CR>
-augroup END
 
 " tagbar settings
 nnoremap <Leader>0 :TagbarToggle<CR>
@@ -361,37 +298,32 @@ nnoremap <Leader>.os :syntax on<CR>
 nnoremap <Leader>.sc :SyntasticCheck<CR>
 nnoremap <Leader>.st :SyntasticToggleMode<CR>
 
-augroup filetype_css
-  autocmd!
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-augroup END
 
-function! DispatchCommand(command, ...)
-  let l:choice = confirm("Execute command: " . a:command, "&Yes\n&No")
-  let l:dispatch = a:0 ? a:1 : "Dispatch"
-
-  if l:choice == 1
-    execute l:dispatch " " . a:command
-  endif
-endfunction
-
-function! WriteNumberList(numbers)
-  ruby <<EOL
-  buffer = Vim::Buffer.current
-  current_line = buffer.line_number
-  numbers = Vim::evaluate("a:numbers")
-
-  numbers.times do |num|
-    Vim::Buffer.current.append current_line, num.to_s
-    current_line += 1
-  end
-EOL
-endfunction
 
 " ack.vim
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+
+
+vnoremap <Leader>be y:call Base64Encode(@@)<CR>
+vnoremap <Leader>bd y:call Base64Decode(@@)<CR>
+
+nnoremap <Leader>,jt :%!python -m json.tool<CR>
+
+
+nnoremap <Leader>,a yiw:call AckSearchWord(@@, '.')<CR>
+
+
+
+nnoremap <Leader>f :tag<space>
+
+
+
+"-------- Functions ------------------------------- 
+function! AckSearchWord(word, directory)
+  execute "Ack " . a:word . " " . a:directory
+endfunction
 
 function! Base64Encode(value)
 ruby <<EOF
@@ -417,13 +349,123 @@ ruby <<EOF
 EOF
 endfunction
 
-vnoremap <Leader>be y:call Base64Encode(@@)<CR>
-vnoremap <Leader>bd y:call Base64Decode(@@)<CR>
+function! DispatchCommand(command, ...)
+  let l:choice = confirm("Execute command: " . a:command, "&Yes\n&No")
+  let l:dispatch = a:0 ? a:1 : "Dispatch"
 
-nnoremap <Leader>,jt :%!python -m json.tool<CR>
-
-function! AckSearchWord(word, directory)
-  execute "Ack " . a:word . " " . a:directory
+  if l:choice == 1
+    execute l:dispatch " " . a:command
+  endif
 endfunction
 
-nnoremap <Leader>,a yiw:call AckSearchWord(@@, '.')<CR>
+function! WriteNumberList(numbers)
+  ruby <<EOL
+  buffer = Vim::Buffer.current
+  current_line = buffer.line_number
+  numbers = Vim::evaluate("a:numbers")
+
+  numbers.times do |num|
+    Vim::Buffer.current.append current_line, num.to_s
+    current_line += 1
+  end
+EOL
+endfunction
+
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+
+function! IPhpExpandClass()
+    call PhpExpandClass()
+    call feedkeys('a', 'n')
+endfunction
+
+function! PhpSyntaxOverride()
+  hi! def link phpDocTags  phpDefine
+  hi! def link phpDocParam phpType
+endfunction
+"-------------Auto-Commands--------------"
+
+augroup filetype_css
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+augroup END
+
+" surround settings for erb templates
+augroup filetype_erb
+  autocmd!
+  autocmd FileType erb let b:surround_{char2nr('=')} = "<%= \r %>"
+  autocmd FileType erb let b:surround_{char2nr('-')} = "<% \r %>"
+augroup END
+
+" php
+augroup derick_php
+  autocmd!
+  autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
+augroup END
+
+augroup phpNamespaces
+  autocmd!
+  autocmd FileType php inoremap <localleader>n <Esc>:call IPhpInsertUse()<CR>
+  autocmd FileType php noremap <localleader>n :call PhpInsertUse()<CR>
+  autocmd FileType php inoremap <localleader>e <Esc>:call IPhpExpandClass()<CR>
+  autocmd FileType php noremap <localleader>e :call PhpExpandClass()<CR>
+augroup END
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
+
+augroup html
+  autocmd!
+  autocmd BufWritePre,BufRead *.html :normal; gg=G
+  autocmd BufNewFile,BufRead *.html setlocal nowrap
+  autocmd FileType html nnoremap <buffer> <localleader>e :echo "You've opened a html file!"<CR>
+augroup END
+
+augroup javascript
+  autocmd FileType javascript nnoremap <buffer> <localleader>e :echo "You've opened a javascript file!"<CR>
+  autocmd Filetype *.txt set spell
+augroup END
+
+augroup typescript
+  autocmd!
+  " tsuquyomi
+  autocmd FileType typescript nnoremap <localleader>d :TsuquyomiDefinition<CR>
+  autocmd FileType typescript nnoremap <localleader>r :TsuquyomiReferences<CR>
+  autocmd FileType typescript nnoremap <localleader>c :TsuquyomiRenameSymbolC<CR>
+  autocmd FileType typescript nnoremap <localleader>b :TsuquyomiGoBack<CR>
+  autocmd FileType typescript nnoremap <localleader>ef :TsuquyomiGeterr<CR>
+  autocmd FileType typescript nnoremap <localleader>ep :TsuquyomiGeterrProject<CR>
+  autocmd FileType typescript nnoremap <localleader>t :YcmCompleter GetType<CR>
+  autocmd FileType typescript setlocal completeopt+=menu,preview
+  "autocmd FileType typescript nnoremap <buffer> <localleader>r :call RunTypescriptFile()<CR>
+augroup END
+
+augroup my_ruby
+  autocmd!
+  " rails
+  autocmd FileType ruby nnoremap <localleader>rr :Rake 
+  autocmd FileType ruby nnoremap <localleader>rev :Eview<CR>
+  autocmd FileType ruby nnoremap <localleader>rem :Emodel<CR>
+  autocmd FileType ruby nnoremap <localleader>rec :Econtroller<CR>
+  autocmd FileType ruby nnoremap <localleader>rsv :Sview<CR>
+  autocmd FileType ruby nnoremap <localleader>rsm :Smodel<CR>
+  autocmd FileType ruby nnoremap <localleader>rsc :Scontroller<CR>
+  autocmd FileType ruby nnoremap <localleader>rvv :Vview<CR>
+  autocmd FileType ruby nnoremap <localleader>rvm :Vmodel<CR>
+  autocmd FileType ruby nnoremap <localleader>rvc :Vcontroller<CR>
+  autocmd FileType ruby nnoremap <localleader>rgc :Rgenerate controller 
+
+  autocmd FileType ruby nnoremap <localleader>rev<Space> :Eview 
+  autocmd FileType ruby nnoremap <localleader>rem<Space> :Emodel 
+  autocmd FileType ruby nnoremap <localleader>rec<Space> :Econtroller 
+  autocmd FileType ruby nnoremap <localleader>rsv<Space> :Sview 
+  autocmd FileType ruby nnoremap <localleader>rsm<Space> :Smodel 
+  autocmd FileType ruby nnoremap <localleader>rsc<Space> :Scontroller 
+  autocmd FileType ruby nnoremap <localleader>rvv<Space> :Vview 
+  autocmd FileType ruby nnoremap <localleader>rvm<Space> :Vmodel 
+  autocmd FileType ruby nnoremap <localleader>rvc<Space> :Vcontroller 
+augroup END
