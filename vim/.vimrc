@@ -26,6 +26,17 @@ set autowriteall
 set splitbelow
 set splitright
 
+
+" move between splits by holding ctrl
+nnoremap <silent> <c-h> <c-w>h
+nnoremap <silent> <c-j> <c-w>j
+nnoremap <silent> <c-k> <c-w>k
+nnoremap <silent> <c-l> <c-w>l
+
+" apply macros with Q
+nnoremap Q @q
+vnoremap Q :norm @q<cr>
+
 " Sets the directory to store .swp files in.
 " The double '//' ensures that there will be no name conflicts
 " amongst the swap files by replacing path separators with %
@@ -40,11 +51,6 @@ let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : ''  }
 set background=dark
 colorscheme base16-chalk
 "
-" move between splits by holding ctrl
-nnoremap <silent> <c-h> <c-w>h
-nnoremap <silent> <c-j> <c-w>j
-nnoremap <silent> <c-k> <c-w>k
-nnoremap <silent> <c-l> <c-w>l
 
 " neocomplete
 let g:neocomplete#enable_at_startup = 1
@@ -54,16 +60,23 @@ let mapleader=" "
 let maplocalleader = ","
 nnoremap ; :
 inoremap jk <Esc>
-nnoremap <Leader>w <C-w>
-nnoremap <Leader>q :w<CR>
+"nnoremap <Leader>w <C-w>
 
 "buffer
-nnoremap <Leader>ba gg<S-v><S-g>
-nnoremap <Leader>bs :w<CR>
-nnoremap <Leader>bd :bdelete<CR>
-nnoremap <Leader>!bd :bdelete!<CR>
-nnoremap <Leader>bn :new<CR>
-nnoremap <Leader>bvn :vnew<CR>
+nnoremap <Leader>ha gg<S-v><S-g> " highlight all
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :bdelete<CR>
+nnoremap <Leader>x :call ConfirmBDeleteBang()<CR>
+nnoremap <Leader>ns :new<CR>
+nnoremap <Leader>nv :vnew<CR>
+nnoremap <Leader>z <C-w>c
+nnoremap <Leader>o <C-w>o
+
+" move splits by first hitting <leader>r
+nnoremap <Leader>rh <C-w>H
+nnoremap <Leader>rj <C-w>J
+nnoremap <Leader>rk <C-w>K
+nnoremap <Leader>rl <C-w>L
 
 "tabs
 "noremap <Leader><s-tab> :tabprevious<CR>
@@ -81,7 +94,7 @@ let g:EasyMotion_smartcase = 1
 map <silent> / <Plug>(easymotion-sn)
 omap <silent> / <Plug>(easymotion-tn)
 "map <Leader>' <Plug>(easymotion-bd-f)
-map <Leader>; <Plug>(easymotion-bd-f)
+map <Leader><Leader> <Plug>(easymotion-bd-f)
 "nmap <silent> f <Plug>(easymotion-overwin-bd-f)
 "nmap <silent> s <Plug>(easymotion-overwin-f2)
 "nmap f <Plug>(easymotion-sl)
@@ -134,25 +147,32 @@ let g:table_mode_corner = "|"
 let g:table_mode_map_prefix = '<Leader>.t'
 
 " dispatch
-nnoremap <Leader>dp :Dispatch 
-nnoremap <Leader>ds :Start 
+nnoremap <Leader>dp :Dispatch <CR>
+nnoremap <Leader>ds :Start <CR>
 vnoremap <Leader>dp y:call DispatchCommand(@@)<CR>
 vnoremap <Leader>ds y:call DispatchCommand(@@, "Start")<CR>
 
+" tags
+nnoremap <Leader>t :tag<space>
+nnoremap <Leader>s :tselect <CR>
+
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
+                          \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
 "let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 "let g:ctrlp_custom_ignore = 'node_modules'
 let g:ctrlp_custom_ignore = '\v[\/](vendor|node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 let g:ctrlp_show_hidden = 1
 "let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
 
-nnoremap <Leader>lf :CtrlP<CR>
-nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
-nnoremap <Leader>lb :CtrlPBuffer<CR>
-nnoremap <Leader>lat :CtrlPTag<CR>
-nnoremap <Leader>lt :CtrlPBufTag<CR>
-nnoremap <Leader>ld :CtrlPDir<CR>
+nnoremap <Leader>f :CtrlP<CR>
+"nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>a :CtrlPTag<CR>
+nnoremap <Leader>j :CtrlPBufTag<CR>
+nnoremap <Leader>k :CtrlPBufTagAll<CR>
+"nnoremap <Leader>ld :CtrlPDir<CR>
 
 " delimitmate settings
 let g:delimitMate_expand_cr=1
@@ -195,6 +215,9 @@ let g:slime_target = "tmux"
 "nnoremap <space>bs gg<S-v><S-g><C-c><C-C>
 
 " dbext configuration
+" TODO: configure dbext, cuz i just turned off all mapping with
+"       the line below this one
+let g:dbext_default_usermaps = 0
 let g:dbext_default_use_sep_result_buffer = 1
 let g:dbext_default_buffer_lines = 25
 "let g:dbext_default_window_use_horiz = 0  " Use vertical split
@@ -205,18 +228,15 @@ let g:dbext_default_buffer_lines = 25
 let g:jedi#auto_close_doc = 0
 
 " vim-rest-console
-let g:vrc_trigger = '<Leader>mr'
+let g:vrc_trigger = '<Leader>.mr'
 
 
 nnoremap <Leader>.p :set paste!<CR>
-nnoremap <Leader>.ev :split $MYVIMRC<CR>
+nnoremap <Leader>.ev :e $MYVIMRC<CR>
 nnoremap <Leader>.sv :source $MYVIMRC<CR>
 
 "vnoremap <Leader>,b64e :!python -m base64 -e<CR>
 "vnoremap <Leader>,b64d :!python -m base64 -d<CR>
-
-nnoremap - ddp
-nnoremap _ ddk<s-p>
 
 "let g:pymode_rope_autoimport = 1
 "let g:pymode_run_bind = '<localleader>r'
@@ -316,7 +336,6 @@ nnoremap <Leader>,a yiw:call AckSearchWord(@@, '.')<CR>
 
 
 
-nnoremap <Leader>f :tag<space>
 
 
 " php documentor snippets location
@@ -337,6 +356,14 @@ let g:php_cs_fixer_verbose = 1                    " Return the output of command
 
 
 "-------- Functions ------------------------------- 
+function! ConfirmBDeleteBang()
+  let l:choice = confirm("Really delete buffer?", "&Yes\n&No")
+  if l:choice == 1
+    echo 'test'
+    execute "bdelete!"
+  endif
+endfunction
+
 function! AckSearchWord(word, directory)
   execute "Ack " . a:word . " " . a:directory
 endfunction
