@@ -359,7 +359,6 @@ let g:php_cs_fixer_verbose = 1                    " Return the output of command
 function! ConfirmBDeleteBang()
   let l:choice = confirm("Really delete buffer?", "&Yes\n&No")
   if l:choice == 1
-    echo 'test'
     execute "bdelete!"
   endif
 endfunction
