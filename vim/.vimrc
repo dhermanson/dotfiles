@@ -38,7 +38,7 @@ set undodir=~/.vim/tmp/undo//
 set t_Co=256
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : ''  }
 set background=dark
-colorscheme jellybeans
+colorscheme base16-chalk
 "
 " move between splits by holding ctrl
 nnoremap <silent> <c-h> <c-w>h
@@ -143,15 +143,15 @@ vnoremap <Leader>ds y:call DispatchCommand(@@, "Start")<CR>
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 "let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 "let g:ctrlp_custom_ignore = 'node_modules'
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
+let g:ctrlp_custom_ignore = '\v[\/](vendor|node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 let g:ctrlp_show_hidden = 1
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
+"let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
 
 nnoremap <Leader>lf :CtrlP<CR>
 nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
 nnoremap <Leader>lb :CtrlPBuffer<CR>
-nnoremap <Leader>lt :CtrlPTag<CR>
-nnoremap <Leader>lr :CtrlPBufTag<CR>
+nnoremap <Leader>lat :CtrlPTag<CR>
+nnoremap <Leader>lt :CtrlPBufTag<CR>
 nnoremap <Leader>ld :CtrlPDir<CR>
 
 " delimitmate settings
@@ -319,6 +319,22 @@ nnoremap <Leader>,a yiw:call AckSearchWord(@@, '.')<CR>
 nnoremap <Leader>f :tag<space>
 
 
+" php documentor snippets location
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+
+"------------php cs-fixer----------------------------------------
+let g:php_cs_fixer_level = "symfony"              " which level ?
+let g:php_cs_fixer_config = "default"             " configuration
+"let g:php_cs_fixer_config_file = '.php_cs'       " configuration file
+let g:php_cs_fixer_php_path = "php"               " Path to PHP
+" If you want to define specific fixers:
+let g:php_cs_fixer_fixers_list = "-braces"
+let g:php_cs_fixer_enable_default_mapping = 0     " Enable the mapping by default (<leader>pcd)
+let g:php_cs_fixer_dry_run = 0                    " Call command with dry-run option
+let g:php_cs_fixer_verbose = 1                    " Return the output of command if 1, else an inline information.
+"----------------------------------------------------------------
+
+
 
 "-------- Functions ------------------------------- 
 function! AckSearchWord(word, directory)
@@ -409,13 +425,80 @@ augroup phpNamespaces
   autocmd!
   autocmd FileType php inoremap <localleader>n <Esc>:call IPhpInsertUse()<CR>
   autocmd FileType php noremap <localleader>n :call PhpInsertUse()<CR>
-  autocmd FileType php inoremap <localleader>e <Esc>:call IPhpExpandClass()<CR>
-  autocmd FileType php noremap <localleader>e :call PhpExpandClass()<CR>
+  autocmd FileType php inoremap <localleader>q <Esc>:call IPhpExpandClass()<CR>
+  autocmd FileType php noremap <localleader>q :call PhpExpandClass()<CR>
+  autocmd FileType php inoremap <localleader>.s <Esc>:call PhpSortUse()<CR>
+  autocmd FileType php noremap <localleader>.s :call PhpSortUse()<CR>
+
+  autocmd FileType php nnoremap <localleader>emo :Emodel 
+  autocmd FileType php nnoremap <localleader>vmo :Vmodel 
+  autocmd FileType php nnoremap <localleader>smo :Smodel 
+  autocmd FileType php nnoremap <localleader>eev :Eevent 
+  autocmd FileType php nnoremap <localleader>vev :Vevent 
+  autocmd FileType php nnoremap <localleader>sev :Sevent 
+  autocmd FileType php nnoremap <localleader>eex :Eexception 
+  autocmd FileType php nnoremap <localleader>vex :Vexception 
+  autocmd FileType php nnoremap <localleader>sex :Sexception 
+  autocmd FileType php nnoremap <localleader>ero :Eroutes <CR>
+  autocmd FileType php nnoremap <localleader>vro :Vroutes <CR>
+  autocmd FileType php nnoremap <localleader>sro :Sroutes <CR>
+  autocmd FileType php nnoremap <localleader>ek :Ekernel <CR>
+  autocmd FileType php nnoremap <localleader>vk :Vkernel <CR>
+  autocmd FileType php nnoremap <localleader>sk :Skernel <CR>
+  autocmd FileType php nnoremap <localleader>eco :Econtroller 
+  autocmd FileType php nnoremap <localleader>vco :Vcontroller 
+  autocmd FileType php nnoremap <localleader>sco :Scontroller 
+  autocmd FileType php nnoremap <localleader>emid :Emiddleware 
+  autocmd FileType php nnoremap <localleader>vmid :Vmiddleware 
+  autocmd FileType php nnoremap <localleader>smid :Smiddleware 
+  autocmd FileType php nnoremap <localleader>ere :Erequest 
+  autocmd FileType php nnoremap <localleader>vre :Vrequest 
+  autocmd FileType php nnoremap <localleader>sre :Srequest 
+  autocmd FileType php nnoremap <localleader>ej :Ejob 
+  autocmd FileType php nnoremap <localleader>vj :Vjob 
+  autocmd FileType php nnoremap <localleader>sj :Sjob 
+  autocmd FileType php nnoremap <localleader>el :Elistener 
+  autocmd FileType php nnoremap <localleader>vl :Vlistener 
+  autocmd FileType php nnoremap <localleader>sl :Slistener 
+  autocmd FileType php nnoremap <localleader>epo :Epolicy 
+  autocmd FileType php nnoremap <localleader>vpo :Vpolicy 
+  autocmd FileType php nnoremap <localleader>spo :Spolicy 
+  autocmd FileType php nnoremap <localleader>epr :Eprovider 
+  autocmd FileType php nnoremap <localleader>vpr :Vprovider 
+  autocmd FileType php nnoremap <localleader>spr :Sprovider 
+  autocmd FileType php nnoremap <localleader>ecfg :Econfig 
+  autocmd FileType php nnoremap <localleader>vcfg :Vconfig 
+  autocmd FileType php nnoremap <localleader>scfg :Sconfig 
+  autocmd FileType php nnoremap <localleader>emig :Emigration 
+  autocmd FileType php nnoremap <localleader>vmig :Vmigration 
+  autocmd FileType php nnoremap <localleader>smig :Smigration 
+  autocmd FileType php nnoremap <localleader>ese :Eseeder 
+  autocmd FileType php nnoremap <localleader>vse :Vseeder 
+  autocmd FileType php nnoremap <localleader>sse :Sseeder 
+  autocmd FileType php nnoremap <localleader>ed :Edoc 
+  autocmd FileType php nnoremap <localleader>vd :Vdoc 
+  autocmd FileType php nnoremap <localleader>sd :Sdoc 
+  autocmd FileType php nnoremap <localleader>ev :Eview 
+  autocmd FileType php nnoremap <localleader>vv :Vview 
+  autocmd FileType php nnoremap <localleader>sv :Sview 
+  autocmd FileType php nnoremap <localleader>ea :A<CR>
+  autocmd FileType php nnoremap <localleader>sa :AS<CR>
+  autocmd FileType php nnoremap <localleader>va :AV<CR>
 augroup END
 
 augroup phpSyntaxOverride
   autocmd!
   autocmd FileType php call PhpSyntaxOverride()
+augroup END
+
+augroup phpDocumentor
+  autocmd!
+  autocmd FileType php nnoremap <localleader>d :call pdv#DocumentWithSnip()<CR>
+augroup END
+
+augroup phpCsFixer
+  autocmd!
+  autocmd FileType php nnoremap <localleader>cs :call PhpCsFixerFixFile()<CR>
 augroup END
 
 augroup html

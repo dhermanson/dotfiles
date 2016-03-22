@@ -221,3 +221,12 @@
 [submodule "vim/.vim/bundle/vim-php-namespace"]
 	path = vim/.vim/bundle/vim-php-namespace
 	url = https://github.com/arnaud-lb/vim-php-namespace.git
+[submodule "vim/.vim/bundle/vmustache"]
+	path = vim/.vim/bundle/vmustache
+	url = https://github.com/tobyS/vmustache.git
+[submodule "vim/.vim/bundle/pdv"]
+	path = vim/.vim/bundle/pdv
+	url = https://github.com/tobyS/pdv.git
+[submodule "vim/.vim/bundle/vim-php-cs-fixer"]
+	path = vim/.vim/bundle/vim-php-cs-fixer
+	url = https://github.com/stephpy/vim-php-cs-fixer.git
