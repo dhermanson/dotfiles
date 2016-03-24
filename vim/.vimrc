@@ -21,11 +21,12 @@ set mouse=a
 set ttymouse=xterm2
 set complete=.,w,b,u
 set autowriteall
+set cursorline
+set nocursorcolumn
 
 "-----------split management----------------------- 
 set splitbelow
 set splitright
-
 
 " move between splits by holding ctrl
 nnoremap <silent> <c-h> <c-w>h
@@ -52,13 +53,21 @@ set background=dark
 colorscheme base16-chalk
 "
 
+" fastfold
+"let g:tex_fold_enabled=1
+"let g:vimsyn_folding='af'
+"let g:xml_syntax_folding = 1
+"let g:php_folding = 1
+"let g:perl_fold = 1
+
 " neocomplete
-let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 0
 let g:neocomplete#enable_ignore_case = 1
 
 let mapleader=" "
 let maplocalleader = ","
 nnoremap ; :
+nnoremap ' ;
 inoremap jk <Esc>
 "nnoremap <Leader>w <C-w>
 
@@ -94,7 +103,7 @@ let g:EasyMotion_smartcase = 1
 map <silent> / <Plug>(easymotion-sn)
 omap <silent> / <Plug>(easymotion-tn)
 "map <Leader>' <Plug>(easymotion-bd-f)
-map <Leader><Leader> <Plug>(easymotion-bd-f)
+map <Leader>; <Plug>(easymotion-bd-f)
 "nmap <silent> f <Plug>(easymotion-overwin-bd-f)
 "nmap <silent> s <Plug>(easymotion-overwin-f2)
 "nmap f <Plug>(easymotion-sl)
@@ -154,7 +163,8 @@ vnoremap <Leader>ds y:call DispatchCommand(@@, "Start")<CR>
 
 " tags
 nnoremap <Leader>t :tag<space>
-nnoremap <Leader>s :tselect <CR>
+nnoremap <Leader>p :tselect <CR>
+set tags+=vendortags
 
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
@@ -217,7 +227,7 @@ let g:slime_target = "tmux"
 " dbext configuration
 " TODO: configure dbext, cuz i just turned off all mapping with
 "       the line below this one
-let g:dbext_default_usermaps = 0
+let g:dbext_default_usermaps = 1
 let g:dbext_default_use_sep_result_buffer = 1
 let g:dbext_default_buffer_lines = 25
 "let g:dbext_default_window_use_horiz = 0  " Use vertical split
@@ -347,13 +357,16 @@ let g:php_cs_fixer_config = "default"             " configuration
 "let g:php_cs_fixer_config_file = '.php_cs'       " configuration file
 let g:php_cs_fixer_php_path = "php"               " Path to PHP
 " If you want to define specific fixers:
-let g:php_cs_fixer_fixers_list = "-braces"
+let g:php_cs_fixer_fixers_list = "-braces,-psr0"  " need psr0 here because laravel's app/ should be App
 let g:php_cs_fixer_enable_default_mapping = 0     " Enable the mapping by default (<leader>pcd)
 let g:php_cs_fixer_dry_run = 0                    " Call command with dry-run option
 let g:php_cs_fixer_verbose = 1                    " Return the output of command if 1, else an inline information.
 "----------------------------------------------------------------
 
-
+" markown
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_json_frontmatter = 1
+let g:vim_markdown_conceal = 0
 
 "-------- Functions ------------------------------- 
 function! ConfirmBDeleteBang()
@@ -507,6 +520,9 @@ augroup phpNamespaces
   autocmd FileType php nnoremap <localleader>ev :Eview 
   autocmd FileType php nnoremap <localleader>vv :Vview 
   autocmd FileType php nnoremap <localleader>sv :Sview 
+  autocmd FileType php nnoremap <localleader>et :Etransformer 
+  autocmd FileType php nnoremap <localleader>vt :Vtransformer 
+  autocmd FileType php nnoremap <localleader>st :Stransformer 
   autocmd FileType php nnoremap <localleader>ea :A<CR>
   autocmd FileType php nnoremap <localleader>sa :AS<CR>
   autocmd FileType php nnoremap <localleader>va :AV<CR>

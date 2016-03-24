@@ -43,6 +43,7 @@ Thumbs.db
 # CTAGS #
 #########
 tags
+vendortags
 
 # DERICK NOTES #
 ################
@@ -55,3 +56,6 @@ tags
 
 ## any .vimrc's #####
 .vimrc
+
+## todos ###
+todo.txt
