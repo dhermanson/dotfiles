@@ -1,3 +1,3 @@
 #! /bin/bash
 
-ctags -R --PHP-kinds=cfti --languages=php -f vendortags vendor
+ctags -R --PHP-kinds=cfti --fields=+l --languages=php -f vendortags vendor

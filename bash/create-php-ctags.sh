@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ctags -R --PHP-kinds=cfti --languages=php --exclude=vendor
+ctags -R --PHP-kinds=cfti --languages=php --fields=+l --exclude=vendor

@@ -1,3 +1,3 @@
 #! /bin/bash
 
-ctags -R --languages=ruby
+ctags -R --fields=+l --languages=ruby
