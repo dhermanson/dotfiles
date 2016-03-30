@@ -25,8 +25,8 @@ set cursorline
 set nocursorcolumn
 
 "-----------split management----------------------- 
-set splitbelow
-set splitright
+set nosplitbelow
+set nosplitright
 
 " move between splits by holding ctrl
 nnoremap <silent> <c-h> <c-w>h
@@ -87,6 +87,10 @@ nnoremap <Leader>rj <C-w>J
 nnoremap <Leader>rk <C-w>K
 nnoremap <Leader>rl <C-w>L
 
+
+nnoremap <Leader>s :split <CR>
+nnoremap <Leader>v :vsplit <CR>
+
 "tabs
 "noremap <Leader><s-tab> :tabprevious<CR>
 "noremap <Leader><tab> :tabnext<CR>
@@ -96,6 +100,10 @@ nnoremap <Leader>rl <C-w>L
 
 " ack.vim
 let g:ack_use_dispatch = 1
+nnoremap <Leader>a :Ack 
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
 
 "easymotion settings
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
@@ -162,8 +170,8 @@ vnoremap <Leader>dp y:call DispatchCommand(@@)<CR>
 vnoremap <Leader>ds y:call DispatchCommand(@@, "Start")<CR>
 
 " tags
-nnoremap <Leader>t :tag<space>
-nnoremap <Leader>p :tselect <CR>
+"nnoremap <Leader>lt :tag<space>
+nnoremap <Leader>lt :tselect 
 set tags+=vendortags
 
 " ctrlp settings
@@ -176,12 +184,12 @@ let g:ctrlp_custom_ignore = '\v[\/](vendor|node_modules|target|dist)|(\.(swp|ico
 let g:ctrlp_show_hidden = 1
 "let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
 
-nnoremap <Leader>f :CtrlP<CR>
+nnoremap <Leader>lf :CtrlP<CR>
 "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
-nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>a :CtrlPTag<CR>
-nnoremap <Leader>j :CtrlPBufTag<CR>
-nnoremap <Leader>k :CtrlPBufTagAll<CR>
+nnoremap <Leader>lb :CtrlPBuffer<CR>
+nnoremap <Leader>la :CtrlPTag<CR>
+nnoremap <Leader>ll :CtrlPBufTag<CR>
+nnoremap <Leader>lk :CtrlPBufTagAll<CR>
 "nnoremap <Leader>ld :CtrlPDir<CR>
 
 " delimitmate settings
@@ -227,7 +235,7 @@ let g:slime_target = "tmux"
 " dbext configuration
 " TODO: configure dbext, cuz i just turned off all mapping with
 "       the line below this one
-let g:dbext_default_usermaps = 1
+let g:dbext_default_usermaps = 0
 let g:dbext_default_use_sep_result_buffer = 1
 let g:dbext_default_buffer_lines = 25
 "let g:dbext_default_window_use_horiz = 0  " Use vertical split
@@ -329,11 +337,6 @@ nnoremap <Leader>.sc :SyntasticCheck<CR>
 nnoremap <Leader>.st :SyntasticToggleMode<CR>
 
 
-
-" ack.vim
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
 
 
 vnoremap <Leader>be y:call Base64Encode(@@)<CR>
@@ -455,9 +458,12 @@ augroup filetype_erb
 augroup END
 
 " php
-augroup derick_php
+augroup my_php
   autocmd!
   autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
+  autocmd FileType php setlocal tags+=~/tags/php_core_tags
+  autocmd FileType php nnoremap <localleader>mtp :Dispatch create-php-ctags.sh<CR>
+  autocmd FileType php nnoremap <localleader>mtv :Dispatch create-php-vendor-tags.sh<CR>
 augroup END
 
 augroup phpNamespaces
@@ -593,4 +599,6 @@ augroup my_ruby
   autocmd FileType ruby nnoremap <localleader>rvv<Space> :Vview 
   autocmd FileType ruby nnoremap <localleader>rvm<Space> :Vmodel 
   autocmd FileType ruby nnoremap <localleader>rvc<Space> :Vcontroller 
+
+  autocmd FileType ruby nnoremap <localleader>mtp :Dispatch create-ruby-ctags.sh<CR>
 augroup END

@@ -32,3 +32,7 @@
 
 
 --regex-php=/^[ \t]*trait[ \t]+([a-z0_9_]+)/\1/t,traits/i
+--regex-php=/(abstract)?\s+class\s+([^ ]+)/\2/c/
+--regex-php=/(static|abstract|public|protected|private)\s+function\s+(\&\s+)?([^ (]+)/\3/f/
+--regex-php=/interface\s+([^ ]+)/\1/i/
+--regex-php=/\$([a-zA-Z_][a-zA-Z0-9_]*)/\1/v/
