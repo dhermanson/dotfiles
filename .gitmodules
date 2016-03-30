@@ -191,9 +191,6 @@
 [submodule "vim/.vim/bundle/vim-vinegar"]
 	path = vim/.vim/bundle/vim-vinegar
 	url = https://github.com/tpope/vim-vinegar.git
-[submodule "vim/.vim/bundle/neocomplete.vim"]
-	path = vim/.vim/bundle/neocomplete.vim
-	url = https://github.com/Shougo/neocomplete.vim.git
 [submodule "vim/.vim/bundle/gem-ctags"]
 	path = vim/.vim/bundle/gem-ctags
 	url = https://github.com/tpope/gem-ctags.git
@@ -239,3 +236,6 @@
 [submodule "vim/.vim/bundle/vim-markdown"]
 	path = vim/.vim/bundle/vim-markdown
 	url = https://github.com/plasticboy/vim-markdown
+[submodule "vim/.vim/bundle/YouCompleteMe"]
+	path = vim/.vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe.git
