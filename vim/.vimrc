@@ -153,6 +153,7 @@ let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_typescript_checkers = ['']
+let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs'] " php, phpcs, phpmd, phplint
 "let g:syntastic_elixir_checkers = ['elixir']
 
 " table mode
@@ -317,6 +318,19 @@ let g:tagbar_type_snippets = {
         \ 's:snippets',
     \ ]
 \ }
+
+let g:tagbar_type_php  = {
+    \ 'ctagstype' : 'php',
+    \ 'kinds'     : [
+        \ 'i:interfaces',
+        \ 'c:classes',
+        \ 'd:constants',
+        \ 'm:methods',
+        \ 'f:functions',
+        \ 't:traits',
+        \ 'p:properties'
+    \ ]
+  \ }
 
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
