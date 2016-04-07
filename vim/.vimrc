@@ -23,6 +23,7 @@ set complete=.,w,b,u
 set autowriteall
 set cursorline
 set nocursorcolumn
+set noswapfile
 
 "-----------split management----------------------- 
 set nosplitbelow
@@ -50,7 +51,7 @@ set undodir=~/.vim/tmp/undo//
 set t_Co=256
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : ''  }
 set background=dark
-colorscheme base16-chalk
+colorscheme jellybeans
 "
 
 " fastfold
@@ -64,28 +65,29 @@ let mapleader=" "
 let maplocalleader = ","
 nnoremap ; :
 nnoremap ' ;
+vnoremap ' ;
 inoremap jk <Esc>
 "nnoremap <Leader>w <C-w>
 
 "buffer
-nnoremap <Leader>ha gg<S-v><S-g> " highlight all
-nnoremap <Leader>w :w<CR>
+nnoremap <return> :w<CR>
 nnoremap <Leader>q :bdelete<CR>
 nnoremap <Leader>x :call ConfirmBDeleteBang()<CR>
 nnoremap <Leader>ns :new<CR>
 nnoremap <Leader>nv :vnew<CR>
-nnoremap <Leader>z <C-w>c
-nnoremap <Leader>o <C-w>o
 
-" move splits by first hitting <leader>r
-nnoremap <Leader>rh <C-w>H
-nnoremap <Leader>rj <C-w>J
-nnoremap <Leader>rk <C-w>K
-nnoremap <Leader>rl <C-w>L
+"window stuff
+nnoremap <Leader>wh <C-w>H
+nnoremap <Leader>wj <C-w>J
+nnoremap <Leader>wk <C-w>K
+nnoremap <Leader>wl <C-w>L
+nnoremap <Leader>wo <C-w>o
+nnoremap <Leader>wc <C-w>c
+nnoremap <Leader>ww <C-w>w
+nnoremap <Leader>ws :split <CR>
+nnoremap <Leader>wv :vsplit <CR>
+nnoremap <Leader>wa gg<S-v><S-g> " highlight all
 
-
-nnoremap <Leader>s :split <CR>
-nnoremap <Leader>v :vsplit <CR>
 
 "tabs
 "noremap <Leader><s-tab> :tabprevious<CR>
@@ -94,9 +96,11 @@ nnoremap <Leader>v :vsplit <CR>
 " syntax on
 "noremap <Leader>.s :syntax on<CR>
 
+nnoremap <Leader>oc :copen <CR>
+
 " ack.vim
 let g:ack_use_dispatch = 1
-nnoremap <Leader>a :Ack 
+nnoremap <Leader>8 :Ack 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
@@ -153,7 +157,9 @@ let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_typescript_checkers = ['']
-let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs'] " php, phpcs, phpmd, phplint
+let g:syntastic_php_checkers = ['php', 'phpmd'] " php, phpcs, phpmd, phplint
+let g:syntastic_phpcs_conf = '--standard=psr2 --config-set show_warnings 0'
+
 "let g:syntastic_elixir_checkers = ['elixir']
 
 " table mode
@@ -168,8 +174,8 @@ vnoremap <Leader>ds y:call DispatchCommand(@@, "Start")<CR>
 
 " tags
 "nnoremap <Leader>lt :tag<space>
-nnoremap <Leader>lt :tselect 
-set tags+=vendortags
+nnoremap <Leader>t :tselect 
+set tags+=tags.vendor
 
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
@@ -180,13 +186,16 @@ let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
 let g:ctrlp_custom_ignore = '\v[\/](vendor|node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 let g:ctrlp_show_hidden = 1
 "let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
+let g:ctrlp_buftag_types = {
+    \ 'php'        : '--fields=K --PHP-kinds=mctdfip --languages=php',
+  \ }
 
-nnoremap <Leader>lf :CtrlP<CR>
+nnoremap <Leader>f :CtrlP<CR>
 "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
-nnoremap <Leader>lb :CtrlPBuffer<CR>
-nnoremap <Leader>la :CtrlPTag<CR>
-nnoremap <Leader>ll :CtrlPBufTag<CR>
-nnoremap <Leader>lk :CtrlPBufTagAll<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>a :CtrlPTag<CR>
+nnoremap <Leader>l :CtrlPBufTag<CR>
+nnoremap <Leader>k :CtrlPBufTagAll<CR>
 "nnoremap <Leader>ld :CtrlPDir<CR>
 
 " delimitmate settings
@@ -194,7 +203,7 @@ let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-let g:airline_theme='base16'
+let g:airline_theme='jellybeans'
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -232,7 +241,7 @@ let g:slime_target = "tmux"
 " dbext configuration
 " TODO: configure dbext, cuz i just turned off all mapping with
 "       the line below this one
-let g:dbext_default_usermaps = 0
+let g:dbext_default_usermaps = 1
 let g:dbext_default_use_sep_result_buffer = 1
 let g:dbext_default_buffer_lines = 25
 "let g:dbext_default_window_use_horiz = 0  " Use vertical split
@@ -328,9 +337,20 @@ let g:tagbar_type_php  = {
         \ 'm:methods',
         \ 'f:functions',
         \ 't:traits',
-        \ 'p:properties'
+        \ 'p:properties',
+        \ 'r:static_properties',
+        \ 'x:static_methods'
     \ ]
   \ }
+
+let g:tagbar_type_markdown = {
+    \ 'ctagstype' : 'markdown',
+    \ 'kinds' : [
+        \ 'h:Heading_L1',
+        \ 'i:Heading_L2',
+        \ 'k:Heading_L3'
+    \ ]
+\ }
 
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -472,7 +492,7 @@ augroup END
 augroup my_php
   autocmd!
   autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
-  autocmd FileType php setlocal tags+=~/tags/php_core_tags
+  autocmd FileType php setlocal tags+=~/tags/tags.php
   autocmd FileType php nnoremap <localleader>mtp :Dispatch create-php-ctags.sh<CR>
   autocmd FileType php nnoremap <localleader>mtv :Dispatch create-php-vendor-tags.sh<CR>
 augroup END
@@ -537,9 +557,12 @@ augroup phpNamespaces
   autocmd FileType php nnoremap <localleader>ev :Eview 
   autocmd FileType php nnoremap <localleader>vv :Vview 
   autocmd FileType php nnoremap <localleader>sv :Sview 
-  autocmd FileType php nnoremap <localleader>et :Etransformer 
-  autocmd FileType php nnoremap <localleader>vt :Vtransformer 
-  autocmd FileType php nnoremap <localleader>st :Stransformer 
+  autocmd FileType php nnoremap <localleader>etr :Etransformer 
+  autocmd FileType php nnoremap <localleader>vtr :Vtransformer 
+  autocmd FileType php nnoremap <localleader>str :Stransformer 
+  autocmd FileType php nnoremap <localleader>ete :Etest 
+  autocmd FileType php nnoremap <localleader>vte :Vtest 
+  autocmd FileType php nnoremap <localleader>ste :Stest 
   autocmd FileType php nnoremap <localleader>ea :A<CR>
   autocmd FileType php nnoremap <localleader>sa :AS<CR>
   autocmd FileType php nnoremap <localleader>va :AV<CR>
@@ -612,4 +635,9 @@ augroup my_ruby
   autocmd FileType ruby nnoremap <localleader>rvc<Space> :Vcontroller 
 
   autocmd FileType ruby nnoremap <localleader>mtp :Dispatch create-ruby-ctags.sh<CR>
+augroup END
+
+augroup my_elixir
+  autocmd!
+  autocmd FileType elixir setlocal tags+=~/tags/tags.elixir
 augroup END

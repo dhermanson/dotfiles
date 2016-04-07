@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ctags -R --fields=K --PHP-kinds=mctdfip --languages=php --exclude=vendor
+ctags -R --fields=K --PHP-kinds=mctdfiprx --languages=php --exclude=vendor

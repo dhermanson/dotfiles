@@ -13,3 +13,33 @@ endsnippet
 snippet psy "PsySh"
 eval(\Psy\sh());
 endsnippet
+
+snippet prif "Private Field"
+/**
+ * ${2:description}
+ */
+private $${1:name};
+
+endsnippet
+
+snippet auto "Require autoload"
+require './vendor/autoload.php';
+endsnippet
+
+snippet php "<?php"
+<?php
+
+
+endsnippet
+
+snippet setup "PHPUnit Setup"
+public function setUp() {
+	$1
+}
+endsnippet
+
+snippet tm "Test Method"
+public function test${1:SomethingAwesome}() {
+	${2:$this->assertTrue(true);}
+}
+endsnippet
