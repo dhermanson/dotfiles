@@ -1,0 +1,74 @@
+{
+  "app/*.php": {
+    "alternate": "spec/{}Spec.php"
+  },
+  "app/Models/*.php": {
+    "type": "model"
+  },
+  "app/Events/*.php": {
+    "type": "event"
+  },
+  "app/Exceptions/*.php": {
+    "type": "exception"
+  },
+  "app/Http/routes.php": {
+    "type": "routes"
+  },
+  "app/Http/Kernel.php": {
+    "type": "kernel"
+  },
+  "app/Http/Controllers/*.php": {
+    "type": "controller"
+  },
+  "app/Http/Middleware/*.php": {
+    "type": "middleware"
+  },
+  "app/Http/Requests/*Request.php": {
+    "type": "request"
+  },
+  "app/Jobs/*.php": {
+    "type": "job"
+  },
+  "app/Listeners/*.php": {
+    "type": "listener"
+  },
+  "app/Policies/*.php": {
+    "type": "policy"
+  },
+  "app/Providers/*.php": {
+    "type": "provider"
+  },
+  "app/Repositories/*.php": {
+    "type": "repository"
+  },
+  "app/Services/*.php": {
+    "type": "service"
+  },
+  "config/*.php": {
+    "type": "config"
+  },
+  "database/migrations/*.php": {
+    "type": "migration"
+  },
+  "database/seeds/*Seeder.php": {
+    "type": "seeder"
+  },
+  "resources/assets/docs/*.md": {
+    "type": "doc"
+  },
+  "resources/views/*.blade.php": {
+    "type": "view"
+  },
+  "spec/*Spec.php": {
+    "type": "spec",
+    "alternate": "app/{}.php",
+    "dispatch": "DB_HOST=192.168.10.10 vendor/bin/phpspec run {file}",
+    "start": "DB_HOST=192.168.10.10 vendor/bin/phpspec run {file}"
+  },
+  "tests/*Test.php": {
+    "type": "test",
+    "alternate": "app/{}.php",
+    "dispatch": "DB_HOST=192.168.10.10 vendor/bin/phpunit {file}",
+    "start": "DB_HOST=192.168.10.10 vendor/bin/phpunit {file}"
+  }
+}
