@@ -27,7 +27,7 @@ set noswapfile
 
 "-----------split management----------------------- 
 set nosplitbelow
-set nosplitright
+set splitright
 
 " move between splits by holding ctrl
 nnoremap <silent> <c-h> <c-w>h
@@ -185,7 +185,7 @@ let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
 "let g:ctrlp_custom_ignore = 'node_modules'
 let g:ctrlp_custom_ignore = '\v[\/](vendor|node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 let g:ctrlp_show_hidden = 1
-"let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
 let g:ctrlp_buftag_types = {
     \ 'php'        : '--fields=K --PHP-kinds=mctdfip --languages=php',
   \ }
@@ -339,7 +339,8 @@ let g:tagbar_type_php  = {
         \ 't:traits',
         \ 'p:properties',
         \ 'r:static_properties',
-        \ 'x:static_methods'
+        \ 'x:static_methods',
+        \ 'z:p_functions'
     \ ]
   \ }
 
@@ -492,7 +493,7 @@ augroup END
 augroup my_php
   autocmd!
   autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
-  autocmd FileType php setlocal tags+=~/tags/tags.php
+  "autocmd FileType php setlocal tags+=~/tags/tags.php
   autocmd FileType php nnoremap <localleader>mtp :Dispatch create-php-ctags.sh<CR>
   autocmd FileType php nnoremap <localleader>mtv :Dispatch create-php-vendor-tags.sh<CR>
 augroup END
@@ -641,3 +642,5 @@ augroup my_elixir
   autocmd!
   autocmd FileType elixir setlocal tags+=~/tags/tags.elixir
 augroup END
+
+inoremap <c-space> <esc>:CtrlPBufTagAll <CR>

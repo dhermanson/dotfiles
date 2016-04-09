@@ -43,3 +43,10 @@ public function test${1:SomethingAwesome}() {
 	${2:$this->assertTrue(true);}
 }
 endsnippet
+
+snippet modelfactory "Model Factory"
+$factory->define(${1:ModelName}::class, function(Faker\Generator $faker) {
+	return [
+	];
+});
+endsnippet
