@@ -25,15 +25,55 @@ set cursorline
 set nocursorcolumn
 set noswapfile
 
+"-------------------------------------------------------------------------------
+" stole this stuff from nick nisi's dotfiles...see what these do
+"-------------------------------------------------------------------------------
+"faster redrawing
+set ttyfast
+set magic " Set magic on, for regex
+
+set showmatch " show matching braces
+set mat=2 " how many tenths of a second to blink
+set encoding=utf8
+let base16colorspace=256  " Access colors present in 256 colorspace"
+set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
+set background=dark
+colorscheme base16-chalk
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+map <C-h> :call WinMove('h')<cr>
+map <C-j> :call WinMove('j')<cr>
+map <C-k> :call WinMove('k')<cr>
+map <C-l> :call WinMove('l')<cr>
+
+" Window movement shortcuts
+" move to the window in the direction shown, or create a new window
+function! WinMove(key)
+    let t:curwin = winnr()
+    exec "wincmd ".a:key
+    if (t:curwin == winnr())
+        if (match(a:key,'[jk]'))
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec "wincmd ".a:key
+    endif
+endfunction
+
+"-------------------------------------------------------------------------------
+
 "-----------split management----------------------- 
 set nosplitbelow
 set splitright
 
 " move between splits by holding ctrl
-nnoremap <silent> <c-h> <c-w>h
-nnoremap <silent> <c-j> <c-w>j
-nnoremap <silent> <c-k> <c-w>k
-nnoremap <silent> <c-l> <c-w>l
+"nnoremap <silent> <c-h> <c-w>h
+"nnoremap <silent> <c-j> <c-w>j
+"nnoremap <silent> <c-k> <c-w>k
+"nnoremap <silent> <c-l> <c-w>l
 
 " apply macros with Q
 nnoremap Q @q
@@ -48,10 +88,10 @@ set backupdir=~/.vim/tmp/backup//
 set undodir=~/.vim/tmp/undo//
 
 " color scheme
-set t_Co=256
-let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : ''  }
-set background=dark
-colorscheme jellybeans
+"set t_Co=256
+"let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : ''  }
+"set background=dark
+"colorscheme jellybeans
 "
 
 " fastfold
@@ -126,6 +166,9 @@ nnoremap <Leader>gl :Glog<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 set statusline+=%{fugitive#statusline()}
+
+" gitgutter
+let g:gitgutter_signs = 0
 
 " netrw
 nnoremap <Leader>1 :edit .<CR>
@@ -203,7 +246,7 @@ let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-let g:airline_theme='jellybeans'
+let g:airline_theme='base16'
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
