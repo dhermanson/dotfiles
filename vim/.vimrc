@@ -38,7 +38,7 @@ set encoding=utf8
 let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 set background=dark
-colorscheme base16-chalk
+colorscheme base16-tomorrow
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -539,6 +539,8 @@ augroup my_php
   "autocmd FileType php setlocal tags+=~/tags/tags.php
   autocmd FileType php nnoremap <localleader>mtp :Dispatch create-php-ctags.sh<CR>
   autocmd FileType php nnoremap <localleader>mtv :Dispatch create-php-vendor-tags.sh<CR>
+  autocmd FileType php nnoremap <localleader>rs :VimuxRunCommand('clear; phpspec run ' . bufname('%')) <CR>
+  autocmd FileType php nnoremap <localleader>rt :VimuxRunCommand('clear; phpunit ' . bufname('%')) <CR>
 augroup END
 
 augroup phpNamespaces
