@@ -50,3 +50,31 @@ $factory->define(${1:ModelName}::class, function(Faker\Generator $faker) {
 	];
 });
 endsnippet
+
+snippet f.fname "$faker->firstName"
+$faker->firstName
+endsnippet
+
+snippet f.lname "$faker->lastName"
+$faker->lastName
+endsnippet
+
+snippet f.postcode "$faker->postcode"
+$faker->postcode
+endsnippet
+
+snippet f.email "$faker->email"
+$faker->email
+endsnippet
+
+snippet f.phone "$faker->phoneNumber"
+$faker->phoneNumber
+endsnippet
+
+snippet f.bool "$faker->boolean()"
+$faker->boolean($1)
+endsnippet
+
+snippet f.rel "$faker->randomElement()"
+$faker->randomElement([${1:'element1', 'element2'}])
+endsnippet

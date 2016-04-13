@@ -15,8 +15,8 @@ set expandtab
 set number
 set relativenumber
 set noshowmode
-set omnifunc=syntaxcomplete#Complete
-set completefunc=syntaxcomplete#Complete
+"set omnifunc=syntaxcomplete#Complete
+"set completefunc=syntaxcomplete#Complete
 set mouse=a
 set ttymouse=xterm2
 set complete=.,w,b,u
@@ -117,16 +117,17 @@ nnoremap <Leader>ns :new<CR>
 nnoremap <Leader>nv :vnew<CR>
 
 "window stuff
-nnoremap <Leader>wh <C-w>H
-nnoremap <Leader>wj <C-w>J
-nnoremap <Leader>wk <C-w>K
-nnoremap <Leader>wl <C-w>L
-nnoremap <Leader>wo <C-w>o
-nnoremap <Leader>wc <C-w>c
-nnoremap <Leader>ww <C-w>w
-nnoremap <Leader>ws :split <CR>
-nnoremap <Leader>wv :vsplit <CR>
-nnoremap <Leader>wa gg<S-v><S-g> " highlight all
+nnoremap <Leader>w <C-w>
+"nnoremap <Leader>wh <C-w>H
+"nnoremap <Leader>wj <C-w>J
+"nnoremap <Leader>wk <C-w>K
+"nnoremap <Leader>wl <C-w>L
+"nnoremap <Leader>wo <C-w>o
+"nnoremap <Leader>wc <C-w>c
+"nnoremap <Leader>ww <C-w>w
+"nnoremap <Leader>ws :split <CR>
+"nnoremap <Leader>wv :vsplit <CR>
+"nnoremap <Leader>wa gg<S-v><S-g> " highlight all
 
 
 "tabs
@@ -168,7 +169,7 @@ nnoremap <Leader>gw :Gwrite<CR>
 set statusline+=%{fugitive#statusline()}
 
 " gitgutter
-let g:gitgutter_signs = 0
+let g:gitgutter_signs = 1
 
 " netrw
 nnoremap <Leader>1 :edit .<CR>
@@ -301,6 +302,7 @@ let g:vrc_trigger = '<Leader>.mr'
 nnoremap <Leader>.p :set paste!<CR>
 nnoremap <Leader>.ev :e $MYVIMRC<CR>
 nnoremap <Leader>.sv :source $MYVIMRC<CR>
+nnoremap <Leader>.et :e ~/todo.txt<CR>
 
 "vnoremap <Leader>,b64e :!python -m base64 -e<CR>
 "vnoremap <Leader>,b64d :!python -m base64 -d<CR>
@@ -383,7 +385,6 @@ let g:tagbar_type_php  = {
         \ 'p:properties',
         \ 'r:static_properties',
         \ 'x:static_methods',
-        \ 'z:p_functions'
     \ ]
   \ }
 
@@ -536,17 +537,23 @@ augroup END
 augroup my_php
   autocmd!
   autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
-  "autocmd FileType php setlocal tags+=~/tags/tags.php
+  autocmd FileType php setlocal tags+=~/tags/tags.php
   autocmd FileType php nnoremap <localleader>mtp :Dispatch create-php-ctags.sh<CR>
   autocmd FileType php nnoremap <localleader>mtv :Dispatch create-php-vendor-tags.sh<CR>
+  
+  " run phpspec specs for file or for project
   autocmd FileType php nnoremap <localleader>rs :VimuxRunCommand('clear; phpspec run ' . bufname('%')) <CR>
+  autocmd FileType php nnoremap <localleader>rps :VimuxRunCommand('clear; phpspec run') <CR>
+
+  " run phpunit tests for file or for project
   autocmd FileType php nnoremap <localleader>rt :VimuxRunCommand('clear; phpunit ' . bufname('%')) <CR>
+  autocmd FileType php nnoremap <localleader>rpt :VimuxRunCommand('clear; phpunit') <CR>
 augroup END
 
 augroup phpNamespaces
   autocmd!
-  autocmd FileType php inoremap <localleader>n <Esc>:call IPhpInsertUse()<CR>
-  autocmd FileType php noremap <localleader>n :call PhpInsertUse()<CR>
+  autocmd FileType php inoremap <localleader>a <Esc>:call IPhpInsertUse()<CR>
+  autocmd FileType php noremap <localleader>a :call PhpInsertUse()<CR>
   autocmd FileType php inoremap <localleader>q <Esc>:call IPhpExpandClass()<CR>
   autocmd FileType php noremap <localleader>q :call PhpExpandClass()<CR>
   autocmd FileType php inoremap <localleader>.s <Esc>:call PhpSortUse()<CR>
@@ -688,4 +695,4 @@ augroup my_elixir
   autocmd FileType elixir setlocal tags+=~/tags/tags.elixir
 augroup END
 
-inoremap <c-space> <esc>:CtrlPBufTagAll <CR>
+"inoremap <c-space> <esc>:CtrlPBufTagAll <CR>

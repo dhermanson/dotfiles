@@ -32,7 +32,7 @@
 
 
 --langmap=PHP:.php
---regex-php=/^[ \t]*trait[ \t]+([a-z0-9_]+)/\1/t,trait/
+--regex-php=/^[ \t]*trait[ \t]+([a-z0-9_]+)/\1/t,trait/i
 --regex-php=/(abstract)?\s+class\s+([^ ]+)/\2/c,class/
 --regex-php=/(static|abstract|public|protected|private)\s+function\s+(\&\s+)?([^ (]+)/\3/f,function/
 --regex-php=/interface\s+([^ ]+)/\1/i,interface/
