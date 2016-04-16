@@ -21,7 +21,7 @@ set mouse=a
 set ttymouse=xterm2
 set complete=.,w,b,u
 set autowriteall
-set cursorline
+set nocursorline
 set nocursorcolumn
 set noswapfile
 
@@ -43,10 +43,10 @@ colorscheme base16-tomorrow
 " => Functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-map <C-h> :call WinMove('h')<cr>
-map <C-j> :call WinMove('j')<cr>
-map <C-k> :call WinMove('k')<cr>
-map <C-l> :call WinMove('l')<cr>
+map <silent> <C-h> :call WinMove('h')<cr>
+map <silent> <C-j> :call WinMove('j')<cr>
+map <silent> <C-k> :call WinMove('k')<cr>
+map <silent> <C-l> :call WinMove('l')<cr>
 
 " Window movement shortcuts
 " move to the window in the direction shown, or create a new window
@@ -223,6 +223,7 @@ set tags+=tags.vendor
 
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_working_path_mode = '0'
 let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
                           \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
 "let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
@@ -515,10 +516,6 @@ function! IPhpExpandClass()
     call feedkeys('a', 'n')
 endfunction
 
-function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-  hi! def link phpDocParam phpType
-endfunction
 "-------------Auto-Commands--------------"
 
 augroup filetype_css
@@ -619,11 +616,6 @@ augroup phpNamespaces
   autocmd FileType php nnoremap <localleader>ea :A<CR>
   autocmd FileType php nnoremap <localleader>sa :AS<CR>
   autocmd FileType php nnoremap <localleader>va :AV<CR>
-augroup END
-
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
 augroup END
 
 augroup phpDocumentor

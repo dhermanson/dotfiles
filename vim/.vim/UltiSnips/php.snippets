@@ -51,6 +51,10 @@ $factory->define(${1:ModelName}::class, function(Faker\Generator $faker) {
 });
 endsnippet
 
+snippet f.create "Create an instance of faker"
+$faker = \Faker\Factory::create()
+endsnippet
+
 snippet f.fname "$faker->firstName"
 $faker->firstName
 endsnippet
@@ -77,4 +81,12 @@ endsnippet
 
 snippet f.rel "$faker->randomElement()"
 $faker->randomElement([${1:'element1', 'element2'}])
+endsnippet
+
+snippet f.num "$faker->randomNumber()"
+$faker->randomNumber($1)
+endsnippet
+
+snippet f.word "$faker->word"
+$faker->word
 endsnippet
