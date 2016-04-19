@@ -1,9 +1,14 @@
 set nocompatible
+
+
 " setup pathogen
 filetype off
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 call pathogen#helptags()
+
+" add fzf to runtime path
+set rtp+=~/.fzf
 
 " global settings
 syntax on
@@ -24,6 +29,8 @@ set autowriteall
 set nocursorline
 set nocursorcolumn
 set noswapfile
+
+cnoremap <C-g> <C-c>
 
 "-------------------------------------------------------------------------------
 " stole this stuff from nick nisi's dotfiles...see what these do
@@ -110,7 +117,7 @@ inoremap jk <Esc>
 "nnoremap <Leader>w <C-w>
 
 "buffer
-nnoremap <return> :w<CR>
+nnoremap <BS> :w<CR>
 nnoremap <Leader>q :bdelete<CR>
 nnoremap <Leader>x :call ConfirmBDeleteBang()<CR>
 nnoremap <Leader>ns :new<CR>

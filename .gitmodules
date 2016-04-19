@@ -54,7 +54,7 @@
 	url = https://github.com/tpope/vim-dispatch
 [submodule "vim/.vim/bundle/ctrlp.vim"]
 	path = vim/.vim/bundle/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim
+	url = https://github.com/ctrlpvim/ctrlp.vim
 [submodule "vim/.vim/bundle/vim-airline"]
 	path = vim/.vim/bundle/vim-airline
 	url = https://github.com/bling/vim-airline
@@ -137,9 +137,6 @@
 [submodule "vim/.vim/bundle/vim-snippets"]
 	path = vim/.vim/bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets.git
-[submodule "vim/.vim/bundle/ultisnips"]
-	path = vim/.vim/bundle/ultisnips
-	url = https://github.com/SirVer/ultisnips.git
 [submodule "vim/.vim/bundle/todo.txt-vim"]
 	path = vim/.vim/bundle/todo.txt-vim
 	url = https://github.com/freitass/todo.txt-vim.git
@@ -233,3 +230,6 @@
 [submodule "vim/.vim/bundle/vimux"]
 	path = vim/.vim/bundle/vimux
 	url = https://github.com/benmills/vimux.git
+[submodule "vim/.vim/bundle/ultisnips"]
+	path = vim/.vim/bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips.git
