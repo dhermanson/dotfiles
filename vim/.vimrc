@@ -230,9 +230,11 @@ set tags+=tags.vendor
 
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_max_files=0
+let g:ctrlp_by_filename=1
 let g:ctrlp_working_path_mode = '0'
-let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
-                          \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
+"let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
+                          "\ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
 "let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 "let g:ctrlp_custom_ignore = 'node_modules'
 let g:ctrlp_custom_ignore = '\v[\/](vendor|node_modules|target|dist)|(\.(swp|ico|git|svn))$'
@@ -242,12 +244,19 @@ let g:ctrlp_buftag_types = {
     \ 'php'        : '--fields=K --PHP-kinds=mctdfip --languages=php',
   \ }
 
-nnoremap <Leader>f :CtrlP<CR>
+nnoremap <Leader>f :Files<CR>
+"nnoremap <Leader>f :CtrlP<CR>
 "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
+"nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>a :CtrlPTag<CR>
+"nnoremap <Leader>b :Unite buffer -no-split -ignorecase<CR>
+"nnoremap <Leader>b :Unite buffer -start-insert -ignorecase<CR>
+nnoremap <Leader>k :MyTagList<CR>
+"nnoremap <Leader>a :CtrlPTag<CR>
+"nnoremap <Leader>a :Unite tag -no-split -start-insert -ignorecase<CR>
+"nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
 nnoremap <Leader>l :CtrlPBufTag<CR>
-nnoremap <Leader>k :CtrlPBufTagAll<CR>
+nnoremap <Leader>a :CtrlPBufTagAll<CR>
 "nnoremap <Leader>ld :CtrlPDir<CR>
 
 " delimitmate settings
@@ -384,15 +393,15 @@ let g:tagbar_type_snippets = {
 let g:tagbar_type_php  = {
     \ 'ctagstype' : 'php',
     \ 'kinds'     : [
-        \ 'i:interfaces',
-        \ 'c:classes',
-        \ 'd:constants',
+        \ 'y:interfaces',
+        \ 'z:classes',
+        \ 'w:constants',
         \ 'm:methods',
-        \ 'f:functions',
+        \ 'x:functions',
         \ 't:traits',
         \ 'p:properties',
         \ 'r:static_properties',
-        \ 'x:static_methods',
+        \ 's:static_methods',
     \ ]
   \ }
 

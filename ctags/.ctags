@@ -32,15 +32,15 @@
 
 
 --langmap=PHP:.php
---regex-php=/^[ \t]*trait[ \t]+([a-z0-9_]+)/\1/t,trait/i
---regex-php=/(abstract)?\s+class\s+([^ ]+)/\2/c,class/
---regex-php=/(static|abstract|public|protected|private)\s+function\s+(\&\s+)?([^ (]+)/\3/f,function/
---regex-php=/interface\s+([^ ]+)/\1/i,interface/
---regex-php=/^[ \t]*const[ \t]+([a-zA-Z0-9_]+)/const.\1/d,constant/
+--regex-php=/^[ \t]*trait[ \t]+([a-zA-Z0-9_]+)/\1/t,trait/
+--regex-php=/^[ \t]*((final|abstract)[ \t]+)*class[ \t]+([a-zA-Z0-9_]+)/\3/z,class/
+--regex-php=/^[ \t]*((static|abstract|public|protected|private)[ \t]+)*function[ \t]+(\&\s+)?([^ (]+)/\4/x,function/
+--regex-php=/^[ \t]*interface[ \t]+([a-zA-Z0-9_]+)/\1/y,interface/
+--regex-php=/^[ \t]*const[ \t]+([a-zA-Z0-9_]+)/const.\1/w,constant/
 --regex-php=/^[ \t]*\*[ \t]*@property(\-read|\-write)*[ \t]+[a-zA-Z0-9_]+[ \t]+\$([a-zA-Z0-9_]+)/\2/p,property/
 --regex-php=/^[ \t]*\*[ \t]*@property(\-read|\-write)*[ \t]+static[ \t]+[a-zA-Z0-9_]+[ \t]+\$([a-zA-Z0-9_]+)/\2/r,static property/
 --regex-php=/^[ \t]*\*[ \t]*@method[ \t]+[a-zA-Z0-9_]+[ \t]+([a-zA-Z0-9_]+())/\1/m,method/
---regex-php=/^[ \t]*\*[ \t]*@method[ \t]+static[ \t]+[a-zA-Z0-9_]+[ \t]+([a-zA-Z0-9_]+)/\1/x,static method/
+--regex-php=/^[ \t]*\*[ \t]*@method[ \t]+static[ \t]+[a-zA-Z0-9_]+[ \t]+([a-zA-Z0-9_]+)/\1/s,static method/
 
 --langdef=markdown
 --langmap=markdown:.mkd
