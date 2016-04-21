@@ -176,9 +176,6 @@
 [submodule "vim/.vim/bundle/vim-css-color"]
 	path = vim/.vim/bundle/vim-css-color
 	url = https://github.com/skammer/vim-css-color.git
-[submodule "vim/.vim/bundle/vim-coloresque"]
-	path = vim/.vim/bundle/vim-coloresque
-	url = https://github.com/gorodinskiy/vim-coloresque.git
 [submodule "vim/.vim/bundle/vim-vinegar"]
 	path = vim/.vim/bundle/vim-vinegar
 	url = https://github.com/tpope/vim-vinegar.git

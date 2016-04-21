@@ -17,13 +17,23 @@ function! s:handle_selection(lines)
 
   let parts = s:line_to_parts(a:lines[1])
 
-  execute cmd escape(parts['file'], ' %#\')
+  if cmd ==# 'split'
+    execute "split"
+    wincmd p
+  elseif cmd ==# "vertical split"
+    execute "vertical split"
+    wincmd p
+  elseif cmd ==# "tabe"
+    execute "tabe"
+  endif
 
-  let [magic, &magic] = [$magic, 0]
-  execute parts['excmd']
-  let $magic = magic
+  execute "tjump " . parts['name']
 
-  "let search_pattern = "normal! " . parts['pattern'] . "<cr>"
+  "execute cmd escape(parts['file'], ' %#\')
+
+  "let [magic, &magic] = [$magic, 0]
+  "execute parts['excmd']
+  "let $magic = magic
 endfunction
 
     "\ 'source': 'tail -n +7 ~/tags/tags.php tags',

@@ -1,0 +1,60 @@
+snippet ent "Entity"
+[${1:entity}] {bgcolor: "#${2:d0e0d0}"}
+endsnippet
+
+snippet red "Red"
+{bgcolor: "#fcecec"}
+endsnippet
+
+snippet blue "blue" b
+{bgcolor: "#ececfc"}
+endsnippet
+
+snippet green "green" b
+{bgcolor: "#d0e0d0"}
+endsnippet
+
+snippet col "Column" b
+${1:name} { label: "${2:string}"}
+endsnippet
+
+snippet vc "varchar"
+${1:name} { label: "varchar(${2:36})"}
+endsnippet
+
+snippet char "char"
+${1:name} { label: "char(${2:36})"}
+endsnippet
+
+snippet text "text"
+${1:name} { label: "text"}
+endsnippet
+
+snippet id "ID"
+*id { label: "int"}
+endsnippet
+
+snippet fk "Foreign key"
++${1:entity}_id { label: "int"}
+endsnippet
+
+snippet dt "DateTime"
+${1:name} { label: "datetime"}
+endsnippet
+
+snippet cre "Created At"
+created_at { label: "datetime"}
+endsnippet
+
+snippet upd "Updated At"
+updated_at { label: "datetime"}
+endsnippet
+
+snippet ts "Timestamps"
+created_at { label: "datetime"}
+updated_at { label: "datetime"}
+endsnippet
+
+snippet rel "Relationship"
+${1:entity} ${3:*}--${4:1} ${2:entity} ${5:{ label: "${6:name}" }}
+endsnippet
