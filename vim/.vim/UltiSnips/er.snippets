@@ -1,21 +1,37 @@
 snippet ent "Entity"
-[${1:entity}] {bgcolor: "#${2:d0e0d0}"}
+[${1:entity}]
+endsnippet
+
+snippet label "label"
+{ label: "$1" }
 endsnippet
 
 snippet red "Red"
 {bgcolor: "#fcecec"}
 endsnippet
 
-snippet blue "blue" b
+snippet blue "blue"
 {bgcolor: "#ececfc"}
 endsnippet
 
-snippet green "green" b
+snippet green "green"
 {bgcolor: "#d0e0d0"}
 endsnippet
 
-snippet col "Column" b
+snippet yellow "yellow"
+{bgcolor: "#ffffe0"}
+endsnippet
+
+snippet orange "orange"
+{bgcolor: "#eee0a0"}
+endsnippet
+
+snippet col "Column"
 ${1:name} { label: "${2:string}"}
+endsnippet
+
+snippet bool "boolean"
+${1:name} { label: "boolean"}
 endsnippet
 
 snippet vc "varchar"
