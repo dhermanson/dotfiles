@@ -1,5 +1,17 @@
 extends html
 
+snippet if "@if"
+@if ($1)
+	$2
+@endif
+endsnippet
+
+snippet foreach "@foreach"
+@foreach ($1)
+	$2
+@endforeach
+endsnippet
+
 snippet form#open "Create a Blade Form"
 {!! Form::open([${1:'route' => ${2:'routedata'}}, ${3:'method' => '${4:post}'}${5:, 'files => true'}]) !!}
 {!! Form::close() !!}
