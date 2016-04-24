@@ -1,5 +1,11 @@
 extends html
 
+snippet unless "@unless"
+@unless ($1)
+	$2
+@endunless
+endsnippet
+
 snippet if "@if"
 @if ($1)
 	$2
