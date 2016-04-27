@@ -1,3 +1,13 @@
+#--------------------- Routing --------------------------------------------
+snippet rgetc "Route::get"
+Route::get('${1:path}', '${2:Random}Controller@${3:method}');
+endsnippet
+
+snippet rpostc "Route::post"
+Route::post('${1:path}', '${2:Random}Controller@${3:method}');
+endsnippet
+#--------------------------------------------------------------------------
+
 snippet comment "Pretty Comment"
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +60,10 @@ public function setUp() {
 endsnippet
 
 snippet tm "Test Method"
-public function test${1:SomethingAwesome}() {
+/**
+ * @test
+ */
+public function ${1:SomethingAwesome}() {
 	${2:$this->assertTrue(true);}
 }
 endsnippet

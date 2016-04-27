@@ -14,9 +14,11 @@ function! s:handle_selection(lines)
 
   let parts = s:line_to_parts(a:lines[1])
   execute cmd parts['file']
-  let [magic, &magic] = [$magic, 0]
+  let [magic, &magic] = [&magic, 0]
   execute parts['excmd']
-  let $magic = magic
+  let &magic = magic
+
+  execute "normal! zz"
 endfunction
 
     "\ 'source': 'tail -n +7 ~/tags/tags.php tags',
@@ -24,9 +26,9 @@ function! s:taglist()
   call fzf#run({
     \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
     \            '| grep -v ^!',
-    \ 'options': '-n 1 --expect=ctrl-t,ctrl-v,ctrl-x',
+    \ 'options': '-n 1 -d "\t" --expect=ctrl-t,ctrl-v,ctrl-x',
     \ 'sink*': function('s:handle_selection'),
-    \ 'down':    '50%' })
+    \ 'down':    '30%' })
 endfunction
 
 command! MyTagList call s:taglist()

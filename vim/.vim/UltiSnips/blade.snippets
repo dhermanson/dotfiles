@@ -18,8 +18,27 @@ snippet foreach "@foreach"
 @endforeach
 endsnippet
 
+snippet yield "@yield"
+@yield('${1:name}')
+endsnippet
+
+snippet extends "@extends"
+@extends('${1:name}')
+endsnippet
+
+snippet section "@section"
+@section('${1:name}')
+	$2
+@stop
+endsnippet
+
+snippet style "Elixir stylesheet"
+<link rel="stylesheet" href="{{ elixir('${1:name}') }}">
+endsnippet
+
 snippet form#open "Create a Blade Form"
-{!! Form::open([${1:'route' => ${2:'routedata'}}, ${3:'method' => '${4:post}'}${5:, 'files => true'}]) !!}
+{!! Form::open([${1:'route' => ${2:['name']}}, ${3:'method' => '${4:post}'}${5:, 'files => true'}]) !!}
+	$6
 {!! Form::close() !!}
 endsnippet
 

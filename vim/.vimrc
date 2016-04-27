@@ -30,6 +30,7 @@ set nocursorline
 set nocursorcolumn
 set noswapfile
 
+vnoremap <C-g> <esc>
 cnoremap <C-g> <C-c>
 
 "-------------------------------------------------------------------------------
@@ -158,8 +159,9 @@ let g:EasyMotion_do_mapping = 0 " Disable default mappings
 let g:EasyMotion_smartcase = 1
 map <silent> / <Plug>(easymotion-sn)
 omap <silent> / <Plug>(easymotion-tn)
-"map <Leader>' <Plug>(easymotion-bd-f)
 map <Leader>; <Plug>(easymotion-bd-f)
+
+"map <Leader>' <Plug>(easymotion-bd-f)
 "nmap <silent> f <Plug>(easymotion-overwin-bd-f)
 "nmap <silent> s <Plug>(easymotion-overwin-f2)
 "nmap f <Plug>(easymotion-sl)
@@ -255,7 +257,8 @@ nnoremap <Leader>k :MyTagList<CR>
 "nnoremap <Leader>a :CtrlPTag<CR>
 "nnoremap <Leader>a :Unite tag -no-split -start-insert -ignorecase<CR>
 "nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
-nnoremap <Leader>l :CtrlPBufTag<CR>
+"nnoremap <Leader>l :CtrlPBufTag<CR>
+nnoremap <Leader>l :MyBufferTags<CR>
 nnoremap <Leader>a :CtrlPBufTagAll<CR>
 "nnoremap <Leader>ld :CtrlPDir<CR>
 
@@ -319,7 +322,8 @@ let g:vrc_trigger = '<Leader>.mr'
 nnoremap <Leader>.p :set paste!<CR>
 nnoremap <Leader>.ev :e $MYVIMRC<CR>
 nnoremap <Leader>.sv :source $MYVIMRC<CR>
-nnoremap <Leader>.et :e ~/todo.txt<CR>
+nnoremap <Leader>.etg :e ~/todo.txt<CR>
+nnoremap <Leader>.etp :e .derick/todo.txt<CR>
 
 "vnoremap <Leader>,b64e :!python -m base64 -e<CR>
 "vnoremap <Leader>,b64d :!python -m base64 -d<CR>
@@ -414,9 +418,9 @@ let g:tagbar_type_markdown = {
     \ ]
 \ }
 
-" youcompleteme
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+"" youcompleteme
+"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
 " ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"

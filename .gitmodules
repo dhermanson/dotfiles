@@ -312,6 +312,3 @@
 	path = vim/.vim/bundle/fzf.vim
 	url = https://github.com/junegunn/fzf.vim.git
   branch = master
-[submodule "vim/.vim/bundle/youcompleteme"]
-	path = vim/.vim/bundle/youcompleteme
-	url = https://github.com/valloric/youcompleteme
