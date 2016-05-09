@@ -5,7 +5,7 @@ snippet req "Request"
 endsnippet
 
 snippet res "Response"
-+ Response 200 (${1:application/json})
++ Response ${1:200} (${2:application/json})
 endsnippet
 
 snippet r404 "404 Not Found"
@@ -16,6 +16,10 @@ snippet r200ok "200 OK"
 + Response 200 (${1:application/json})
 
 				ok
+endsnippet
+
+snippet at "Attributes"
++ Attributes (${1:object})
 endsnippet
 
 snippet fractal_collection_paginated "Paginated JSON"

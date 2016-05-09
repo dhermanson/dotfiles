@@ -26,7 +26,7 @@ function! s:taglist()
   call fzf#run({
     \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
     \            '| grep -v ^!',
-    \ 'options': '-n 1 -d "\t" --expect=ctrl-t,ctrl-v,ctrl-x',
+    \ 'options': '-n 1 -d "\t" --with-nth 1,2,3,4 --expect=ctrl-t,ctrl-v,ctrl-x',
     \ 'sink*': function('s:handle_selection'),
     \ 'down':    '30%' })
 endfunction

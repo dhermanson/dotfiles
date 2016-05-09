@@ -1,6 +1,5 @@
 set nocompatible
 
-
 " setup pathogen
 filetype off
 runtime bundle/vim-pathogen/autoload/pathogen.vim
@@ -13,6 +12,18 @@ set rtp+=~/.fzf
 " global settings
 syntax on
 filetype plugin indent on
+
+" map vim escape sequences as explained in
+" http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+
+set timeout ttimeoutlen=50
+
 set tabstop=2
 set shiftwidth=2
 set backspace=indent,eol,start
@@ -30,8 +41,30 @@ set nocursorline
 set nocursorcolumn
 set noswapfile
 
+" no bells
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+
+let base16colorspace=256  " Access colors present in 256 colorspace"
+set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
+set background=dark
+"colorscheme base16-tomorrow
+let g:gruvbox_italic=0
+let g:gruvbox_invert_signs=1
+"let g:gruvbox_contrast_dark='soft'
+"let g:gruvbox_contrast_light='soft'
+colorscheme gruvbox
+"highlight Comment cterm=italic
+
 vnoremap <C-g> <esc>
 cnoremap <C-g> <C-c>
+
+nnoremap <silent> <C-e> $
+nnoremap <silent> <C-a> ^
+
+inoremap <silent> <C-e> <esc>$a
+inoremap <silent> <C-a> <esc>^i
+
 
 "-------------------------------------------------------------------------------
 " stole this stuff from nick nisi's dotfiles...see what these do
@@ -43,18 +76,18 @@ set magic " Set magic on, for regex
 set showmatch " show matching braces
 set mat=2 " how many tenths of a second to blink
 set encoding=utf8
-let base16colorspace=256  " Access colors present in 256 colorspace"
-set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
-set background=dark
-colorscheme base16-tomorrow
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-map <silent> <C-h> :call WinMove('h')<cr>
-map <silent> <C-j> :call WinMove('j')<cr>
-map <silent> <C-k> :call WinMove('k')<cr>
-map <silent> <C-l> :call WinMove('l')<cr>
+"map <silent> <C-h> :call WinMove('h')<cr>
+"map <silent> <C-j> :call WinMove('j')<cr>
+"map <silent> <C-k> :call WinMove('k')<cr>
+"map <silent> <C-l> :call WinMove('l')<cr>
+map <silent> <M-h> :call WinMove('h')<cr>
+map <silent> <M-j> :call WinMove('j')<cr>
+map <silent> <M-k> :call WinMove('k')<cr>
+map <silent> <M-l> :call WinMove('l')<cr>
 
 " Window movement shortcuts
 " move to the window in the direction shown, or create a new window
@@ -72,6 +105,50 @@ function! WinMove(key)
 endfunction
 
 "-------------------------------------------------------------------------------
+
+"------------------------------------
+nnoremap <M-o> <C-w>o
+
+set <F13>=^[H
+map <F13> <M-H>
+nnoremap <M-H> <C-w>H
+
+set <F14>=^[J
+map <F14> <M-J>
+nnoremap <M-J> <C-w>J
+
+set <F15>=^[K
+map <F15> <M-K>
+nnoremap <M-K> <C-w>K
+
+set <F16>=^[L
+map <F16> <M-L>
+nnoremap <M-L> <C-w>L
+
+set <F17>=^[-
+map <F17> <M-kMinus>
+nnoremap <M-kMinus> <C-w>5-
+
+set <F18>=^[+
+map <F18> <M-kPlus>
+nnoremap <M-kPlus> <C-w>5+
+
+set <F19>=^[<
+" lt == less than '<'
+map <F19> <M-lt>  
+nnoremap <M-lt> <C-w>5<
+
+set <F20>=^[>
+" gt == greater than '>'
+map <F20> <M-gt>  
+nnoremap <M-gt> <C-w>5>
+
+"inoremap <M-k> <C-x><C-]>
+
+"set <F21>=^[^O
+""inoremap <F21> :echo 'hello'<CR>
+"inoremap <F21> <C-x><C-]>
+inoremap <M-k> <C-x><C-]>
 
 "-----------split management----------------------- 
 set nosplitbelow
@@ -118,7 +195,8 @@ inoremap jk <Esc>
 "nnoremap <Leader>w <C-w>
 
 "buffer
-nnoremap <BS> :w<CR>
+"nnoremap <BS> :w<CR>
+nnoremap <M-s> :w<CR>
 nnoremap <Leader>q :bdelete<CR>
 nnoremap <Leader>x :call ConfirmBDeleteBang()<CR>
 nnoremap <Leader>ns :new<CR>
@@ -126,6 +204,8 @@ nnoremap <Leader>nv :vnew<CR>
 
 "window stuff
 nnoremap <Leader>w <C-w>
+nnoremap <M-c> <C-w>c
+nnoremap <M-q> <C-w>q
 "nnoremap <Leader>wh <C-w>H
 "nnoremap <Leader>wj <C-w>J
 "nnoremap <Leader>wk <C-w>K
@@ -153,6 +233,8 @@ nnoremap <Leader>8 :Ack
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+
+nnoremap <M-a> :Ack 
 
 "easymotion settings
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
@@ -246,28 +328,41 @@ let g:ctrlp_buftag_types = {
     \ 'php'        : '--fields=K --PHP-kinds=mctdfip --languages=php',
   \ }
 
-nnoremap <Leader>f :Files<CR>
-"nnoremap <Leader>f :CtrlP<CR>
-"nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
-"nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>b :CtrlPBuffer<CR>
-"nnoremap <Leader>b :Unite buffer -no-split -ignorecase<CR>
-"nnoremap <Leader>b :Unite buffer -start-insert -ignorecase<CR>
-nnoremap <Leader>k :MyTagList<CR>
-"nnoremap <Leader>a :CtrlPTag<CR>
-"nnoremap <Leader>a :Unite tag -no-split -start-insert -ignorecase<CR>
-"nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
-"nnoremap <Leader>l :CtrlPBufTag<CR>
-nnoremap <Leader>l :MyBufferTags<CR>
-nnoremap <Leader>a :CtrlPBufTagAll<CR>
-"nnoremap <Leader>ld :CtrlPDir<CR>
+"if has('gui')
+  "nnoremap <Leader>f :CtrlP<CR>
+  "nnoremap <Leader>b :CtrlPBuffer<CR>
+  "nnoremap <Leader>k :CtrlPTag<CR>
+  "nnoremap <Leader>l :CtrlPBufTag<CR>
+  "nnoremap <Leader>a :CtrlPBufTagAll<CR>
+"else
+
+  nnoremap <Leader>f :Files<CR>
+  "nnoremap <Leader>f :CtrlP<CR>
+  "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
+  "nnoremap <Leader>b :Buffers<CR>
+  nnoremap <Leader>b :CtrlPBuffer<CR>
+  nnoremap <Leader>ub :Unite buffer -no-split -smartcase<CR>
+  "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase<CR>
+  nnoremap <Leader>k :MyTagList<CR>
+  "nnoremap <Leader>k :CtrlPTag<CR>
+  nnoremap <Leader>ut :Unite tag -start-insert -smartcase -vertical-preview<CR>
+  "nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
+  "nnoremap <Leader>l :CtrlPBufTag<CR>
+  nnoremap <Leader>l :MyBufferTags<CR>
+  nnoremap <Leader>a :CtrlPBufTagAll<CR>
+  "nnoremap <Leader>ld :CtrlPDir<CR>
+"endif
+
 
 " delimitmate settings
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-let g:airline_theme='base16'
+"let g:airline_theme='base16'
+let g:airline_theme='gruvbox'
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -322,8 +417,9 @@ let g:vrc_trigger = '<Leader>.mr'
 nnoremap <Leader>.p :set paste!<CR>
 nnoremap <Leader>.ev :e $MYVIMRC<CR>
 nnoremap <Leader>.sv :source $MYVIMRC<CR>
-nnoremap <Leader>.etg :e ~/todo.txt<CR>
-nnoremap <Leader>.etp :e .derick/todo.txt<CR>
+nnoremap <Leader>.egt :e ~/todo.txt<CR>
+nnoremap <Leader>.ept :e .derick/todo.txt<CR>
+nnoremap <Leader>.epn :e .derick/notes.md<CR>
 
 "vnoremap <Leader>,b64e :!python -m base64 -e<CR>
 "vnoremap <Leader>,b64d :!python -m base64 -d<CR>
@@ -424,12 +520,15 @@ let g:tagbar_type_markdown = {
 
 " ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsListSnippets="<c-l>"
+"let g:UltiSnipsListSnippets="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-let g:UltiSnipsEditSplit="vertical"
+"let g:UltiSnipsEditSplit="vertical"
 nnoremap <Leader>.es :UltiSnipsEdit<CR>
 nnoremap <Leader>.eas :e ~/.vim/Ultisnips/all.snippets<CR>
+
+"inoremap <c-l> <esc>:Unite ultisnips -start-insert<CR>
+inoremap <M-s> <c-o>:Snippets<CR>
 
 nnoremap <Leader>.os :syntax on<CR>
 
@@ -448,6 +547,7 @@ nnoremap <Leader>,jt :%!python -m json.tool<CR>
 nnoremap <Leader>,a yiw:call AckSearchWord(@@, '.')<CR>
 
 
+imap <c-x><c-f> <plug>(fzf-complete-path)
 
 
 
@@ -553,6 +653,12 @@ augroup filetype_erb
   autocmd FileType erb let b:surround_{char2nr('-')} = "<% \r %>"
 augroup END
 
+" cucumber
+augroup my_cucumber
+  autocmd!
+  autocmd FileType cucumber setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
+augroup END
+
 " php
 augroup my_php
   autocmd!
@@ -560,6 +666,9 @@ augroup my_php
   autocmd FileType php setlocal tags+=~/tags/tags.php
   autocmd FileType php nnoremap <localleader>mtp :Dispatch create-php-ctags.sh<CR>
   autocmd FileType php nnoremap <localleader>mtv :Dispatch create-php-vendor-tags.sh<CR>
+
+  " run behat contexts
+  autocmd FileType php nnoremap <localleader>rb :VimuxRunCommand('clear; behat -f progress') <CR>
   
   " run phpspec specs for file or for project
   autocmd FileType php nnoremap <localleader>rs :VimuxRunCommand('clear; phpspec run ' . bufname('%')) <CR>

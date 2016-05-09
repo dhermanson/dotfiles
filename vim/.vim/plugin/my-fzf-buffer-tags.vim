@@ -1,3 +1,4 @@
+"TODO: don't align lists...i think it might be slowing down list generation
 function! s:align_lists(lists)
   let maxes = {}
   for list in a:lists

@@ -1,3 +1,48 @@
+snippet beforefeature "BeforeFeature"
+/**
+ * @BeforeFeature
+ */
+public static function beforeSuite(BeforeFeatureScope $scope) {
+	$1
+}
+endsnippet
+
+snippet bst "BeforeSuite"
+/**
+ * @BeforeSuite
+ */
+public static function beforeSuite(BeforeSuiteScope $scope) {
+	$1
+}
+endsnippet
+
+snippet aftersuite "AfterSuite"
+/**
+ * @AfterSuite
+ */
+public static function afterSuite(AfterSuiteScope $scope) {
+	$1
+}
+endsnippet
+
+snippet bsc "BeforeScenario"
+/**
+ * @BeforeScenario
+ */
+public static function BeforeScenario(BeforeScenarioScope $scope) {
+	$1
+}
+endsnippet
+
+snippet asc "AfterScenario"
+/**
+ * @AfterScenario
+ */
+public static function AfterScenario(AfterScenarioScope $scope) {
+	$1
+}
+endsnippet
+
 #--------------------- Routing --------------------------------------------
 snippet rgetc "Route::get"
 Route::get('${1:path}', '${2:Random}Controller@${3:method}');
@@ -53,17 +98,20 @@ snippet php "<?php"
 
 endsnippet
 
+snippet ast "Assert"
+\PHPUnit_Framework_Assert::$1
+endsnippet
+
 snippet setup "PHPUnit Setup"
 public function setUp() {
+	parent::setUp();
 	$1
 }
 endsnippet
 
 snippet tm "Test Method"
-/**
- * @test
- */
-public function ${1:SomethingAwesome}() {
+/** @test */
+public function ${1:somethingAwesome}() {
 	${2:$this->assertTrue(true);}
 }
 endsnippet

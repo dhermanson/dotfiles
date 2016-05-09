@@ -1,0 +1,49 @@
+snippet back "Background"
+Background:
+  $1
+endsnippet
+
+snippet f "Feature"
+Feature: ${1:Feature Name}
+	In order to ${2:do something}
+	As a ${3:User}
+	${4:I need to ...}
+endsnippet
+
+snippet so "Scenario Outline"
+Scenario Outline: $1
+  $2
+
+	Examples:
+		$3
+endsnippet
+
+snippet sc "Scenario"
+Scenario: $1
+endsnippet
+
+snippet py "Pystring"
+"""
+$1
+"""
+endsnippet
+
+snippet g "Given"
+Given $1
+endsnippet
+
+snippet w "When"
+When $1
+endsnippet
+
+snippet t "Then"
+Then $1
+endsnippet
+
+snippet a "And"
+And $1
+endsnippet
+
+snippet b "But"
+But $1
+endsnippet
