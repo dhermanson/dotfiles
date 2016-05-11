@@ -43,6 +43,15 @@ public static function AfterScenario(AfterScenarioScope $scope) {
 }
 endsnippet
 
+snippet afterstep "AfterStep"
+/**
+ * @AfterStep
+ */
+public static function AfterStep(AfterStepScope $scope) {
+	$1
+}
+endsnippet
+
 #--------------------- Routing --------------------------------------------
 snippet rgetc "Route::get"
 Route::get('${1:path}', '${2:Random}Controller@${3:method}');

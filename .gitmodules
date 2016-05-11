@@ -318,3 +318,15 @@
 [submodule "vim/.vim/bundle/gruvbox"]
 	path = vim/.vim/bundle/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
+[submodule "vim/.vim/bundle/unite.vim"]
+	path = vim/.vim/bundle/unite.vim
+	url = https://github.com/Shougo/unite.vim.git
+[submodule "vim/.vim/bundle/unite-tag"]
+	path = vim/.vim/bundle/unite-tag
+	url = https://github.com/tsukkee/unite-tag.git
+[submodule "vim/.vim/bundle/alchemist.vim"]
+	path = vim/.vim/bundle/alchemist.vim
+	url = https://github.com/slashmili/alchemist.vim.git
+[submodule "vim/.vim/bundle/vim-tbone"]
+	path = vim/.vim/bundle/vim-tbone
+	url = https://github.com/tpope/vim-tbone.git

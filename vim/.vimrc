@@ -143,12 +143,12 @@ set <F20>=^[>
 map <F20> <M-gt>  
 nnoremap <M-gt> <C-w>5>
 
-"inoremap <M-k> <C-x><C-]>
+inoremap <M-k> <C-x><C-]>
 
 "set <F21>=^[^O
 ""inoremap <F21> :echo 'hello'<CR>
 "inoremap <F21> <C-x><C-]>
-inoremap <M-k> <C-x><C-]>
+"inoremap <M-k> <C-x><C-]>
 
 "-----------split management----------------------- 
 set nosplitbelow
@@ -205,7 +205,7 @@ nnoremap <Leader>nv :vnew<CR>
 "window stuff
 nnoremap <Leader>w <C-w>
 nnoremap <M-c> <C-w>c
-nnoremap <M-q> <C-w>q
+nnoremap <M-q> :bdelete<CR>
 "nnoremap <Leader>wh <C-w>H
 "nnoremap <Leader>wj <C-w>J
 "nnoremap <Leader>wk <C-w>K
@@ -257,7 +257,6 @@ nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gl :Glog<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gw :Gwrite<CR>
-set statusline+=%{fugitive#statusline()}
 
 " gitgutter
 let g:gitgutter_signs = 1
@@ -268,11 +267,19 @@ nnoremap <Leader>2 :Explore<CR>
 nnoremap <Leader>3 :Sexplore<CR>
 nnoremap <Leader>4 :Vexplore<CR>
 
-" syntastic settings
+" statusline settings
+set statusline=%t         " Path to the file
+set statusline+=\ -\      " separator
+set statusline+=FileType: " label
+set statusline+=%y        " Filetype of the file
+set statusline+=\ -\      " separator
+set statusline+=%{fugitive#statusline()}
+set statusline+=%=        " switch to right side
 set statusline+=%#warningsmsg#
 set statusline+={SyntasticStatuslineFlag()}
 set statusline+=%*
 
+" syntastic settings
 let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_debug = 0
@@ -315,7 +322,7 @@ set tags+=tags.vendor
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_max_files=0
-let g:ctrlp_by_filename=1
+let g:ctrlp_by_filename=0
 let g:ctrlp_working_path_mode = '0'
 "let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
                           "\ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
@@ -336,19 +343,21 @@ let g:ctrlp_buftag_types = {
   "nnoremap <Leader>a :CtrlPBufTagAll<CR>
 "else
 
-  nnoremap <Leader>f :Files<CR>
-  "nnoremap <Leader>f :CtrlP<CR>
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+  "nnoremap <Leader>f :Files<CR>
+  nnoremap <Leader>f :CtrlP<CR>
   "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
   "nnoremap <Leader>b :Buffers<CR>
-  nnoremap <Leader>b :CtrlPBuffer<CR>
-  nnoremap <Leader>ub :Unite buffer -no-split -smartcase<CR>
+  "nnoremap <Leader>b :CtrlPBuffer<CR>
+  nnoremap <Leader>b :Unite buffer -start-insert -smartcase -direction=botright<CR>
   "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase<CR>
-  nnoremap <Leader>k :MyTagList<CR>
+  "nnoremap <Leader>k :MyTagList<CR>
   "nnoremap <Leader>k :CtrlPTag<CR>
-  nnoremap <Leader>ut :Unite tag -start-insert -smartcase -vertical-preview<CR>
+  nnoremap <Leader>k :Unite tag -start-insert -smartcase -vertical-preview -direction=botright<CR>
   "nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
-  "nnoremap <Leader>l :CtrlPBufTag<CR>
-  nnoremap <Leader>l :MyBufferTags<CR>
+  nnoremap <Leader>l :CtrlPBufTag<CR>
+  "nnoremap <Leader>l :MyBufferTags<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
   "nnoremap <Leader>ld :CtrlPDir<CR>
 "endif
@@ -528,7 +537,8 @@ nnoremap <Leader>.es :UltiSnipsEdit<CR>
 nnoremap <Leader>.eas :e ~/.vim/Ultisnips/all.snippets<CR>
 
 "inoremap <c-l> <esc>:Unite ultisnips -start-insert<CR>
-inoremap <M-s> <c-o>:Snippets<CR>
+"inoremap <M-s> <c-o>:Snippets<CR>
+inoremap <M-s> <c-o>:Unite ultisnips -start-insert<CR>
 
 nnoremap <Leader>.os :syntax on<CR>
 
@@ -639,6 +649,13 @@ function! IPhpExpandClass()
     call feedkeys('a', 'n')
 endfunction
 
+function! RunPhpSpecOnBuffer(buffer_name)
+  " TODO: don't hardcode console:runner.1
+  "       maybe use a global config or something
+  "exe "Tmux send-keys -t console:runner.1 'clear; phpspec run " . fnameescape(a:buffer_name) . "' Enter"
+  exe "Start phpspec run " . fnameescape(a:buffer_name) . " && read"
+endfunction
+
 "-------------Auto-Commands--------------"
 
 augroup filetype_css
@@ -668,11 +685,16 @@ augroup my_php
   autocmd FileType php nnoremap <localleader>mtv :Dispatch create-php-vendor-tags.sh<CR>
 
   " run behat contexts
-  autocmd FileType php nnoremap <localleader>rb :VimuxRunCommand('clear; behat -f progress') <CR>
+  "autocmd FileType php nnoremap <localleader>rb :VimuxRunCommand('clear; behat -f progress') <CR>
+  "autocmd FileType php nnoremap <localleader>rb :Tmux send-keys -t console:runner.1 'clear; behat' Enter<CR>
+  autocmd FileType php nnoremap <localleader>rb :Start behat && read<CR>
   
   " run phpspec specs for file or for project
-  autocmd FileType php nnoremap <localleader>rs :VimuxRunCommand('clear; phpspec run ' . bufname('%')) <CR>
-  autocmd FileType php nnoremap <localleader>rps :VimuxRunCommand('clear; phpspec run') <CR>
+  "autocmd FileType php nnoremap <localleader>rs :VimuxRunCommand('clear; phpspec run ' . bufname('%')) <CR>
+  autocmd FileType php nnoremap <localleader>rs :call RunPhpSpecOnBuffer(bufname('%')) <CR>
+  "autocmd FileType php nnoremap <localleader>rs :Start 'phpspec run ' . (bufname('%') . ' && read' <CR>
+  "autocmd FileType php nnoremap <localleader>rps :VimuxRunCommand('clear; phpspec run') <CR>
+  autocmd FileType php nnoremap <localleader>rps :Start phpspec run && read<CR>
 
   " run phpunit tests for file or for project
   autocmd FileType php nnoremap <localleader>rt :VimuxRunCommand('clear; phpunit ' . bufname('%')) <CR>

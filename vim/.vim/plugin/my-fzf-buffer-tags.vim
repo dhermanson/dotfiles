@@ -21,6 +21,7 @@ function! s:btags_source()
   if v:shell_error
     throw 'failed to extract tags'
   endif
+  "return map(lines, 'join(v:val, "\t")')
   return map(s:align_lists(lines), 'join(v:val, "\t")')
 endfunction
 
