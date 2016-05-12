@@ -15,12 +15,12 @@ filetype plugin indent on
 
 " map vim escape sequences as explained in
 " http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-let c='a'
-while c <= 'z'
-  exec "set <A-".c.">=\e".c
-  exec "imap \e".c." <A-".c.">"
-  let c = nr2char(1+char2nr(c))
-endw
+"let c='a'
+"while c <= 'z'
+  "exec "set <A-".c.">=\e".c
+  "exec "imap \e".c." <A-".c.">"
+  "let c = nr2char(1+char2nr(c))
+"endw
 
 set timeout ttimeoutlen=50
 
@@ -34,7 +34,7 @@ set noshowmode
 "set omnifunc=syntaxcomplete#Complete
 "set completefunc=syntaxcomplete#Complete
 set mouse=a
-set ttymouse=xterm2
+"set ttymouse=xterm2
 set complete=.,w,b,u
 set autowriteall
 set nocursorline
@@ -241,7 +241,10 @@ let g:EasyMotion_do_mapping = 0 " Disable default mappings
 let g:EasyMotion_smartcase = 1
 map <silent> / <Plug>(easymotion-sn)
 omap <silent> / <Plug>(easymotion-tn)
-map <Leader>; <Plug>(easymotion-bd-f)
+map  <Leader>; <Plug>(easymotion-bd-f)
+nmap <Leader>; <Plug>(easymotion-overwin-f)
+"map  <M-Space> <Plug>(easymotion-bd-f)
+"nmap <M-Space> <Plug>(easymotion-overwin-f)
 
 "map <Leader>' <Plug>(easymotion-bd-f)
 "nmap <silent> f <Plug>(easymotion-overwin-bd-f)
@@ -345,19 +348,19 @@ let g:ctrlp_buftag_types = {
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
-  "nnoremap <Leader>f :Files<CR>
-  nnoremap <Leader>f :CtrlP<CR>
+  nnoremap <Leader>f :Files<CR>
+  "nnoremap <Leader>f :CtrlP<CR>
   "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
-  "nnoremap <Leader>b :Buffers<CR>
+  nnoremap <Leader>b :Buffers<CR>
   "nnoremap <Leader>b :CtrlPBuffer<CR>
-  nnoremap <Leader>b :Unite buffer -start-insert -smartcase -direction=botright<CR>
+  "nnoremap <Leader>b :Unite buffer -start-insert -smartcase -direction=botright<CR>
   "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase<CR>
-  "nnoremap <Leader>k :MyTagList<CR>
+  nnoremap <Leader>k :MyTagList<CR>
   "nnoremap <Leader>k :CtrlPTag<CR>
-  nnoremap <Leader>k :Unite tag -start-insert -smartcase -vertical-preview -direction=botright<CR>
+  "nnoremap <Leader>k :Unite tag -start-insert -smartcase -vertical-preview -direction=botright<CR>
   "nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
-  nnoremap <Leader>l :CtrlPBufTag<CR>
-  "nnoremap <Leader>l :MyBufferTags<CR>
+  "nnoremap <Leader>l :CtrlPBufTag<CR>
+  nnoremap <Leader>l :MyBufferTags<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
   "nnoremap <Leader>ld :CtrlPDir<CR>
 "endif
@@ -417,7 +420,10 @@ let g:dbext_default_buffer_lines = 25
 "let g:dbext_default_window_width = 80
 
 " python
-let g:jedi#auto_close_doc = 0
+let g:jedi#popup_on_dot = 1
+let g:jedi#auto_close_doc = 1
+let g:jedi#show_call_signatures = 2
+let g:jedi#popup_select_first = 1
 
 " vim-rest-console
 let g:vrc_trigger = '<Leader>.mr'
@@ -537,8 +543,8 @@ nnoremap <Leader>.es :UltiSnipsEdit<CR>
 nnoremap <Leader>.eas :e ~/.vim/Ultisnips/all.snippets<CR>
 
 "inoremap <c-l> <esc>:Unite ultisnips -start-insert<CR>
-"inoremap <M-s> <c-o>:Snippets<CR>
-inoremap <M-s> <c-o>:Unite ultisnips -start-insert<CR>
+inoremap <M-s> <c-o>:Snippets<CR>
+"inoremap <M-s> <c-o>:Unite ultisnips -start-insert<CR>
 
 nnoremap <Leader>.os :syntax on<CR>
 
