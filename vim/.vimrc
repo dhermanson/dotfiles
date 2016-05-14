@@ -13,14 +13,6 @@ set rtp+=~/.fzf
 syntax on
 filetype plugin indent on
 
-" map vim escape sequences as explained in
-" http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-"let c='a'
-"while c <= 'z'
-  "exec "set <A-".c.">=\e".c
-  "exec "imap \e".c." <A-".c.">"
-  "let c = nr2char(1+char2nr(c))
-"endw
 
 set timeout ttimeoutlen=50
 
@@ -34,7 +26,6 @@ set noshowmode
 "set omnifunc=syntaxcomplete#Complete
 "set completefunc=syntaxcomplete#Complete
 set mouse=a
-"set ttymouse=xterm2
 set complete=.,w,b,u
 set autowriteall
 set nocursorline
@@ -81,6 +72,9 @@ set encoding=utf8
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "map <silent> <C-h> :call WinMove('h')<cr>
+"if has('nvim')
+  "map <silent> <bs> :call WinMove('h')<cr>
+"endif
 "map <silent> <C-j> :call WinMove('j')<cr>
 "map <silent> <C-k> :call WinMove('k')<cr>
 "map <silent> <C-l> :call WinMove('l')<cr>
@@ -109,41 +103,72 @@ endfunction
 "------------------------------------
 nnoremap <M-o> <C-w>o
 
-set <F13>=^[H
-map <F13> <M-H>
-nnoremap <M-H> <C-w>H
+if has('nvim')
+  "nnoremap <C-H> <C-w>5<
+  map <silent> <bs> <C-w>5<
+  nnoremap <M-H> <C-w>H
 
-set <F14>=^[J
-map <F14> <M-J>
-nnoremap <M-J> <C-w>J
+  nnoremap <c-j> <c-w>5-
+  nnoremap <m-j> <c-w>j
 
-set <F15>=^[K
-map <F15> <M-K>
-nnoremap <M-K> <C-w>K
+  nnoremap <C-K> <C-w>5+
+  nnoremap <M-K> <C-w>K
 
-set <F16>=^[L
-map <F16> <M-L>
-nnoremap <M-L> <C-w>L
+  nnoremap <C-L> <C-w>5>
+  nnoremap <M-L> <C-w>L
+else
+  set ttymouse=xterm2
+  "map vim escape sequences as explained in
+  "http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+  let c='a'
+  while c <= 'z'
+    exec "set <A-".c.">=\e".c
+    "exec "imap \e".c." <A-".c.">"
+    let c = nr2char(1+char2nr(c))
+  endw
 
-set <F17>=^[-
-map <F17> <M-kMinus>
-nnoremap <M-kMinus> <C-w>5-
+  set <F13>=^[H
+  map <F13> <M-H>
+  nnoremap <M-H> <C-w>H
 
-set <F18>=^[+
-map <F18> <M-kPlus>
-nnoremap <M-kPlus> <C-w>5+
+  set <F14>=^[J
+  map <F14> <M-J>
+  nnoremap <M-J> <C-w>J
 
-set <F19>=^[<
-" lt == less than '<'
-map <F19> <M-lt>  
-nnoremap <M-lt> <C-w>5<
+  set <F15>=^[K
+  map <F15> <M-K>
+  nnoremap <M-K> <C-w>K
 
-set <F20>=^[>
-" gt == greater than '>'
-map <F20> <M-gt>  
-nnoremap <M-gt> <C-w>5>
+  set <F16>=^[L
+  map <F16> <M-L>
+  nnoremap <M-L> <C-w>L
 
+  set <F17>=^[-
+  map <F17> <M-kMinus>
+  nnoremap <M-kMinus> <C-w>5-
+
+  set <F18>=^[+
+  map <F18> <M-kPlus>
+  nnoremap <M-kPlus> <C-w>5+
+
+  set <F19>=^[<
+  " lt == less than '<'
+  map <F19> <M-lt>  
+  nnoremap <M-lt> <C-w>5<
+
+  set <F20>=^[>
+  " gt == greater than '>'
+  map <F20> <M-gt>  
+  nnoremap <M-gt> <C-w>5>
+endif
+
+
+
+
+inoremap <M-o> <C-x><C-o>
 inoremap <M-k> <C-x><C-]>
+inoremap <M-]> <C-x><C-]>
+"inoremap <M-Space> <C-x><C-o>
 
 "set <F21>=^[^O
 ""inoremap <F21> :echo 'hello'<CR>
@@ -195,7 +220,7 @@ inoremap jk <Esc>
 "nnoremap <Leader>w <C-w>
 
 "buffer
-"nnoremap <BS> :w<CR>
+"nnoremap <Return> :w<CR>
 nnoremap <M-s> :w<CR>
 nnoremap <Leader>q :bdelete<CR>
 nnoremap <Leader>x :call ConfirmBDeleteBang()<CR>
@@ -271,16 +296,16 @@ nnoremap <Leader>3 :Sexplore<CR>
 nnoremap <Leader>4 :Vexplore<CR>
 
 " statusline settings
-set statusline=%t         " Path to the file
-set statusline+=\ -\      " separator
-set statusline+=FileType: " label
-set statusline+=%y        " Filetype of the file
-set statusline+=\ -\      " separator
-set statusline+=%{fugitive#statusline()}
-set statusline+=%=        " switch to right side
-set statusline+=%#warningsmsg#
-set statusline+={SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline=%t         " Path to the file
+"set statusline+=\ -\      " separator
+"set statusline+=FileType: " label
+"set statusline+=%y        " Filetype of the file
+"set statusline+=\ -\      " separator
+"set statusline+=%{fugitive#statusline()}
+"set statusline+=%=        " switch to right side
+"set statusline+=%#warningsmsg#
+"set statusline+={SyntasticStatuslineFlag()}
+"set statusline+=%*
 
 " syntastic settings
 let g:syntastic_error_symbol = "✗"
@@ -333,7 +358,7 @@ let g:ctrlp_working_path_mode = '0'
 "let g:ctrlp_custom_ignore = 'node_modules'
 let g:ctrlp_custom_ignore = '\v[\/](vendor|node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 let g:ctrlp_show_hidden = 1
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
+"let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:50,results:30'
 let g:ctrlp_buftag_types = {
     \ 'php'        : '--fields=K --PHP-kinds=mctdfip --languages=php',
   \ }
@@ -348,19 +373,19 @@ let g:ctrlp_buftag_types = {
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
-  nnoremap <Leader>f :Files<CR>
-  "nnoremap <Leader>f :CtrlP<CR>
+  "nnoremap <Leader>f :Files<CR>
+  nnoremap <Leader>f :CtrlP<CR>
   "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
-  nnoremap <Leader>b :Buffers<CR>
-  "nnoremap <Leader>b :CtrlPBuffer<CR>
+  "nnoremap <Leader>b :Buffers<CR>
+  nnoremap <Leader>b :CtrlPBuffer<CR>
   "nnoremap <Leader>b :Unite buffer -start-insert -smartcase -direction=botright<CR>
   "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase<CR>
-  nnoremap <Leader>k :MyTagList<CR>
-  "nnoremap <Leader>k :CtrlPTag<CR>
+  "nnoremap <Leader>k :MyTagList<CR>
+  nnoremap <Leader>k :CtrlPTag<CR>
   "nnoremap <Leader>k :Unite tag -start-insert -smartcase -vertical-preview -direction=botright<CR>
   "nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
-  "nnoremap <Leader>l :CtrlPBufTag<CR>
-  nnoremap <Leader>l :MyBufferTags<CR>
+  nnoremap <Leader>l :CtrlPBufTag<CR>
+  "nnoremap <Leader>l :MyBufferTags<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
   "nnoremap <Leader>ld :CtrlPDir<CR>
 "endif
@@ -380,8 +405,8 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\ua0"
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 1
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#show_buffers = 1
 
 " vim-ruby settings
 let g:rubycomplete_buffer_loading=1
@@ -421,7 +446,7 @@ let g:dbext_default_buffer_lines = 25
 
 " python
 let g:jedi#popup_on_dot = 1
-let g:jedi#auto_close_doc = 1
+let g:jedi#auto_close_doc = 0
 let g:jedi#show_call_signatures = 2
 let g:jedi#popup_select_first = 1
 
@@ -587,6 +612,12 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_json_frontmatter = 1
 let g:vim_markdown_conceal = 0
 
+" neovim
+" deoplete.
+"let g:deoplete#enable_at_startup = 1
+" alchemist.vim
+"let g:alchemist_iex_term_split = 'vsplit'
+
 "-------- Functions ------------------------------- 
 function! ConfirmBDeleteBang()
   let l:choice = confirm("Really delete buffer?", "&Yes\n&No")
@@ -707,75 +738,80 @@ augroup my_php
   autocmd FileType php nnoremap <localleader>rpt :VimuxRunCommand('clear; phpunit') <CR>
 augroup END
 
+augroup ApiBlueprint
+  autocmd!
+  autocmd FileType apiblueprint nnoremap <buffer> <localleader>md :Dispatch gulp apidocs<CR>
+augroup END
+
 augroup phpNamespaces
   autocmd!
-  autocmd FileType php inoremap <localleader>a <Esc>:call IPhpInsertUse()<CR>
-  autocmd FileType php noremap <localleader>a :call PhpInsertUse()<CR>
-  autocmd FileType php inoremap <localleader>q <Esc>:call IPhpExpandClass()<CR>
-  autocmd FileType php noremap <localleader>q :call PhpExpandClass()<CR>
-  autocmd FileType php inoremap <localleader>.s <Esc>:call PhpSortUse()<CR>
-  autocmd FileType php noremap <localleader>.s :call PhpSortUse()<CR>
+  autocmd FileType php inoremap <buffer> <localleader>a <Esc>:call IPhpInsertUse()<CR>
+  autocmd FileType php noremap <buffer> <localleader>a :call PhpInsertUse()<CR>
+  autocmd FileType php inoremap <buffer> <localleader>q <Esc>:call IPhpExpandClass()<CR>
+  autocmd FileType php noremap <buffer> <localleader>q :call PhpExpandClass()<CR>
+  autocmd FileType php inoremap <buffer> <localleader>.s <Esc>:call PhpSortUse()<CR>
+  autocmd FileType php noremap <buffer> <localleader>.s :call PhpSortUse()<CR>
 
-  autocmd FileType php nnoremap <localleader>emo :Emodel 
-  autocmd FileType php nnoremap <localleader>vmo :Vmodel 
-  autocmd FileType php nnoremap <localleader>smo :Smodel 
-  autocmd FileType php nnoremap <localleader>eev :Eevent 
-  autocmd FileType php nnoremap <localleader>vev :Vevent 
-  autocmd FileType php nnoremap <localleader>sev :Sevent 
-  autocmd FileType php nnoremap <localleader>eex :Eexception 
-  autocmd FileType php nnoremap <localleader>vex :Vexception 
-  autocmd FileType php nnoremap <localleader>sex :Sexception 
-  autocmd FileType php nnoremap <localleader>ero :Eroutes <CR>
-  autocmd FileType php nnoremap <localleader>vro :Vroutes <CR>
-  autocmd FileType php nnoremap <localleader>sro :Sroutes <CR>
-  autocmd FileType php nnoremap <localleader>ek :Ekernel <CR>
-  autocmd FileType php nnoremap <localleader>vk :Vkernel <CR>
-  autocmd FileType php nnoremap <localleader>sk :Skernel <CR>
-  autocmd FileType php nnoremap <localleader>eco :Econtroller 
-  autocmd FileType php nnoremap <localleader>vco :Vcontroller 
-  autocmd FileType php nnoremap <localleader>sco :Scontroller 
-  autocmd FileType php nnoremap <localleader>emid :Emiddleware 
-  autocmd FileType php nnoremap <localleader>vmid :Vmiddleware 
-  autocmd FileType php nnoremap <localleader>smid :Smiddleware 
-  autocmd FileType php nnoremap <localleader>ere :Erequest 
-  autocmd FileType php nnoremap <localleader>vre :Vrequest 
-  autocmd FileType php nnoremap <localleader>sre :Srequest 
-  autocmd FileType php nnoremap <localleader>ej :Ejob 
-  autocmd FileType php nnoremap <localleader>vj :Vjob 
-  autocmd FileType php nnoremap <localleader>sj :Sjob 
-  autocmd FileType php nnoremap <localleader>el :Elistener 
-  autocmd FileType php nnoremap <localleader>vl :Vlistener 
-  autocmd FileType php nnoremap <localleader>sl :Slistener 
-  autocmd FileType php nnoremap <localleader>epo :Epolicy 
-  autocmd FileType php nnoremap <localleader>vpo :Vpolicy 
-  autocmd FileType php nnoremap <localleader>spo :Spolicy 
-  autocmd FileType php nnoremap <localleader>epr :Eprovider 
-  autocmd FileType php nnoremap <localleader>vpr :Vprovider 
-  autocmd FileType php nnoremap <localleader>spr :Sprovider 
-  autocmd FileType php nnoremap <localleader>ecfg :Econfig 
-  autocmd FileType php nnoremap <localleader>vcfg :Vconfig 
-  autocmd FileType php nnoremap <localleader>scfg :Sconfig 
-  autocmd FileType php nnoremap <localleader>emig :Emigration 
-  autocmd FileType php nnoremap <localleader>vmig :Vmigration 
-  autocmd FileType php nnoremap <localleader>smig :Smigration 
-  autocmd FileType php nnoremap <localleader>ese :Eseeder 
-  autocmd FileType php nnoremap <localleader>vse :Vseeder 
-  autocmd FileType php nnoremap <localleader>sse :Sseeder 
-  autocmd FileType php nnoremap <localleader>ed :Edoc 
-  autocmd FileType php nnoremap <localleader>vd :Vdoc 
-  autocmd FileType php nnoremap <localleader>sd :Sdoc 
-  autocmd FileType php nnoremap <localleader>ev :Eview 
-  autocmd FileType php nnoremap <localleader>vv :Vview 
-  autocmd FileType php nnoremap <localleader>sv :Sview 
-  autocmd FileType php nnoremap <localleader>etr :Etransformer 
-  autocmd FileType php nnoremap <localleader>vtr :Vtransformer 
-  autocmd FileType php nnoremap <localleader>str :Stransformer 
-  autocmd FileType php nnoremap <localleader>ete :Etest 
-  autocmd FileType php nnoremap <localleader>vte :Vtest 
-  autocmd FileType php nnoremap <localleader>ste :Stest 
-  autocmd FileType php nnoremap <localleader>ea :A<CR>
-  autocmd FileType php nnoremap <localleader>sa :AS<CR>
-  autocmd FileType php nnoremap <localleader>va :AV<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>emo :Emodel 
+  autocmd FileType php nnoremap <buffer> <localleader>vmo :Vmodel 
+  autocmd FileType php nnoremap <buffer> <localleader>smo :Smodel 
+  autocmd FileType php nnoremap <buffer> <localleader>eev :Eevent 
+  autocmd FileType php nnoremap <buffer> <localleader>vev :Vevent 
+  autocmd FileType php nnoremap <buffer> <localleader>sev :Sevent 
+  autocmd FileType php nnoremap <buffer> <localleader>eex :Eexception 
+  autocmd FileType php nnoremap <buffer> <localleader>vex :Vexception 
+  autocmd FileType php nnoremap <buffer> <localleader>sex :Sexception 
+  autocmd FileType php nnoremap <buffer> <localleader>ero :Eroutes <CR>
+  autocmd FileType php nnoremap <buffer> <localleader>vro :Vroutes <CR>
+  autocmd FileType php nnoremap <buffer> <localleader>sro :Sroutes <CR>
+  autocmd FileType php nnoremap <buffer> <localleader>ek :Ekernel <CR>
+  autocmd FileType php nnoremap <buffer> <localleader>vk :Vkernel <CR>
+  autocmd FileType php nnoremap <buffer> <localleader>sk :Skernel <CR>
+  autocmd FileType php nnoremap <buffer> <localleader>eco :Econtroller 
+  autocmd FileType php nnoremap <buffer> <localleader>vco :Vcontroller 
+  autocmd FileType php nnoremap <buffer> <localleader>sco :Scontroller 
+  autocmd FileType php nnoremap <buffer> <localleader>emid :Emiddleware 
+  autocmd FileType php nnoremap <buffer> <localleader>vmid :Vmiddleware 
+  autocmd FileType php nnoremap <buffer> <localleader>smid :Smiddleware 
+  autocmd FileType php nnoremap <buffer> <localleader>ere :Erequest 
+  autocmd FileType php nnoremap <buffer> <localleader>vre :Vrequest 
+  autocmd FileType php nnoremap <buffer> <localleader>sre :Srequest 
+  autocmd FileType php nnoremap <buffer> <localleader>ej :Ejob 
+  autocmd FileType php nnoremap <buffer> <localleader>vj :Vjob 
+  autocmd FileType php nnoremap <buffer> <localleader>sj :Sjob 
+  autocmd FileType php nnoremap <buffer> <localleader>el :Elistener 
+  autocmd FileType php nnoremap <buffer> <localleader>vl :Vlistener 
+  autocmd FileType php nnoremap <buffer> <localleader>sl :Slistener 
+  autocmd FileType php nnoremap <buffer> <localleader>epo :Epolicy 
+  autocmd FileType php nnoremap <buffer> <localleader>vpo :Vpolicy 
+  autocmd FileType php nnoremap <buffer> <localleader>spo :Spolicy 
+  autocmd FileType php nnoremap <buffer> <localleader>epr :Eprovider 
+  autocmd FileType php nnoremap <buffer> <localleader>vpr :Vprovider 
+  autocmd FileType php nnoremap <buffer> <localleader>spr :Sprovider 
+  autocmd FileType php nnoremap <buffer> <localleader>ecfg :Econfig 
+  autocmd FileType php nnoremap <buffer> <localleader>vcfg :Vconfig 
+  autocmd FileType php nnoremap <buffer> <localleader>scfg :Sconfig 
+  autocmd FileType php nnoremap <buffer> <localleader>emig :Emigration 
+  autocmd FileType php nnoremap <buffer> <localleader>vmig :Vmigration 
+  autocmd FileType php nnoremap <buffer> <localleader>smig :Smigration 
+  autocmd FileType php nnoremap <buffer> <localleader>ese :Eseeder 
+  autocmd FileType php nnoremap <buffer> <localleader>vse :Vseeder 
+  autocmd FileType php nnoremap <buffer> <localleader>sse :Sseeder 
+  autocmd FileType php nnoremap <buffer> <localleader>ed :Edoc 
+  autocmd FileType php nnoremap <buffer> <localleader>vd :Vdoc 
+  autocmd FileType php nnoremap <buffer> <localleader>sd :Sdoc 
+  autocmd FileType php nnoremap <buffer> <localleader>ev :Eview 
+  autocmd FileType php nnoremap <buffer> <localleader>vv :Vview 
+  autocmd FileType php nnoremap <buffer> <localleader>sv :Sview 
+  autocmd FileType php nnoremap <buffer> <localleader>etr :Etransformer 
+  autocmd FileType php nnoremap <buffer> <localleader>vtr :Vtransformer 
+  autocmd FileType php nnoremap <buffer> <localleader>str :Stransformer 
+  autocmd FileType php nnoremap <buffer> <localleader>ete :Etest 
+  autocmd FileType php nnoremap <buffer> <localleader>vte :Vtest 
+  autocmd FileType php nnoremap <buffer> <localleader>ste :Stest 
+  autocmd FileType php nnoremap <buffer> <localleader>ea :A<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>sa :AS<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>va :AV<CR>
 augroup END
 
 augroup phpDocumentor
@@ -845,6 +881,7 @@ augroup END
 augroup my_elixir
   autocmd!
   autocmd FileType elixir setlocal tags+=~/tags/tags.elixir
+  autocmd FileType elixir imap <buffer> <M-d> <Esc><s-k> <C-w>pa<C-x><C-o>
 augroup END
 
 "inoremap <c-space> <esc>:CtrlPBufTagAll <CR>
