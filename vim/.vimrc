@@ -127,39 +127,28 @@ else
     let c = nr2char(1+char2nr(c))
   endw
 
-  set <F13>=^[H
-  map <F13> <M-H>
+  let c='A'
+  while c <= 'Z'
+    exec "set <A-".c.">=\e".c
+    "exec "imap \e".c." <A-".c.">"
+    let c = nr2char(1+char2nr(c))
+  endw
+
   nnoremap <M-H> <C-w>H
 
-  set <F14>=^[J
-  map <F14> <M-J>
   nnoremap <M-J> <C-w>J
 
-  set <F15>=^[K
-  map <F15> <M-K>
   nnoremap <M-K> <C-w>K
 
-  set <F16>=^[L
-  map <F16> <M-L>
   nnoremap <M-L> <C-w>L
 
-  set <F17>=^[-
-  map <F17> <M-kMinus>
-  nnoremap <M-kMinus> <C-w>5-
+  nnoremap <Esc>- <C-w>5-
 
-  set <F18>=^[+
-  map <F18> <M-kPlus>
-  nnoremap <M-kPlus> <C-w>5+
+  nnoremap <Esc>+ <C-w>5+
 
-  set <F19>=^[<
-  " lt == less than '<'
-  map <F19> <M-lt>  
-  nnoremap <M-lt> <C-w>5<
+  nnoremap <Esc>< <C-w>5<
 
-  set <F20>=^[>
-  " gt == greater than '>'
-  map <F20> <M-gt>  
-  nnoremap <M-gt> <C-w>5>
+  nnoremap <Esc>> <C-w>5>
 endif
 
 
@@ -568,8 +557,8 @@ nnoremap <Leader>.es :UltiSnipsEdit<CR>
 nnoremap <Leader>.eas :e ~/.vim/Ultisnips/all.snippets<CR>
 
 "inoremap <c-l> <esc>:Unite ultisnips -start-insert<CR>
-inoremap <M-s> <c-o>:Snippets<CR>
-"inoremap <M-s> <c-o>:Unite ultisnips -start-insert<CR>
+"inoremap <M-s> <c-o>:Snippets<CR>
+inoremap <M-s> <c-o>:Unite ultisnips -start-insert<CR>
 
 nnoremap <Leader>.os :syntax on<CR>
 
