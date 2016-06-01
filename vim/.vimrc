@@ -612,6 +612,15 @@ let g:vim_markdown_conceal = 0
 " alchemist.vim
 "let g:alchemist_iex_term_split = 'vsplit'
 
+function! SendToTmuxBottom()
+  exe "silent Twrite bottom"
+  exe "silent Tmux send-keys -t bottom Enter"
+endfunction
+
+inoremap <silent> <M-t> <C-o>:call SendToTmuxBottom()<CR>
+vnoremap <M-t> :call SendToTmuxBottom()<CR>
+nnoremap <M-t> :call SendToTmuxBottom()<CR>
+
 "-------- Functions ------------------------------- 
 function! ConfirmBDeleteBang()
   let l:choice = confirm("Really delete buffer?", "&Yes\n&No")
