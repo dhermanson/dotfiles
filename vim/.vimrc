@@ -121,54 +121,37 @@ if has('nvim')
   nnoremap <M-L> <C-w>L
 else
   set ttymouse=xterm2
+  "map vim escape sequences as explained in
+  "http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+  let c='a'
+  while c <= 'z'
+    exec "set <A-".c.">=\e".c
+    "exec "imap \e".c." <A-".c.">"
+    let c = nr2char(1+char2nr(c))
+  endw
 
-  "if !has('gui_running')
-
-    "map vim escape sequences as explained in
-    "http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-    let c='a'
-    while c <= 'z'
-      exec "set <A-".c.">=\e".c
-      "exec "imap \e".c." <A-".c.">"
-      let c = nr2char(1+char2nr(c))
-    endw
-
-    set <F13>=^[H
-    map <F13> <M-H>
-
-    set <F14>=^[J
-    map <F14> <M-J>
-
-    set <F15>=^[K
-    map <F15> <M-K>
-
-    set <F16>=^[L
-    map <F16> <M-L>
-
-    set <F17>=^[-
-    map <F17> <M-kMinus>
-
-    set <F18>=^[+
-    map <F18> <M-kPlus>
-
-    set <F19>=^[<
-    " lt == less than '<'
-    map <F19> <M-lt>  
-
-    set <F20>=^[>
-    " gt == greater than '>'
-    map <F20> <M-gt>  
-
-  "endif
+  let c='A'
+  while c <= 'Z'
+    exec "set <A-".c.">=\e".c
+    "exec "imap \e".c." <A-".c.">"
+    let c = nr2char(1+char2nr(c))
+  endw
 
   nnoremap <M-H> <C-w>H
+
   nnoremap <M-J> <C-w>J
+
   nnoremap <M-K> <C-w>K
+
   nnoremap <M-L> <C-w>L
-  nnoremap <M-kMinus> <C-w>5-
-  nnoremap <M-kPlus> <C-w>5+
-  nnoremap <M-lt> <C-w>5<
-  nnoremap <M-gt> <C-w>5>
+
+  nnoremap <Esc>- <C-w>5-
+
+  nnoremap <Esc>+ <C-w>5+
+
+  nnoremap <Esc>< <C-w>5<
+
+  nnoremap <Esc>> <C-w>5>
 endif
 
 
