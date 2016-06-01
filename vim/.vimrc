@@ -13,6 +13,9 @@ set rtp+=~/.fzf
 syntax on
 filetype plugin indent on
 
+if has('gui_macvim')
+  set macmeta
+endif
 
 set timeout ttimeoutlen=50
 
@@ -118,47 +121,53 @@ if has('nvim')
   nnoremap <M-L> <C-w>L
 else
   set ttymouse=xterm2
-  "map vim escape sequences as explained in
-  "http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-  let c='a'
-  while c <= 'z'
-    exec "set <A-".c.">=\e".c
-    "exec "imap \e".c." <A-".c.">"
-    let c = nr2char(1+char2nr(c))
-  endw
 
-  set <F13>=^[H
-  map <F13> <M-H>
+  "if !has('gui_running')
+
+    "map vim escape sequences as explained in
+    "http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+    let c='a'
+    while c <= 'z'
+      exec "set <A-".c.">=\e".c
+      "exec "imap \e".c." <A-".c.">"
+      let c = nr2char(1+char2nr(c))
+    endw
+
+    set <F13>=^[H
+    map <F13> <M-H>
+
+    set <F14>=^[J
+    map <F14> <M-J>
+
+    set <F15>=^[K
+    map <F15> <M-K>
+
+    set <F16>=^[L
+    map <F16> <M-L>
+
+    set <F17>=^[-
+    map <F17> <M-kMinus>
+
+    set <F18>=^[+
+    map <F18> <M-kPlus>
+
+    set <F19>=^[<
+    " lt == less than '<'
+    map <F19> <M-lt>  
+
+    set <F20>=^[>
+    " gt == greater than '>'
+    map <F20> <M-gt>  
+
+  "endif
+
   nnoremap <M-H> <C-w>H
-
-  set <F14>=^[J
-  map <F14> <M-J>
   nnoremap <M-J> <C-w>J
-
-  set <F15>=^[K
-  map <F15> <M-K>
   nnoremap <M-K> <C-w>K
-
-  set <F16>=^[L
-  map <F16> <M-L>
   nnoremap <M-L> <C-w>L
-
-  set <F17>=^[-
-  map <F17> <M-kMinus>
   nnoremap <M-kMinus> <C-w>5-
-
-  set <F18>=^[+
-  map <F18> <M-kPlus>
   nnoremap <M-kPlus> <C-w>5+
-
-  set <F19>=^[<
-  " lt == less than '<'
-  map <F19> <M-lt>  
   nnoremap <M-lt> <C-w>5<
-
-  set <F20>=^[>
-  " gt == greater than '>'
-  map <F20> <M-gt>  
   nnoremap <M-gt> <C-w>5>
 endif
 
@@ -287,7 +296,7 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 
 " gitgutter
-let g:gitgutter_signs = 1
+let g:gitgutter_signs = 0
 
 " netrw
 nnoremap <Leader>1 :edit .<CR>
@@ -312,7 +321,7 @@ let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_debug = 0
 let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=0
+let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 let g:syntastic_aggregate_errors=1
@@ -327,14 +336,14 @@ let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_typescript_checkers = ['']
-let g:syntastic_php_checkers = ['php', 'phpmd'] " php, phpcs, phpmd, phplint
+let g:syntastic_php_checkers = ['php'] " php, phpcs, phpmd, phplint
 let g:syntastic_phpcs_conf = '--standard=psr2 --config-set show_warnings 0'
 
 "let g:syntastic_elixir_checkers = ['elixir']
 
 " table mode
 let g:table_mode_corner = "|"
-let g:table_mode_map_prefix = '<Leader>.t'
+let g:table_mode_map_prefix = '<Leader>t'
 
 " dispatch
 nnoremap <Leader>dp :Dispatch <CR>
@@ -344,7 +353,7 @@ vnoremap <Leader>ds y:call DispatchCommand(@@, "Start")<CR>
 
 " tags
 "nnoremap <Leader>lt :tag<space>
-nnoremap <Leader>t :tselect 
+"nnoremap <Leader>t :tselect 
 set tags+=tags.vendor
 
 " ctrlp settings
@@ -363,32 +372,32 @@ let g:ctrlp_buftag_types = {
     \ 'php'        : '--fields=K --PHP-kinds=mctdfip --languages=php',
   \ }
 
-"if has('gui')
-  "nnoremap <Leader>f :CtrlP<CR>
-  "nnoremap <Leader>b :CtrlPBuffer<CR>
-  "nnoremap <Leader>k :CtrlPTag<CR>
-  "nnoremap <Leader>l :CtrlPBufTag<CR>
-  "nnoremap <Leader>a :CtrlPBufTagAll<CR>
-"else
-
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-
-  "nnoremap <Leader>f :Files<CR>
+if has('gui_running')
   nnoremap <Leader>f :CtrlP<CR>
-  "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
-  "nnoremap <Leader>b :Buffers<CR>
   nnoremap <Leader>b :CtrlPBuffer<CR>
+  nnoremap <Leader>k :CtrlPTag<CR>
+  nnoremap <Leader>l :CtrlPBufTag<CR>
+  nnoremap <Leader>a :CtrlPBufTagAll<CR>
+else
+
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+  nnoremap <Leader>f :Files<CR>
+  "nnoremap <Leader>f :CtrlP<CR>
+  "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
+  nnoremap <Leader>b :Buffers<CR>
+  "nnoremap <Leader>b :CtrlPBuffer<CR>
   "nnoremap <Leader>b :Unite buffer -start-insert -smartcase -direction=botright<CR>
   "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase<CR>
-  "nnoremap <Leader>k :MyTagList<CR>
-  nnoremap <Leader>k :CtrlPTag<CR>
+  nnoremap <Leader>k :MyTagList<CR>
+  "nnoremap <Leader>k :CtrlPTag<CR>
   "nnoremap <Leader>k :Unite tag -start-insert -smartcase -vertical-preview -direction=botright<CR>
   "nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
-  nnoremap <Leader>l :CtrlPBufTag<CR>
-  "nnoremap <Leader>l :MyBufferTags<CR>
+  "nnoremap <Leader>l :CtrlPBufTag<CR>
+  nnoremap <Leader>l :MyBufferTags<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
   "nnoremap <Leader>ld :CtrlPDir<CR>
-"endif
+endif
 
 
 " delimitmate settings
@@ -398,8 +407,10 @@ let g:delimitMate_expand_space=1
 " airline settings
 "let g:airline_theme='base16'
 let g:airline_theme='gruvbox'
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+if !has('gui_running')
+  let g:airline_left_sep=''
+  let g:airline_right_sep=''
+endif
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -716,6 +727,8 @@ augroup END
 " php
 augroup my_php
   autocmd!
+  " phpspec
+  autocmd BufRead,BufNewFile,BufEnter *Spec.php UltiSnipsAddFiletypes php-phpspec
   autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
   autocmd FileType php setlocal tags+=~/tags/tags.php
   autocmd FileType php nnoremap <localleader>mtp :Dispatch create-php-ctags.sh<CR>
