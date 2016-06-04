@@ -13,6 +13,9 @@ set rtp+=~/.fzf
 syntax on
 filetype plugin indent on
 
+if has('gui_macvim')
+  set macmeta
+endif
 
 set timeout ttimeoutlen=50
 
@@ -276,7 +279,7 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 
 " gitgutter
-let g:gitgutter_signs = 1
+let g:gitgutter_signs = 0
 
 " netrw
 nnoremap <Leader>1 :edit .<CR>
@@ -301,7 +304,7 @@ let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_debug = 0
 let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=0
+let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 let g:syntastic_aggregate_errors=1
@@ -316,14 +319,14 @@ let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_typescript_checkers = ['']
-let g:syntastic_php_checkers = ['php', 'phpmd'] " php, phpcs, phpmd, phplint
+let g:syntastic_php_checkers = ['php'] " php, phpcs, phpmd, phplint
 let g:syntastic_phpcs_conf = '--standard=psr2 --config-set show_warnings 0'
 
 "let g:syntastic_elixir_checkers = ['elixir']
 
 " table mode
 let g:table_mode_corner = "|"
-let g:table_mode_map_prefix = '<Leader>.t'
+let g:table_mode_map_prefix = '<Leader>t'
 
 " dispatch
 nnoremap <Leader>dp :Dispatch <CR>
@@ -333,7 +336,7 @@ vnoremap <Leader>ds y:call DispatchCommand(@@, "Start")<CR>
 
 " tags
 "nnoremap <Leader>lt :tag<space>
-nnoremap <Leader>t :tselect 
+"nnoremap <Leader>t :tselect 
 set tags+=tags.vendor
 
 " ctrlp settings
@@ -352,32 +355,32 @@ let g:ctrlp_buftag_types = {
     \ 'php'        : '--fields=K --PHP-kinds=mctdfip --languages=php',
   \ }
 
-"if has('gui')
-  "nnoremap <Leader>f :CtrlP<CR>
-  "nnoremap <Leader>b :CtrlPBuffer<CR>
-  "nnoremap <Leader>k :CtrlPTag<CR>
-  "nnoremap <Leader>l :CtrlPBufTag<CR>
-  "nnoremap <Leader>a :CtrlPBufTagAll<CR>
-"else
-
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-
-  "nnoremap <Leader>f :Files<CR>
+if has('gui_running')
   nnoremap <Leader>f :CtrlP<CR>
-  "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
-  "nnoremap <Leader>b :Buffers<CR>
   nnoremap <Leader>b :CtrlPBuffer<CR>
+  nnoremap <Leader>k :CtrlPTag<CR>
+  nnoremap <Leader>l :CtrlPBufTag<CR>
+  nnoremap <Leader>a :CtrlPBufTagAll<CR>
+else
+
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+  nnoremap <Leader>f :Files<CR>
+  "nnoremap <Leader>f :CtrlP<CR>
+  "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
+  nnoremap <Leader>b :Buffers<CR>
+  "nnoremap <Leader>b :CtrlPBuffer<CR>
   "nnoremap <Leader>b :Unite buffer -start-insert -smartcase -direction=botright<CR>
   "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase<CR>
-  "nnoremap <Leader>k :MyTagList<CR>
-  nnoremap <Leader>k :CtrlPTag<CR>
+  nnoremap <Leader>k :MyTagList<CR>
+  "nnoremap <Leader>k :CtrlPTag<CR>
   "nnoremap <Leader>k :Unite tag -start-insert -smartcase -vertical-preview -direction=botright<CR>
   "nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
-  nnoremap <Leader>l :CtrlPBufTag<CR>
-  "nnoremap <Leader>l :MyBufferTags<CR>
+  "nnoremap <Leader>l :CtrlPBufTag<CR>
+  nnoremap <Leader>l :MyBufferTags<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
   "nnoremap <Leader>ld :CtrlPDir<CR>
-"endif
+endif
 
 
 " delimitmate settings
@@ -387,8 +390,10 @@ let g:delimitMate_expand_space=1
 " airline settings
 "let g:airline_theme='base16'
 let g:airline_theme='gruvbox'
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+if !has('gui_running')
+  let g:airline_left_sep=''
+  let g:airline_right_sep=''
+endif
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -557,8 +562,8 @@ nnoremap <Leader>.es :UltiSnipsEdit<CR>
 nnoremap <Leader>.eas :e ~/.vim/Ultisnips/all.snippets<CR>
 
 "inoremap <c-l> <esc>:Unite ultisnips -start-insert<CR>
-"inoremap <M-s> <c-o>:Snippets<CR>
-inoremap <M-s> <c-o>:Unite ultisnips -start-insert<CR>
+inoremap <M-s> <c-o>:Snippets<CR>
+"inoremap <M-s> <c-o>:Unite ultisnips -start-insert<CR>
 
 nnoremap <Leader>.os :syntax on<CR>
 
@@ -606,6 +611,15 @@ let g:vim_markdown_conceal = 0
 "let g:deoplete#enable_at_startup = 1
 " alchemist.vim
 "let g:alchemist_iex_term_split = 'vsplit'
+
+function! SendToTmuxBottom()
+  exe "silent Twrite bottom"
+  exe "silent Tmux send-keys -t bottom Enter"
+endfunction
+
+inoremap <silent> <M-t> <C-o>:call SendToTmuxBottom()<CR>
+vnoremap <M-t> :call SendToTmuxBottom()<CR>
+nnoremap <M-t> :call SendToTmuxBottom()<CR>
 
 "-------- Functions ------------------------------- 
 function! ConfirmBDeleteBang()
@@ -705,6 +719,8 @@ augroup END
 " php
 augroup my_php
   autocmd!
+  " phpspec
+  autocmd BufRead,BufNewFile,BufEnter *Spec.php UltiSnipsAddFiletypes php-phpspec
   autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
   autocmd FileType php setlocal tags+=~/tags/tags.php
   autocmd FileType php nnoremap <localleader>mtp :Dispatch create-php-ctags.sh<CR>

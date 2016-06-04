@@ -1,7 +1,187 @@
 extends markdown
 
+snippet metaschema "Meta Schema"
+"meta": {
+	"type": "object",
+	"description": "Meta information",
+	"properties": {
+		"pagination": {
+			"type": "object",
+			"description": "Pagination information",
+			"properties": {
+        "count": {
+          "type": "integer",
+          "description": "The number of items on this page."
+        },
+        "current_page": {
+          "type": "integer",
+          "description": "The current page. Starting from 1."
+        },
+        "links": {
+          "type": "object",
+          "description": "Previous and next links",
+          "properties": {
+            "next": {
+              "type": "string",
+              "description": "The next page"
+            },
+            "previous": {
+              "type": "string",
+              "description": "The next page"
+            }
+          },
+          "required": [ ]
+        },
+        "per_page": {
+          "type": "integer",
+          "description": "The number of items included per page"
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of records in the data store."
+        },
+        "total_pages": {
+          "type": "integer",
+          "description": "The total number of pages in the data store, based on per_page value."
+        }
+			}
+		}
+	},
+	"required": [
+		'pagination'
+	]
+}
+endsnippet
+
+snippet body "body"
+		+ Body
+
+						$1
+endsnippet
+
+snippet schema "Schema"
+		+ Schema
+
+						{
+							"$schema": "http://json-schema.org/draft-04/schema#",
+							"title": "$1",
+							"description": "$2",
+							"type": "${3:object}",
+							"properties": {
+								$5
+							}${4:,
+							"required": [
+								"data"
+							]}
+						}
+endsnippet
+
+snippet p "nextline" w
+,
+
+endsnippet
+
+snippet id "id" w
+"id": {
+	"type": "string",
+	"description": "The id of the ${1:entity}"
+}
+endsnippet
+
+snippet dataarray "wrapper for list of objects" b
+"data": {
+	"type": "array",
+	"description": "Array of ${1:objects}",
+	"items": {
+		"type": "object",
+		"description": "$2",
+		"properties": {
+			$4
+		}${3:,
+		"required": [
+
+		]}
+	}
+}
+endsnippet
+
+snippet dataobj "wrapper for single object" w
+"data": {
+	"type": "object",
+	"description": "$1",
+	"properties": {
+		$2
+	}
+}
+endsnippet
+
+snippet e "Enum" w
+"$1": {
+	"description": "$2",
+	"enum": [$3]
+}
+endsnippet
+
+snippet o "object" w
+"$1": {
+	"type": "object",
+	"description": "$2",
+	"properties": {
+		$4
+	}${3:,
+	"required": [
+
+	]}
+}
+endsnippet
+
+snippet a "array" w
+"$1": {
+	"type": "array",
+	"description": "$2",
+	"items": {
+		"type": "${3:string}"
+	}
+}
+endsnippet
+
+snippet b "boolean" w
+"$1": {
+	"type": "boolean",
+	"description": "$2"
+}
+endsnippet
+
+snippet i "integer" w
+"$1": {
+	"type": "integer",
+	"description": "$2"
+}
+endsnippet
+
+snippet n "number" w
+"$1": {
+	"type": "number",
+	"description": "$2"
+}
+endsnippet
+
+snippet s "string" w
+"$1": {
+	"type": "string",
+	"description": "$2"
+}
+endsnippet
+
+snippet prop "Property"
+"${1:name}": {
+	"description": "$2",
+	"type": "$3"
+}
+endsnippet
+
 snippet req "Request"
-+ Request (${1:application/json})
++ Request ${1:name} (${2:application/json})
 endsnippet
 
 snippet res "Response"
@@ -22,23 +202,39 @@ snippet at "Attributes"
 + Attributes (${1:object})
 endsnippet
 
+snippet meta "Meta"
+"meta": {
+	"pagination": {
+		"count": 2,
+		"current_page": 2,
+		"links": {
+			"next": "/api/v1/${1:resource}?page=3",
+			"previous": "/api/v1/$1?page=1",
+		},
+		"per_page": 2,
+		"total": 5,
+		"total_pages": 3
+	}
+}
+endsnippet
+
 snippet fractal_collection_paginated "Paginated JSON"
-        {
-          "data": [
-						$8
-          ],
-          "meta": {
-            "pagination": {
-              "count": ${1:5},
-              "current_page": ${2:3},
-              "links": {
-                "next": "http://${3:app-name}.myriadapps.com/api/v1/notifications/?page=${4:4}",
-                "previous": "http://$3.myriadapps.com/api/v1/notifications/?page=${5:2}"
-              },
-              "per_page": $1,
-              "total": ${6:50},
-              "total_pages": ${7:10}
-            }
-          }
-        }
+{
+	"data": [
+		$8
+	],
+	"meta": {
+		"pagination": {
+			"count": ${1:5},
+			"current_page": ${2:3},
+			"links": {
+				"next": "http://${3:app-name}.myriadapps.com/api/v1/notifications/?page=${4:4}",
+				"previous": "http://$3.myriadapps.com/api/v1/notifications/?page=${5:2}"
+			},
+			"per_page": $1,
+			"total": ${6:50},
+			"total_pages": ${7:10}
+		}
+	}
+}
 endsnippet
