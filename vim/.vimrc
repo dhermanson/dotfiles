@@ -13,11 +13,11 @@ set rtp+=~/.fzf
 syntax on
 filetype plugin indent on
 
-if has('gui_macvim')
+if has('gui_macvim') && has('gui_running')
   set macmeta
 endif
 
-set timeout ttimeoutlen=50
+set timeout timeoutlen=1000 ttimeoutlen=100
 
 set tabstop=2
 set shiftwidth=2
@@ -34,6 +34,7 @@ set autowriteall
 set nocursorline
 set nocursorcolumn
 set noswapfile
+set nohlsearch
 
 " no bells
 set noerrorbells visualbell t_vb=
@@ -106,36 +107,41 @@ endfunction
 "------------------------------------
 nnoremap <M-o> <C-w>o
 
-if has('nvim')
-  "nnoremap <C-H> <C-w>5<
-  map <silent> <bs> <C-w>5<
-  nnoremap <M-H> <C-w>H
-
-  nnoremap <c-j> <c-w>5-
-  nnoremap <m-j> <c-w>j
-
-  nnoremap <C-K> <C-w>5+
-  nnoremap <M-K> <C-w>K
-
-  nnoremap <C-L> <C-w>5>
-  nnoremap <M-L> <C-w>L
-else
+if !has('nvim')
   set ttymouse=xterm2
+endif
+
+"if has('nvim')
+  ""nnoremap <C-H> <C-w>5<
+  "map <silent> <bs> <C-w>5<
+  "nnoremap <M-H> <C-w>H
+
+  "nnoremap <c-j> <c-w>5-
+  "nnoremap <m-j> <c-w>j
+
+  "nnoremap <C-K> <C-w>5+
+  "nnoremap <M-K> <C-w>K
+
+  "nnoremap <C-L> <C-w>5>
+  "nnoremap <M-L> <C-w>L
+"else
+  "set ttymouse=xterm2
   "map vim escape sequences as explained in
   "http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-  let c='a'
-  while c <= 'z'
-    exec "set <A-".c.">=\e".c
-    "exec "imap \e".c." <A-".c.">"
-    let c = nr2char(1+char2nr(c))
-  endw
+  "let c='a'
+  "while c <= 'z'
+    "exec "set <A-".c.">=\e".c
+    ""exec "imap \e".c." <A-".c.">"
+    "let c = nr2char(1+char2nr(c))
+  "endw
 
-  let c='A'
-  while c <= 'Z'
-    exec "set <A-".c.">=\e".c
-    "exec "imap \e".c." <A-".c.">"
-    let c = nr2char(1+char2nr(c))
-  endw
+  "let c='A'
+  "while c <= 'Z'
+    "exec "set <A-".c.">=\e".c
+    ""exec "imap \e".c." <A-".c.">"
+    "let c = nr2char(1+char2nr(c))
+  "endw
+
 
   nnoremap <M-H> <C-w>H
 
@@ -144,15 +150,16 @@ else
   nnoremap <M-K> <C-w>K
 
   nnoremap <M-L> <C-w>L
+  
 
-  nnoremap <Esc>- <C-w>5-
+  nnoremap <M--> <C-w>5-
 
-  nnoremap <Esc>+ <C-w>5+
+  nnoremap <M-+> <C-w>5+
 
-  nnoremap <Esc>< <C-w>5<
+  nnoremap <M-<> <C-w>5<
 
-  nnoremap <Esc>> <C-w>5>
-endif
+  nnoremap <M->> <C-w>5>
+"endif
 
 
 
@@ -206,8 +213,6 @@ set undodir=~/.vim/tmp/undo//
 let mapleader=" "
 let maplocalleader = ","
 nnoremap ; :
-nnoremap ' ;
-vnoremap ' ;
 inoremap jk <Esc>
 "nnoremap <Leader>w <C-w>
 
@@ -244,6 +249,8 @@ nnoremap <M-q> :bdelete<CR>
 
 nnoremap <Leader>oc :copen <CR>
 
+nnoremap <M-f> :grep 
+
 " ack.vim
 let g:ack_use_dispatch = 1
 nnoremap <Leader>8 :Ack 
@@ -277,6 +284,7 @@ nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gl :Glog<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gw :Gwrite<CR>
+nnoremap <Leader>gc :Commits<CR>
 
 " gitgutter
 let g:gitgutter_signs = 0
@@ -608,18 +616,27 @@ let g:vim_markdown_conceal = 0
 
 " neovim
 " deoplete.
-"let g:deoplete#enable_at_startup = 1
+if has('nvim')
+  let g:deoplete#enable_at_startup = 1
+endif
+
 " alchemist.vim
 "let g:alchemist_iex_term_split = 'vsplit'
 
-function! SendToTmuxBottom()
-  exe "silent Twrite bottom"
-  exe "silent Tmux send-keys -t bottom Enter"
+if has('gui_macvim') && has('gui_running')
+  let g:my_tmux_pane= 'editor.1'
+else
+  let g:my_tmux_pane= 'editor.2'
+endif
+
+function! SendToTmuxPane()
+  exe "normal V\<C-[>"
+  exe "silent '<,'>Twrite " . g:my_tmux_pane
 endfunction
 
-inoremap <silent> <M-t> <C-o>:call SendToTmuxBottom()<CR>
-vnoremap <M-t> :call SendToTmuxBottom()<CR>
-nnoremap <M-t> :call SendToTmuxBottom()<CR>
+inoremap <silent> <M-t> <C-o>:call SendToTmuxPane()<CR>
+vnoremap <M-t> :\<C-u>execute "'<,'>Twrite " . g:my_tmux_pane <CR>
+nnoremap <silent> <M-t> :call SendToTmuxPane()<CR>
 
 "-------- Functions ------------------------------- 
 function! ConfirmBDeleteBang()
@@ -741,6 +758,9 @@ augroup my_php
   " run phpunit tests for file or for project
   autocmd FileType php nnoremap <localleader>rt :VimuxRunCommand('clear; phpunit ' . bufname('%')) <CR>
   autocmd FileType php nnoremap <localleader>rpt :VimuxRunCommand('clear; phpunit') <CR>
+
+  " laravel
+  autocmd FileType php nnoremap <localleader>lat :Tmux splitw 'php artisan tinker'<CR>
 augroup END
 
 augroup ApiBlueprint

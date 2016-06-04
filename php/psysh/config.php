@@ -7,4 +7,5 @@ return array(
   'defaultIncludes' => array(
       './vendor/autoload.php',
   ),
+  'requireSemicolons' => true
 );
