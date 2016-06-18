@@ -162,6 +162,8 @@ endif
 "endif
 
 
+inoremap <M-u> <Esc>vbUea
+inoremap <M-l> <Esc>vbuea
 
 
 inoremap <M-o> <C-x><C-o>
@@ -312,7 +314,7 @@ let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_debug = 0
 let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
+let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 let g:syntastic_aggregate_errors=1
@@ -327,8 +329,9 @@ let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_typescript_checkers = ['']
-let g:syntastic_php_checkers = ['php'] " php, phpcs, phpmd, phplint
-let g:syntastic_phpcs_conf = '--standard=psr2 --config-set show_warnings 0'
+let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs'] " php, phpcs, phpmd, phplint
+"let g:syntastic_php_phpmd_args = 'text unusedcode'
+let g:syntastic_php_phpcs_args = '--standard=~/phpcsconfig.xml'
 
 "let g:syntastic_elixir_checkers = ['elixir']
 
@@ -366,7 +369,9 @@ let g:ctrlp_buftag_types = {
 if has('gui_running')
   nnoremap <Leader>f :CtrlP<CR>
   nnoremap <Leader>b :CtrlPBuffer<CR>
+  "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase -direction=botright<CR>
   nnoremap <Leader>k :CtrlPTag<CR>
+  "nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview -direction=botright<CR>
   nnoremap <Leader>l :CtrlPBufTag<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
 else
@@ -382,10 +387,10 @@ else
   "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase<CR>
   nnoremap <Leader>k :MyTagList<CR>
   "nnoremap <Leader>k :CtrlPTag<CR>
-  "nnoremap <Leader>k :Unite tag -start-insert -smartcase -vertical-preview -direction=botright<CR>
+  "nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview<CR>
   "nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
-  "nnoremap <Leader>l :CtrlPBufTag<CR>
-  nnoremap <Leader>l :MyBufferTags<CR>
+  nnoremap <Leader>l :CtrlPBufTag<CR>
+  "nnoremap <Leader>l :MyBufferTags<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
   "nnoremap <Leader>ld :CtrlPDir<CR>
 endif
@@ -715,6 +720,13 @@ endfunction
 
 "-------------Auto-Commands--------------"
 
+augroup filetype_dosini
+  autocmd!
+  autocmd BufRead,BufNewFile php-fpm.conf set syntax=dosini
+  autocmd BufRead,BufNewFile php.ini set syntax=dosini
+  autocmd BufRead,BufNewFile www.conf set syntax=dosini
+augroup END
+
 augroup filetype_css
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -756,11 +768,17 @@ augroup my_php
   autocmd FileType php nnoremap <localleader>rps :Start phpspec run && read<CR>
 
   " run phpunit tests for file or for project
-  autocmd FileType php nnoremap <localleader>rt :VimuxRunCommand('clear; phpunit ' . bufname('%')) <CR>
-  autocmd FileType php nnoremap <localleader>rpt :VimuxRunCommand('clear; phpunit') <CR>
+  "autocmd FileType php nnoremap <localleader>rt :VimuxRunCommand('clear; phpunit ' . bufname('%')) <CR>
+  "autocmd FileType php nnoremap <localleader>rpt :VimuxRunCommand('clear; phpunit') <CR>
+  autocmd FileType php nnoremap <localleader>rt :Start phpunit %<CR>
+  autocmd FileType php nnoremap <localleader>rpt :Start phpunit<CR>
 
   " laravel
   autocmd FileType php nnoremap <localleader>lat :Tmux splitw 'php artisan tinker'<CR>
+
+  " codesniffer
+  autocmd FileType php nnoremap <localleader>cs :Dispatch phpcs % --standard=~/phpcsconfig.xml<CR>
+  autocmd FileType php nnoremap <localleader>cbf :Dispatch phpcbf % --standard=~/phpcsconfig.xml<CR>
 augroup END
 
 augroup ApiBlueprint
@@ -846,7 +864,8 @@ augroup END
 
 augroup phpCsFixer
   autocmd!
-  autocmd FileType php nnoremap <localleader>cs :call PhpCsFixerFixFile()<CR>
+  " TODO: remove phpcsfixer
+  "autocmd FileType php nnoremap <localleader>cs :call PhpCsFixerFixFile()<CR>
 augroup END
 
 augroup html
@@ -910,3 +929,8 @@ augroup my_elixir
 augroup END
 
 "inoremap <c-space> <esc>:CtrlPBufTagAll <CR>
+
+
+"let g:dbext_default_profile_homestead = 'type=MYSQL:user=dev:passwd=dev:srvname=192.168.10.10:dbname=home    stead:host=192.168.10.10:port=3306'
+"let g:dbext_default_profile = 'homestead'
+
