@@ -30,7 +30,6 @@ Return a list of installed packages or nil for every skipped package."
  'key-chord
  'helm
  'relative-line-numbers
- ;;'smartparens
  'ggtags
 
  ;; themes
@@ -74,6 +73,7 @@ Return a list of installed packages or nil for every skipped package."
  'tide
  )
 
+
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
@@ -86,16 +86,15 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; (global-flycheck-mode)
 
+;;(require 'evil)
 
 ;; include _'s as part of word
 (modify-syntax-entry ?_ "w")
 
 
-(require 'smartparens-config)
 ;; Parens handling
 ;; Show and create matching parens automatically
 (show-paren-mode t)
-(show-smartparens-global-mode nil)
 (setq sp-autoescape-string-quote nil)
 ;; Do not highlight paren area
 (setq sp-highlight-pair-overlay nil)
@@ -139,14 +138,10 @@ Return a list of installed packages or nil for every skipped package."
 ;; ruby
 (global-rbenv-mode)
 (add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
-(add-hook 'ruby-mode-hook #'smartparens-mode)
 (add-hook 'ruby-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ruby-mode-hook 'robe-mode)
 (eval-after-load 'company
   '(push 'company-robe company-backends))
-
-;; elisp
-;;(add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
 
 ;;
 ;;(eval-after-load 'company
