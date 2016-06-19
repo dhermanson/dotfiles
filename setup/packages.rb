@@ -1,21 +1,40 @@
+require 'fileutils'
+
 # packages to install on the system
 ubuntu_packages = [
+  # x window system
+  "xorg",
+
+  # xmonad
+  "xmonad",
+  "libghc-xmonad-dev",
+  "libghc-xmonad-contrib-dev",
+  "feh",
+
+  # terminal
+  #"rxvt-unicode-256color",
+  #"gnome-terminal",
+  "konsole",
+
   # tools
+  "suckless-tools",
   "exuberant-ctags",
   "git",
   "silversearcher-ag",
   "tmux",
   "zsh",
+  "virtualbox",
   "vagrant",
+  "iceweasel",
 
   # editors
   "emacs",
-  "neovim",
-  "vim-gtk3",
+  #"neovim",
+  #"vim-gtk3",
 
   # databases
   "mysql-server",
-  "mysql-workbench",
+  #"mysql-workbench",
   "redis-server",
   
   # erlang / elixir
@@ -26,16 +45,17 @@ ubuntu_packages = [
   "php7.0",
   "php7.0-common",
   "php7.0-curl",
-  "php7.0-mbstring",
+  #"php7.0-mbstring",
   "php7.0-mcrypt",
   "php7.0-mysql",
   "php7.0-xml",
-  "php7.0-zip",
-  "hhvm",
+  #"php7.0-zip",
+  #"hhvm",
 
   # python
   "python-dev",
   "python-pip",
+  "python3",
   "python3-dev",
   "python3-pip",
 
@@ -47,32 +67,35 @@ ubuntu_packages.each do |package|
     puts "#{package} already installed"
   else
     puts "installing #{package}"
-    system "sudo apt-get install #{package} --assume-yes"
+    unless system "sudo apt-get install #{package} --assume-yes"
+      puts "Error installing #{package}"
+      exit 1
+    end
   end
 end
 
 
-pip3_packages = [
-  "neovim"
-]
-
-pip3_packages.each do |package|
-  unless system "pip3 list | grep #{package}"
-    puts "runing pip3 install #{package}"
-    system "pip3 install #{package}"
-  end
-end
-
-#ruby_gems = [
-  #'pry',
-  #'pry-doc'
+#pip3_packages = [
+#  "neovim"
 #]
 
-#ruby_gems.each do |gem|
-  #unless system "which #{gem}"
-    #system "gem install #{gem}"
-  #end
+#pip3_packages.each do |package|
+#  unless system "pip3 list | grep #{package}"
+#    puts "runing pip3 install #{package}"
+#    system "pip3 install #{package}"
+#  end
 #end
+
+ruby_gems = [
+  'pry',
+  'pry-doc'
+]
+
+ruby_gems.each do |gem|
+  unless system "which #{gem}"
+    system "gem install #{gem}"
+  end
+end
 
 unless Dir.exists?("#{Dir.home}/bin")
   puts "creating bin folder in home directory"

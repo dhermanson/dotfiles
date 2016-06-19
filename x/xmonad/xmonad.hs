@@ -8,11 +8,11 @@ import System.IO
 
 myModMask = mod4Mask
 
-myTerminal = "urxvt"
+myTerminal = "konsole"
 
 myLayout = tiled ||| Mirror tiled ||| Full  
   where  
-      -- default tiling algorithm partitions the screen into two panes  
+      -- default tiling algorithm partitions the screen into two panes
       tiled = spacing 10 $ Tall nmaster delta ratio  
  
       -- The default number of windows in the master pane  

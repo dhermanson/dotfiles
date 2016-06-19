@@ -1,4 +1,6 @@
-xrdb -merge .Xresources
+xrdb -load .Xresources
 feh --bg-scale ~/background.jpg &
 
-exec $HOME/bin/xmonad
+setxkbmap -option '' -option 'ctrl:swapcaps'
+
+exec xmonad
