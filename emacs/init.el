@@ -31,6 +31,7 @@ Return a list of installed packages or nil for every skipped package."
  'helm
  'relative-line-numbers
  'ggtags
+ 'window-numbering
 
  ;; themes
  'base16-theme
@@ -83,13 +84,17 @@ Return a list of installed packages or nil for every skipped package."
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
 
+;; global window numbering
+(window-numbering-mode t)
 
 ;; (global-flycheck-mode)
 
 ;;(require 'evil)
 
 ;; include _'s as part of word
-(modify-syntax-entry ?_ "w")
+;;(modify-syntax-entry ?_ "w")
+
+;; magit
 
 
 ;; Parens handling
@@ -183,7 +188,7 @@ Return a list of installed packages or nil for every skipped package."
 
 
 
-(load-theme 'base16-twilight-dark)
+(load-theme 'base16-ashes-dark)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
