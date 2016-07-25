@@ -144,11 +144,8 @@ endif
 
 
   nnoremap <M-H> <C-w>H
-
   nnoremap <M-J> <C-w>J
-
   nnoremap <M-K> <C-w>K
-
   nnoremap <M-L> <C-w>L
   
 
@@ -268,7 +265,7 @@ let g:EasyMotion_smartcase = 1
 map <silent> / <Plug>(easymotion-sn)
 omap <silent> / <Plug>(easymotion-tn)
 map  <Leader>; <Plug>(easymotion-bd-f)
-nmap <Leader>; <Plug>(easymotion-overwin-f)
+"nmap <Leader>; <Plug>(easymotion-overwin-f)
 "map  <M-Space> <Plug>(easymotion-bd-f)
 "nmap <M-Space> <Plug>(easymotion-overwin-f)
 
@@ -332,6 +329,9 @@ let g:syntastic_typescript_checkers = ['']
 let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs'] " php, phpcs, phpmd, phplint
 "let g:syntastic_php_phpmd_args = 'text unusedcode'
 let g:syntastic_php_phpcs_args = '--standard=~/phpcsconfig.xml'
+"let g:syntastic_mode_map = {  "mode": "passive" }
+
+nnoremap <leader>.sc :SyntasticCheck<CR>
 
 "let g:syntastic_elixir_checkers = ['elixir']
 
@@ -711,11 +711,31 @@ function! IPhpExpandClass()
     call feedkeys('a', 'n')
 endfunction
 
+"function! RunPhpSpecOnBuffer(buffer_name)
+  "" TODO: don't hardcode console:runner.1
+  ""       maybe use a global config or something
+  ""exe "Tmux send-keys -t console:runner.1 'clear; phpspec run " . fnameescape(a:buffer_name) . "' Enter"
+  "exe "Start phpspec run " . fnameescape(a:buffer_name) . " && read"
+"endfunction
+
 function! RunPhpSpecOnBuffer(buffer_name)
   " TODO: don't hardcode console:runner.1
   "       maybe use a global config or something
   "exe "Tmux send-keys -t console:runner.1 'clear; phpspec run " . fnameescape(a:buffer_name) . "' Enter"
-  exe "Start phpspec run " . fnameescape(a:buffer_name) . " && read"
+  let l:project_dir = fnamemodify('.', ':p')
+  let l:phpspec_exe = fnamemodify('vendor/bin/phpspec run', ':p')
+  let l:file = expand('%:p')
+  let l:cmd = 'cd ' . l:project_dir . ' && clear && ' . l:phpspec_exe . ' ' . l:file
+  "exe "Start phpspec run " . fnameescape(a:buffer_name) . " && read"
+  exe "Tmux send-keys -t runner.1 '" . l:cmd . "' Enter"
+endfunction
+
+function! RunBehatOnFile()
+  let l:project_dir = fnamemodify('.', ':p')
+  let l:behat_exe = fnamemodify('vendor/bin/behat', ':p')
+  let l:file = expand('%:p')
+  let l:cmd = 'cd ' . l:project_dir . ' && clear && ' . l:behat_exe . ' --append-snippets ' . l:file
+  exe "Tmux send-keys -t runner.1 '" . l:cmd . "' Enter"
 endfunction
 
 "-------------Auto-Commands--------------"
@@ -743,6 +763,8 @@ augroup END
 augroup my_cucumber
   autocmd!
   autocmd FileType cucumber setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
+  "autocmd FileType cucumber nnoremap <buffer> <localleader>rb :Start behat % && read<CR>
+  autocmd FileType cucumber nnoremap <buffer> <localleader>rb :call RunBehatOnFile()<CR>
 augroup END
 
 " php
@@ -752,33 +774,39 @@ augroup my_php
   autocmd BufRead,BufNewFile,BufEnter *Spec.php UltiSnipsAddFiletypes php-phpspec
   autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
   autocmd FileType php setlocal tags+=~/tags/tags.php
-  autocmd FileType php nnoremap <localleader>mtp :Dispatch create-php-ctags.sh<CR>
-  autocmd FileType php nnoremap <localleader>mtv :Dispatch create-php-vendor-tags.sh<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>mtp :Dispatch create-php-ctags.sh<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>mtv :Dispatch create-php-vendor-tags.sh<CR>
 
   " run behat contexts
   "autocmd FileType php nnoremap <localleader>rb :VimuxRunCommand('clear; behat -f progress') <CR>
   "autocmd FileType php nnoremap <localleader>rb :Tmux send-keys -t console:runner.1 'clear; behat' Enter<CR>
-  autocmd FileType php nnoremap <localleader>rb :Start behat && read<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>rb :Start behat % && read<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>rp :Tmux send-keys -t runner.1 'pwd' Enter<CR>
   
   " run phpspec specs for file or for project
   "autocmd FileType php nnoremap <localleader>rs :VimuxRunCommand('clear; phpspec run ' . bufname('%')) <CR>
-  autocmd FileType php nnoremap <localleader>rs :call RunPhpSpecOnBuffer(bufname('%')) <CR>
+  autocmd FileType php nnoremap <buffer> <localleader>rs :call RunPhpSpecOnBuffer(bufname('%')) <CR>
   "autocmd FileType php nnoremap <localleader>rs :Start 'phpspec run ' . (bufname('%') . ' && read' <CR>
   "autocmd FileType php nnoremap <localleader>rps :VimuxRunCommand('clear; phpspec run') <CR>
-  autocmd FileType php nnoremap <localleader>rps :Start phpspec run && read<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>rps :Start phpspec run && read<CR>
 
   " run phpunit tests for file or for project
   "autocmd FileType php nnoremap <localleader>rt :VimuxRunCommand('clear; phpunit ' . bufname('%')) <CR>
   "autocmd FileType php nnoremap <localleader>rpt :VimuxRunCommand('clear; phpunit') <CR>
-  autocmd FileType php nnoremap <localleader>rt :Start phpunit %<CR>
-  autocmd FileType php nnoremap <localleader>rpt :Start phpunit<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>rt :Start phpunit %<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>rpt :Start phpunit<CR>
 
   " laravel
-  autocmd FileType php nnoremap <localleader>lat :Tmux splitw 'php artisan tinker'<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>lat :Tmux splitw 'php artisan tinker'<CR>
 
   " codesniffer
-  autocmd FileType php nnoremap <localleader>cs :Dispatch phpcs % --standard=~/phpcsconfig.xml<CR>
-  autocmd FileType php nnoremap <localleader>cbf :Dispatch phpcbf % --standard=~/phpcsconfig.xml<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>cs :Dispatch phpcs % --standard=~/phpcsconfig.xml<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>cbf :Dispatch phpcbf % --standard=~/phpcsconfig.xml<CR>
+
+  " setting xdebug on and off
+  autocmd FileType php nnoremap <buffer> <localleader>xon :let $XDEBUG_CONFIG="idekey=PHPSTORM"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>xoff :let $XDEBUG_CONFIG=""<CR>
+
 augroup END
 
 augroup ApiBlueprint
@@ -789,11 +817,11 @@ augroup END
 augroup phpNamespaces
   autocmd!
   autocmd FileType php inoremap <buffer> <localleader>a <Esc>:call IPhpInsertUse()<CR>
-  autocmd FileType php noremap <buffer> <localleader>a :call PhpInsertUse()<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>a :call PhpInsertUse()<CR>
   autocmd FileType php inoremap <buffer> <localleader>q <Esc>:call IPhpExpandClass()<CR>
-  autocmd FileType php noremap <buffer> <localleader>q :call PhpExpandClass()<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>q :call PhpExpandClass()<CR>
   autocmd FileType php inoremap <buffer> <localleader>.s <Esc>:call PhpSortUse()<CR>
-  autocmd FileType php noremap <buffer> <localleader>.s :call PhpSortUse()<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>.s :call PhpSortUse()<CR>
 
   autocmd FileType php nnoremap <buffer> <localleader>emo :Emodel 
   autocmd FileType php nnoremap <buffer> <localleader>vmo :Vmodel 
@@ -883,13 +911,13 @@ augroup END
 augroup typescript
   autocmd!
   " tsuquyomi
-  autocmd FileType typescript nnoremap <localleader>d :TsuquyomiDefinition<CR>
-  autocmd FileType typescript nnoremap <localleader>r :TsuquyomiReferences<CR>
-  autocmd FileType typescript nnoremap <localleader>c :TsuquyomiRenameSymbolC<CR>
-  autocmd FileType typescript nnoremap <localleader>b :TsuquyomiGoBack<CR>
-  autocmd FileType typescript nnoremap <localleader>ef :TsuquyomiGeterr<CR>
-  autocmd FileType typescript nnoremap <localleader>ep :TsuquyomiGeterrProject<CR>
-  autocmd FileType typescript nnoremap <localleader>t :YcmCompleter GetType<CR>
+  autocmd FileType typescript nnoremap <buffer> <localleader>d :TsuquyomiDefinition<CR>
+  autocmd FileType typescript nnoremap <buffer> <localleader>r :TsuquyomiReferences<CR>
+  autocmd FileType typescript nnoremap <buffer> <localleader>c :TsuquyomiRenameSymbolC<CR>
+  autocmd FileType typescript nnoremap <buffer> <localleader>b :TsuquyomiGoBack<CR>
+  autocmd FileType typescript nnoremap <buffer> <localleader>ef :TsuquyomiGeterr<CR>
+  autocmd FileType typescript nnoremap <buffer> <localleader>ep :TsuquyomiGeterrProject<CR>
+  autocmd FileType typescript nnoremap <buffer> <localleader>t :YcmCompleter GetType<CR>
   autocmd FileType typescript setlocal completeopt+=menu,preview
   "autocmd FileType typescript nnoremap <buffer> <localleader>r :call RunTypescriptFile()<CR>
 augroup END
