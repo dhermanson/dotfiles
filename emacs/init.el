@@ -75,7 +75,20 @@ Return a list of installed packages or nil for every skipped package."
  )
 
 
+(global-set-key (kbd "C-?") 'help-command)
+(global-set-key (kbd "M-?") 'mark-paragraph)
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "M-h") 'backward-kill-word)
+
+(require 'company)
+(define-key company-mode-map "C-h" nil)
+(define-key company-mode-map "C-?" 'company-show-doc-buffer)
+(define-key company-active-map "C-h" nil)
+(define-key company-active-map "C-?" 'company-show-doc-buffer)
+
+
 (when (memq window-system '(mac ns))
+  (setq ns-function-modifier 'hyper)
   (exec-path-from-shell-initialize))
 
 
@@ -187,20 +200,3 @@ Return a list of installed packages or nil for every skipped package."
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 
-
-(load-theme 'base16-ashes-dark)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("1a2b131a7844bad234832963d565097efc88111b196fb75757885c159c5f8137" "d1a42ed39a15a843cccadf107ee0242b5f78bfbb5b70ba3ce19f3ea9fda8f52d" "b6db49cec08652adf1ff2341ce32c7303be313b0de38c621676122f255ee46db" "e24679edfdea016519c0e2d4a5e57157a11f928b7ef4361d00c23a7fe54b8e01" "d43120398682953ef18fd7e11e69c94e44d39bb2ab450c4e64815311542acbff" default))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
