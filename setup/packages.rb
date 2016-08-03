@@ -4,6 +4,9 @@ require 'fileutils'
 ubuntu_packages = [
   # x window system
   "xorg",
+  
+  # compositor
+  "compton",
 
   # xmonad
   "xmonad",
@@ -11,10 +14,30 @@ ubuntu_packages = [
   "libghc-xmonad-contrib-dev",
   "feh",
 
+  # wifi
+  "wireless-tools",
+
+  # sound
+  "libasound2",
+  "alsa-base",
+  "alsa-oss",
+  "alsa-utils",
+
+  # flash
+  "flashplugin-nonfree",
+
   # terminal
   #"rxvt-unicode-256color",
   #"gnome-terminal",
   "konsole",
+
+  # utilities
+  "ranger",
+  "atool",
+  "caca-utils",
+  "highlight",
+  "poppler-utils",
+  #"thunar",
 
   # tools
   "suckless-tools",

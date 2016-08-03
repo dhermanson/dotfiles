@@ -10,6 +10,18 @@ unless Dir.exists?("#{Dir.home}/.repos/github/dhermanson/dotfiles")
   system "git clone --recursive https://github.com/dhermanson/dotfiles #{Dir.home}/.repos/github/dhermanson/dotfiles"
 end
 
+unless File.symlink?("#{Dir.home}/.compton.conf")
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/compton/.compton.conf #{Dir.home}/.compton.conf"
+end
+
+unless File.symlink?("#{Dir.home}/.tweed.png")
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/wallpapers/.tweed.png #{Dir.home}/.tweed.png"
+end
+
+unless File.symlink?("#{Dir.home}/.xrandr.conf")
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/xrandr/.xrandr.conf #{Dir.home}/.xrandr.conf"
+end
+
 unless File.symlink?("#{Dir.home}/.vimrc")
   system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/vim/.vimrc #{Dir.home}/.vimrc"
 end

@@ -1,0 +1,34 @@
+clear      lock
+clear     shift
+clear   control
+clear      mod1
+clear      mod2
+clear      mod3
+clear      mod4
+clear      mod5
+
+! CapsLock => Super_L
+keycode      66 = Super_L
+
+! Alt_R => Hyper_L
+keycode     108 = Hyper_L
+
+! Scroll Lock => Mode_Switch
+keycode      78 = Mode_switch
+
+
+! these are probably going to change
+keycode      31 = i I braceleft
+keycode      32 = o O braceright
+keycode      45 = k K parenleft
+keycode      46 = l L parenright
+keycode      59 = comma less bracketleft
+keycode      60 = period greater bracketright
+
+add       shift = Shift_L
+add     control = Control_L
+add        mod1 = Alt_L
+add        mod2 = Num_Lock
+add        mod3 = Hyper_L
+add        mod4 = Super_L Super_R
+add        mod5 = Shift_R
