@@ -11,10 +11,15 @@
 (setq package-list '(
 		     ace-jump-mode
 		     company
+		     company-tern
 		     css-eldoc
+		     helm
+		     js2-mode
+		     js-comint
 		     magit
 		     paredit
 		     rainbow-delimiters
+		     smartparens
 		     which-key
 
 		     ;; themes
@@ -35,6 +40,13 @@
   (unless (package-installed-p package)
     (package-install package)))
 
+(require 'helm-config)
+(require 'smartparens-config)
+(require 'css-eldoc)
+(require 'ace-jump-mode)
+(require 'rainbow-delimiters)
+(require 'js-comint)
+
 ;; load themes
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
@@ -43,9 +55,17 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 
+;; helm
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(helm-mode 1)
+
 ;; wind move
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
+
+;; smartparens
+(add-hook 'js-mode-hook #'smartparens-mode)
 
 ;; eldoc
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
@@ -54,18 +74,18 @@
 (add-hook 'css-mode-hook 'eldoc-mode)
 
 ;; css-eldoc
-(require 'css-eldoc)
 (add-hook 'css-mode-hook 'css-eldoc-enable)
 
 ;; company
 (add-hook 'after-init-hook 'global-company-mode)
+(define-key global-map (kbd "H-SPC") 'company-complete)
+(with-eval-after-load 'company
+  (add-to-list 'company-backends 'company-tern))
 
 ;; ace-jump
-(require 'ace-jump-mode)
 (define-key global-map (kbd "C-;") 'ace-jump-word-mode)
 
 ;; rainbow delimiters
-(require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;; which key
@@ -85,7 +105,25 @@
   (global-set-key (kbd "H-i") "{")
   (global-set-key (kbd "H-o") "}"))
 
+;; js-comint
+(js-do-use-nvm)
+(add-hook 'js2-mode-hook '(lambda ()
+                            (local-set-key "\C-x\C-e" 'js-send-last-sexp)
+                            (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
+                            (local-set-key "\C-cb" 'js-send-buffer)
+                            (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
+                            (local-set-key "\C-cl" 'js-load-file-and-go)))
 
+;; js2-mode
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+;;(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+;;(add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+
+;; tern
+(add-to-list 'load-path "~/.emacs.d/repos/tern/emacs/")
+(autoload 'tern-mode "tern.el" nil t)
+(add-hook 'js-mode-hook (lambda () (tern-mode t)))
 
 ;; org-mode stuff
 (defun org-summary-todo (n-done n-not-done)

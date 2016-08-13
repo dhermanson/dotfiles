@@ -329,3 +329,6 @@
 [submodule "vim/.vim/bundle/deoplete.nvim"]
 	path = vim/.vim/bundle/deoplete.nvim
 	url = https://github.com/Shougo/deoplete.nvim
+[submodule "emacs/repos/tern"]
+	path = emacs/repos/tern
+	url = https://github.com/ternjs/tern
