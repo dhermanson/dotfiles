@@ -5,32 +5,44 @@ unless Dir.exists?("#{Dir.home}/bin")
   FileUtils.mkdir "#{Dir.home}/bin"
 end
 
-unless Dir.exists?("#{Dir.home}/.repositories/github/dhermanson/dotfiles")
+unless Dir.exists?("#{Dir.home}/.repos/github/dhermanson/dotfiles")
   puts "cloning my dotfiles repo"
-  system "git clone --recursive https://github.com/dhermanson/dotfiles #{Dir.home}/.repositories/github/dhermanson/dotfiles"
+  system "git clone --recursive https://github.com/dhermanson/dotfiles #{Dir.home}/.repos/github/dhermanson/dotfiles"
+end
+
+unless File.symlink?("#{Dir.home}/.compton.conf")
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/compton/.compton.conf #{Dir.home}/.compton.conf"
+end
+
+unless File.symlink?("#{Dir.home}/.tweed.png")
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/wallpapers/.tweed.png #{Dir.home}/.tweed.png"
+end
+
+unless File.symlink?("#{Dir.home}/.xrandr.conf")
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/xrandr/.xrandr.conf #{Dir.home}/.xrandr.conf"
 end
 
 unless File.symlink?("#{Dir.home}/.vimrc")
-  system "ln -s #{Dir.home}/.repositories/github/dhermanson/dotfiles/vim/.vimrc #{Dir.home}/.vimrc"
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/vim/.vimrc #{Dir.home}/.vimrc"
 end
 
 unless File.symlink?("#{Dir.home}/.vim")
-  system "ln -s #{Dir.home}/.repositories/github/dhermanson/dotfiles/vim/.vim #{Dir.home}/.vim"
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/vim/.vim #{Dir.home}/.vim"
 end
 
 unless File.symlink?("#{Dir.home}/.tmux.conf")
   puts "symlinking tmux conf"
-  system "ln -s #{Dir.home}/.repositories/github/dhermanson/dotfiles/tmux/.tmux.conf #{Dir.home}/.tmux.conf"
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/tmux/.tmux.conf #{Dir.home}/.tmux.conf"
 end
 
 unless File.symlink?("#{Dir.home}/bin/create-php-ctags.sh")
   puts "symlinking create-php-ctags.sh"
-  system "ln -s #{Dir.home}/.repositories/github/dhermanson/dotfiles/bash/create-php-ctags.sh #{Dir.home}/bin/create-php-ctags.sh"
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/bash/create-php-ctags.sh #{Dir.home}/bin/create-php-ctags.sh"
 end
 
 unless File.symlink?("#{Dir.home}/bin/create-php-vendor-tags.sh")
   puts "symlinking create-php-vendor-tags.sh"
-  system "ln -s #{Dir.home}/.repositories/github/dhermanson/dotfiles/bash/create-php-vendor-tags.sh #{Dir.home}/bin/create-php-vendor-tags.sh"
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/bash/create-php-vendor-tags.sh #{Dir.home}/bin/create-php-vendor-tags.sh"
 end
 
 unless Dir.exists?("#{Dir.home}/.config/nvim")
@@ -45,5 +57,5 @@ end
 
 unless File.symlink?("#{Dir.home}/.ctags")
   puts "symlinking .ctags"
-  system "ln -s #{Dir.home}/.repositories/github/dhermanson/dotfiles/ctags/.ctags #{Dir.home}/.ctags"
+  system "ln -s #{Dir.home}/.repos/github/dhermanson/dotfiles/ctags/.ctags #{Dir.home}/.ctags"
 end

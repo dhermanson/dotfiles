@@ -1,2 +1,6 @@
 *.swp
 vim/.vim/.netrwhist
+
+
+x/xmonad/*
+!xmonad.hs

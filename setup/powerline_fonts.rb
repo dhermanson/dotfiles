@@ -1,9 +1,9 @@
-unless Dir.exists?("#{Dir.home}/.repositories/github/powerline/fonts")
+unless Dir.exists? "#{Dir.home}/.repos/github/powerline/fonts"
   puts "cloning powerline repo"
-  system "git clone --recursive https://github.com/powerline/fonts #{Dir.home}/.repositories/github/powerline/fonts"
+  system "git clone --recursive https://github.com/powerline/fonts #{Dir.home}/.repos/github/powerline/fonts"
 
   fork do
-    Dir.chdir("#{Dir.home}/.repositories/github/powerline/fonts")
+    Dir.chdir("#{Dir.home}/.repos/github/powerline/fonts")
     system "./install.sh"
   end
 

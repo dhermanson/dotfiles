@@ -111,6 +111,25 @@ if !has('nvim')
   set ttymouse=xterm2
 endif
 
+if !has('gui_running')
+  if !has('nvim')
+    "map vim escape sequences as explained in
+    "http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+    let c='a'
+    while c <= 'z'
+      exec "set <A-".c.">=\e".c
+      "exec "imap \e".c." <A-".c.">"
+      let c = nr2char(1+char2nr(c))
+    endw
+
+    let c='A'
+    while c <= 'Z'
+      exec "set <A-".c.">=\e".c
+      "exec "imap \e".c." <A-".c.">"
+      let c = nr2char(1+char2nr(c))
+    endw
+  endif
+endif
 "if has('nvim')
   ""nnoremap <C-H> <C-w>5<
   "map <silent> <bs> <C-w>5<
@@ -126,21 +145,6 @@ endif
   "nnoremap <M-L> <C-w>L
 "else
   "set ttymouse=xterm2
-  "map vim escape sequences as explained in
-  "http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-  "let c='a'
-  "while c <= 'z'
-    "exec "set <A-".c.">=\e".c
-    ""exec "imap \e".c." <A-".c.">"
-    "let c = nr2char(1+char2nr(c))
-  "endw
-
-  "let c='A'
-  "while c <= 'Z'
-    "exec "set <A-".c.">=\e".c
-    ""exec "imap \e".c." <A-".c.">"
-    "let c = nr2char(1+char2nr(c))
-  "endw
 
 
   nnoremap <M-H> <C-w>H
@@ -369,18 +373,8 @@ let g:ctrlp_buftag_types = {
     \ 'php'        : '--fields=K --PHP-kinds=mctdfip --languages=php',
   \ }
 
-if has('gui_running')
-  nnoremap <Leader>f :CtrlP<CR>
-  nnoremap <Leader>b :CtrlPBuffer<CR>
-  "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase -direction=botright<CR>
-  nnoremap <Leader>k :CtrlPTag<CR>
-  "nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview -direction=botright<CR>
-  nnoremap <Leader>l :CtrlPBufTag<CR>
-  nnoremap <Leader>a :CtrlPBufTagAll<CR>
-else
-
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
-
+"if has('nvim')
+if 1
   nnoremap <Leader>f :Files<CR>
   "nnoremap <Leader>f :CtrlP<CR>
   "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
@@ -396,6 +390,16 @@ else
   "nnoremap <Leader>l :MyBufferTags<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
   "nnoremap <Leader>ld :CtrlPDir<CR>
+else
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+  nnoremap <Leader>f :CtrlP<CR>
+  nnoremap <Leader>b :CtrlPBuffer<CR>
+  "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase -direction=botright<CR>
+  "nnoremap <Leader>k :CtrlPTag<CR>
+  nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview -direction=botright<CR>
+  nnoremap <Leader>l :CtrlPBufTag<CR>
+  nnoremap <Leader>a :CtrlPBufTagAll<CR>
 endif
 
 
