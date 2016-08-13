@@ -8,25 +8,29 @@
  t)
 
 ;; list the packages I want
-(setq package-list '(
-		     ace-jump-mode
-		     company
-		     company-tern
-		     css-eldoc
-		     helm
-		     js2-mode
-		     js-comint
-		     magit
-		     paredit
-		     rainbow-delimiters
-		     smartparens
-		     which-key
-
-		     ;; themes
-		     gruvbox-theme
-		     monokai-theme
-		     solarized-theme
-		     ))
+(setq package-list
+      '(
+	ace-jump-mode
+	company
+	company-tern
+	css-eldoc
+	helm
+	js2-mode
+	js-comint
+	magit      
+	paredit
+	rainbow-delimiters
+	smartparens
+	which-key
+	
+	;; themes
+	gruvbox-theme
+	monokai-theme
+	solarized-theme
+	
+	;; php
+	php-mode
+	))
 
 ;; activate all the packages (in particular autoloads)
 (package-initialize)
@@ -143,3 +147,16 @@
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
 (load-theme 'gruvbox t)
+
+;; my functions
+(defun spawn-eshell ()
+  "make a new eshell"
+  (eshell t))
+(define-key global-map (kbd "s-n es") (lambda () (interactive) (spawn-eshell)))
+
+(defun spawn-multi-term ()
+  "make a new multi-term"
+  (multi-term))
+(define-key global-map (kbd "s-n t") (lambda () (interactive) (spawn-multi-term)))
+
+(define-key global-map (kbd "s-g s") 'magit-status)
