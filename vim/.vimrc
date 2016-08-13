@@ -329,7 +329,10 @@ let g:syntastic_typescript_checkers = ['']
 let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs'] " php, phpcs, phpmd, phplint
 "let g:syntastic_php_phpmd_args = 'text unusedcode'
 let g:syntastic_php_phpcs_args = '--standard=~/phpcsconfig.xml'
-"let g:syntastic_mode_map = {  "mode": "passive" }
+let g:syntastic_mode_map = {
+    \ "mode": "active",
+    \ "active_filetypes": ["javascript", "python", "ruby", "php"],
+    \ "passive_filetypes": ["html", "blade", "php"] }
 
 nnoremap <leader>.sc :SyntasticCheck<CR>
 
@@ -568,8 +571,8 @@ let g:tagbar_type_markdown = {
 " ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
 "let g:UltiSnipsListSnippets="<c-l>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<m-n>"
+let g:UltiSnipsJumpBackwardTrigger="<m-p>"
 "let g:UltiSnipsEditSplit="vertical"
 nnoremap <Leader>.es :UltiSnipsEdit<CR>
 nnoremap <Leader>.eas :e ~/.vim/Ultisnips/all.snippets<CR>
