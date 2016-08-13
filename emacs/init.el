@@ -1,10 +1,78 @@
 (require 'package)
-  (add-to-list
-   'package-archives
-   '("melpa" . "http://melpa.org/packages/")
-   t)
-  (package-initialize)
+(require 'eldoc)
 
+;; add package archives
+(add-to-list
+ 'package-archives
+ '("melpa" . "http://melpa.org/packages/")
+ t)
+
+;; list the packages I want
+(setq package-list '(
+		     ace-jump-mode
+		     company
+		     css-eldoc
+		     magit
+		     paredit
+		     rainbow-delimiters
+		     which-key
+
+		     ;; themes
+		     gruvbox-theme
+		     monokai-theme
+		     solarized-theme
+		     ))
+
+;; activate all the packages (in particular autoloads)
+(package-initialize)
+
+;; fetch the list of packages available 
+(unless package-archive-contents
+  (package-refresh-contents))
+
+;; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+;; load themes
+;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+
+;; remove scrollbar, menubar, and toolbar
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+
+;; wind move
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+
+;; eldoc
+(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
+(add-hook 'ielm-mode-hook 'eldoc-mode)
+(add-hook 'css-mode-hook 'eldoc-mode)
+
+;; css-eldoc
+(require 'css-eldoc)
+(add-hook 'css-mode-hook 'css-eldoc-enable)
+
+;; company
+(add-hook 'after-init-hook 'global-company-mode)
+
+;; ace-jump
+(require 'ace-jump-mode)
+(define-key global-map (kbd "C-;") 'ace-jump-word-mode)
+
+;; rainbow delimiters
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+;; which key
+(which-key-mode)
+
+
+;; mac osx specific
 (when (memq window-system '(mac ns))
   (setq ns-function-modifier 'hyper)
   (global-set-key (kbd "H-SPC") 'ace-jump-word-mode)
@@ -18,9 +86,6 @@
   (global-set-key (kbd "H-o") "}"))
 
 
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
 
 ;; org-mode stuff
 (defun org-summary-todo (n-done n-not-done)
@@ -30,18 +95,13 @@
      
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
+;; paredit
+(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("d43120398682953ef18fd7e11e69c94e44d39bb2ab450c4e64815311542acbff" "aed73c6d0afcf2232bb25ed2d872c7a1c4f1bda6759f84afc24de6a1aec93da8" "b6db49cec08652adf1ff2341ce32c7303be313b0de38c621676122f255ee46db" "e24679edfdea016519c0e2d4a5e57157a11f928b7ef4361d00c23a7fe54b8e01" default))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(load-theme 'gruvbox t)
