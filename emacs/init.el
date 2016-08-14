@@ -62,15 +62,15 @@
 (load-theme 'gruvbox t)
 
 ;; fonts
-(set-default-font "Source Code Pro SemiBold-14")
+(set-default-font "Source Code Pro Regular-14")
 
 ;; handy tweaks
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-;;(global-linum-mode 1) ; display line numbers
+(global-linum-mode -1) ; display line numbers
 (column-number-mode 1) ; display column/row of cursor in mode-line
-(show-paren-mode 1)
+(show-paren-mode -1)
 
 ;; helm
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -98,6 +98,11 @@
 ;; company
 (add-hook 'after-init-hook 'global-company-mode)
 (define-key global-map (kbd "H-SPC") 'company-complete)
+(define-key company-active-map (kbd "H-h") 'company-show-doc-buffer)
+(define-key company-active-map (kbd "H-l") 'company-show-location)
+(define-key company-active-map (kbd "H-n") 'company-select-next)
+(define-key company-active-map (kbd "H-p") 'company-select-previous)
+(define-key company-active-map (kbd "H-g") 'company-abort)
 (with-eval-after-load 'company
   (add-to-list 'company-backends 'company-tern))
 
@@ -203,3 +208,4 @@
 (global-set-key (kbd "H-.") "]")
 (global-set-key (kbd "H-i") "{")
 (global-set-key (kbd "H-o") "}")
+
