@@ -24,6 +24,7 @@
 	projectile
 	rainbow-delimiters
 	smartparens
+	web-mode
 	which-key
 	
 	;; themes
@@ -54,15 +55,22 @@
 (require 'ace-jump-mode)
 (require 'rainbow-delimiters)
 (require 'js-comint)
+(require 'web-mode)
 
-;; load themes
+;; themes
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'gruvbox t)
 
-;; remove scrollbar, menubar, and toolbar
+;; fonts
+(set-default-font "Source Code Pro SemiBold-14")
+
+;; handy tweaks
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+;;(global-linum-mode 1) ; display line numbers
+(column-number-mode 1) ; display column/row of cursor in mode-line
+(show-paren-mode 1)
 
 ;; helm
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -163,6 +171,28 @@
              (company-mode t)
              (add-to-list 'company-backends 'company-ac-php-backend )))
 
+;; web-mode
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+
+(setq web-mode-engines-alist
+      '(("php"    . "\\.phtml\\'")
+        ("blade"  . "\\.blade\\."))
+      )
+
+(defun custom-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2))
+
+(add-hook 'web-mode-hook  'custom-web-mode-hook)
 
 ;;(global-set-key (kbd "H-SPC") 'ace-jump-word-mode)
 ;;(global-set-key (kbd "H-S-SPC") 'ace-jump-char-mode)
