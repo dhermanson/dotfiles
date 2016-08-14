@@ -2,23 +2,26 @@
 (require 'eldoc)
 
 ;; add package archives
-(add-to-list
- 'package-archives
- '("melpa" . "http://melpa.org/packages/")
- t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
 
 ;; list the packages I want
 (setq package-list
       '(
 	ace-jump-mode
 	company
+	company-php
 	company-tern
 	css-eldoc
 	helm
+	helm-projectile
 	js2-mode
 	js-comint
 	magit      
 	paredit
+	projectile
 	rainbow-delimiters
 	smartparens
 	which-key
@@ -30,6 +33,7 @@
 	
 	;; php
 	php-mode
+	ac-php
 	))
 
 ;; activate all the packages (in particular autoloads)
@@ -53,6 +57,7 @@
 
 ;; load themes
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'gruvbox t)
 
 ;; remove scrollbar, menubar, and toolbar
 (scroll-bar-mode -1)
@@ -70,12 +75,14 @@
 
 ;; smartparens
 (add-hook 'js-mode-hook #'smartparens-mode)
+(add-hook 'php-mode-hook #'smartparens-mode)
 
 ;; eldoc
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
 (add-hook 'ielm-mode-hook 'eldoc-mode)
 (add-hook 'css-mode-hook 'eldoc-mode)
+(add-hook 'php-mode-hook 'eldoc-mode)
 
 ;; css-eldoc
 (add-hook 'css-mode-hook 'css-eldoc-enable)
@@ -87,7 +94,7 @@
   (add-to-list 'company-backends 'company-tern))
 
 ;; ace-jump
-(define-key global-map (kbd "C-;") 'ace-jump-word-mode)
+(define-key global-map (kbd "H-;") 'ace-jump-char-mode)
 
 ;; rainbow delimiters
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -99,15 +106,9 @@
 ;; mac osx specific
 (when (memq window-system '(mac ns))
   (setq ns-function-modifier 'hyper)
-  (global-set-key (kbd "H-SPC") 'ace-jump-word-mode)
-  (global-set-key (kbd "H-S-SPC") 'ace-jump-char-mode)
+  )
 
-  (global-set-key (kbd "H-j") "(")
-  (global-set-key (kbd "H-k") ")")
-  (global-set-key (kbd "H-h") "[")
-  (global-set-key (kbd "H-l") "]")
-  (global-set-key (kbd "H-i") "{")
-  (global-set-key (kbd "H-o") "}"))
+
 
 ;; js-comint
 (js-do-use-nvm)
@@ -146,17 +147,29 @@
 (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
-(load-theme 'gruvbox t)
+;; projectile
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
 
-;; my functions
-(defun spawn-eshell ()
-  "make a new eshell"
-  (eshell t))
-(define-key global-map (kbd "s-n es") (lambda () (interactive) (spawn-eshell)))
+;; magit
+(define-key global-map (kbd "H-x g s") 'magit-status)
 
-(defun spawn-multi-term ()
-  "make a new multi-term"
-  (multi-term))
-(define-key global-map (kbd "s-n t") (lambda () (interactive) (spawn-multi-term)))
 
-(define-key global-map (kbd "s-g s") 'magit-status)
+;; php
+(add-hook 'php-mode-hook
+          '(lambda ()
+             (require 'company-php)
+             (company-mode t)
+             (add-to-list 'company-backends 'company-ac-php-backend )))
+
+
+;;(global-set-key (kbd "H-SPC") 'ace-jump-word-mode)
+;;(global-set-key (kbd "H-S-SPC") 'ace-jump-char-mode)
+
+(global-set-key (kbd "H-j") "(")
+(global-set-key (kbd "H-k") ")")
+(global-set-key (kbd "H-,") "[")
+(global-set-key (kbd "H-.") "]")
+(global-set-key (kbd "H-i") "{")
+(global-set-key (kbd "H-o") "}")
