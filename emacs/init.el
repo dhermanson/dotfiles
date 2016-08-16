@@ -19,7 +19,8 @@
 	helm-projectile
 	js2-mode
 	js-comint
-	magit      
+	magit
+	markdown-mode
 	paredit
 	projectile
 	rainbow-delimiters
@@ -72,10 +73,14 @@
 (column-number-mode 1) ; display column/row of cursor in mode-line
 (show-paren-mode -1)
 
+;; tramp
+(setq tramp-default-method "ssh")
+
 ;; helm
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (helm-mode 1)
+(define-key global-map (kbd "C-x b") 'helm-buffers-list)
 
 ;; wind move
 (when (fboundp 'windmove-default-keybindings)
@@ -97,14 +102,17 @@
 
 ;; company
 (add-hook 'after-init-hook 'global-company-mode)
-(define-key global-map (kbd "H-SPC") 'company-complete)
-(define-key company-active-map (kbd "H-h") 'company-show-doc-buffer)
-(define-key company-active-map (kbd "H-l") 'company-show-location)
-(define-key company-active-map (kbd "H-n") 'company-select-next)
-(define-key company-active-map (kbd "H-p") 'company-select-previous)
-(define-key company-active-map (kbd "H-g") 'company-abort)
+
 (with-eval-after-load 'company
-  (add-to-list 'company-backends 'company-tern))
+  
+  (add-to-list 'company-backends 'company-tern)
+  (define-key global-map (kbd "H-SPC") 'company-complete)
+  (define-key company-active-map (kbd "H-h") 'company-show-doc-buffer)
+  (define-key company-active-map (kbd "H-l") 'company-show-location)
+  (define-key company-active-map (kbd "H-n") 'company-select-next)
+  (define-key company-active-map (kbd "H-p") 'company-select-previous)
+  (define-key company-active-map (kbd "H-g") 'company-abort)
+  )
 
 ;; ace-jump
 (define-key global-map (kbd "H-;") 'ace-jump-char-mode)
@@ -114,6 +122,11 @@
 
 ;; which key
 (which-key-mode)
+(setq which-key-side-window-max-width 0.5)
+(setq which-key-side-window-max-height 0.5)
+(which-key-setup-side-window-bottom)
+(setq which-key-idle-delay 1.0)
+(setq which-key-max-description-length 50)
 
 
 ;; mac osx specific
@@ -164,10 +177,16 @@
 (projectile-global-mode)
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
+(setq projectile-switch-project-action 'helm-projectile)
 
 ;; magit
 (define-key global-map (kbd "H-x g s") 'magit-status)
 
+;; markdown
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+;;(add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
+;;(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
 ;; php
 (add-hook 'php-mode-hook
