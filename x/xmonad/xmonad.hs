@@ -158,5 +158,5 @@ main = do
                         }
         , modMask = myModMask
         , terminal = myTerminal
-        , keys = myKeys
+        --, keys = myKeys
         }
