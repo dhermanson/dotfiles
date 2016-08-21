@@ -24,6 +24,8 @@
 	paredit
 	projectile
 	rainbow-delimiters
+	sass-mode
+	scss-mode
 	smartparens
 	web-mode
 	which-key
@@ -50,6 +52,7 @@
   (unless (package-installed-p package)
     (package-install package)))
 
+(require 'company)
 (require 'helm-config)
 (require 'smartparens-config)
 (require 'css-eldoc)
@@ -57,6 +60,9 @@
 (require 'rainbow-delimiters)
 (require 'js-comint)
 (require 'web-mode)
+
+;; set path
+(exec-path-from-shell-initialize)
 
 ;; themes
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
@@ -75,6 +81,12 @@
 
 ;; tramp
 (setq tramp-default-method "ssh")
+
+;; windmove
+(define-key global-map (kbd "H-h") 'windmove-left)
+(define-key global-map (kbd "H-j") 'windmove-down)
+(define-key global-map (kbd "H-k") 'windmove-up)
+(define-key global-map (kbd "H-l") 'windmove-right)
 
 ;; helm
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -101,21 +113,18 @@
 (add-hook 'css-mode-hook 'css-eldoc-enable)
 
 ;; company
-(add-hook 'after-init-hook 'global-company-mode)
+;; https://www.reddit.com/r/emacs/comments/3s5bkf/companymode_configuration_make_editing_slow/?st=is0w3bc0&sh=f6db1e9c
+(global-company-mode 1)
+(add-to-list 'company-backends 'company-tern)
+;;(setq company-idle-delay nil) ; never start completions automatically
+(setq company-idle-delay 0.1)
+(define-key global-map (kbd "H-i") 'company-complete)
+(setq company-show-numbers t)
 
-(with-eval-after-load 'company
-  
-  (add-to-list 'company-backends 'company-tern)
-  (define-key global-map (kbd "H-SPC") 'company-complete)
-  (define-key company-active-map (kbd "H-h") 'company-show-doc-buffer)
-  (define-key company-active-map (kbd "H-l") 'company-show-location)
-  (define-key company-active-map (kbd "H-n") 'company-select-next)
-  (define-key company-active-map (kbd "H-p") 'company-select-previous)
-  (define-key company-active-map (kbd "H-g") 'company-abort)
-  )
+
 
 ;; ace-jump
-(define-key global-map (kbd "H-;") 'ace-jump-char-mode)
+(define-key global-map (kbd "H-SPC") 'ace-jump-char-mode)
 
 ;; rainbow delimiters
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -181,6 +190,7 @@
 
 ;; magit
 (define-key global-map (kbd "H-x g s") 'magit-status)
+(define-key global-map (kbd "H-x g i") 'magit-init)
 
 ;; markdown
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
@@ -194,6 +204,10 @@
              (require 'company-php)
              (company-mode t)
              (add-to-list 'company-backends 'company-ac-php-backend )))
+
+;; sass-mode
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+(add-to-list 'auto-mode-alist '("\\.sass\\'" . sass-mode))
 
 ;; web-mode
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
@@ -221,10 +235,10 @@
 ;;(global-set-key (kbd "H-SPC") 'ace-jump-word-mode)
 ;;(global-set-key (kbd "H-S-SPC") 'ace-jump-char-mode)
 
-(global-set-key (kbd "H-j") "(")
-(global-set-key (kbd "H-k") ")")
-(global-set-key (kbd "H-,") "[")
-(global-set-key (kbd "H-.") "]")
-(global-set-key (kbd "H-i") "{")
-(global-set-key (kbd "H-o") "}")
+;; (global-set-key (kbd "H-j") "(")
+;; (global-set-key (kbd "H-k") ")")
+;; (global-set-key (kbd "H-,") "[")
+;; (global-set-key (kbd "H-.") "]")
+;; (global-set-key (kbd "H-i") "{")
+;; (global-set-key (kbd "H-o") "}")
 

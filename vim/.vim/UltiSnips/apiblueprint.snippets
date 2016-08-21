@@ -59,6 +59,15 @@ snippet body "body"
 						$1
 endsnippet
 
+snippet headers "headers"
+		+ Headers
+
+						${1:Accept: application/json}
+						${2:Content-Type: application/json}
+						${3:Authorization: Bearer <token>}
+						$4
+endsnippet
+
 snippet schema "Schema"
 		+ Schema
 
@@ -181,11 +190,37 @@ snippet prop "Property"
 endsnippet
 
 snippet req "Request"
-+ Request ${1:name} (${2:application/json})
++ Request${1: name}
+
+		+ Headers
+
+						${2:Content-Type: application/json}
+						${3:Accept: application/json}
+						${4:Authorization: Bearer 13b33b33c069455383ae4ee3171b7835}
+						$5
+
+		${6:+ Body
+
+						{
+							$7
+						}
+		}
+
 endsnippet
 
 snippet res "Response"
-+ Response ${1:200} (${2:application/json})
++ Response ${1:200}
+
+		+ Headers
+
+						${2:Content-Type: application/json}
+						$3
+
+		+ Body
+
+						{
+							$4
+						}
 endsnippet
 
 snippet r404 "404 Not Found"
