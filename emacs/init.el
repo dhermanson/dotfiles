@@ -24,6 +24,7 @@
 	paredit
 	projectile
 	rainbow-delimiters
+	robe
 	sass-mode
 	scss-mode
 	smartparens
@@ -60,6 +61,8 @@
 (require 'rainbow-delimiters)
 (require 'js-comint)
 (require 'web-mode)
+
+(global-set-key (kbd "s-x") nil)
 
 ;; set path
 (exec-path-from-shell-initialize)
@@ -98,6 +101,8 @@
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
+;; TODO: fix these hooks...i think i should only
+;;       have a single mode hook per mode
 ;; smartparens
 (add-hook 'js-mode-hook #'smartparens-mode)
 (add-hook 'php-mode-hook #'smartparens-mode)
@@ -109,6 +114,7 @@
 (add-hook 'css-mode-hook 'eldoc-mode)
 (add-hook 'php-mode-hook 'eldoc-mode)
 
+
 ;; css-eldoc
 (add-hook 'css-mode-hook 'css-eldoc-enable)
 
@@ -118,13 +124,13 @@
 (add-to-list 'company-backends 'company-tern)
 ;;(setq company-idle-delay nil) ; never start completions automatically
 (setq company-idle-delay 0.1)
-(define-key global-map (kbd "H-i") 'company-complete)
+(define-key global-map (kbd "s-i") 'company-complete)
 (setq company-show-numbers t)
 
 
 
 ;; ace-jump
-(define-key global-map (kbd "H-SPC") 'ace-jump-char-mode)
+(define-key global-map (kbd "s-SPC") 'ace-jump-char-mode)
 
 ;; rainbow delimiters
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -142,8 +148,6 @@
 (when (memq window-system '(mac ns))
   (setq ns-function-modifier 'hyper)
   )
-
-
 
 ;; js-comint
 (js-do-use-nvm)
@@ -189,8 +193,8 @@
 (setq projectile-switch-project-action 'helm-projectile)
 
 ;; magit
-(define-key global-map (kbd "H-x g s") 'magit-status)
-(define-key global-map (kbd "H-x g i") 'magit-init)
+(define-key global-map (kbd "s-x g s") 'magit-status)
+(define-key global-map (kbd "s-x g i") 'magit-init)
 
 ;; markdown
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
@@ -228,9 +232,24 @@
   "Hooks for Web mode."
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 2))
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-enable-auto-pairing t))
 
 (add-hook 'web-mode-hook  'custom-web-mode-hook)
+
+;; ruby
+(defun my-ruby-hook ()
+  "My ruby hook"
+  (eldoc-mode t)
+  (robe-mode t))
+
+(add-hook 'ruby-mode-hook 'my-ruby-hook)
+
+
+;;(add-hook 'ruby-mode-hook 'robe-mode)
+;;(add-hook 'ruby-hook 'eldoc-mode)
+(eval-after-load 'company
+  '(push 'company-robe company-backends))
 
 ;;(global-set-key (kbd "H-SPC") 'ace-jump-word-mode)
 ;;(global-set-key (kbd "H-S-SPC") 'ace-jump-char-mode)

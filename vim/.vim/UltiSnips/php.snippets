@@ -1,3 +1,8 @@
+snippet cs "Comment Section"
+//////////////////////////////////////////////////
+//        $1
+//////////////////////////////////////////////////
+endsnippet
 snippet beforefeature "BeforeFeature"
 /**
  * @BeforeFeature
@@ -170,4 +175,110 @@ endsnippet
 
 snippet f.word "$faker->word"
 $faker->word
+endsnippet
+
+snippet fkey "Blueprint foreign key"
+$table->foreign('${1:table}_id')->references('id')->on('$1s');
+endsnippet
+
+snippet hm "HasMany"
+/**
+ * Get the $1 for this $2.
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\HasMany
+ */
+public function ${1:relation_name}() {
+	return $this->hasMany('$3');
+}
+endsnippet
+
+snippet mm "MorphMany"
+/**
+ * Get the $1 for this $2.
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+ */
+public function ${1:relation_name}() {
+	return $this->morphMany('$3');
+}
+endsnippet
+
+snippet mt "MorphTo"
+/**
+ * Get the owning $1 models.
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+ */
+public function ${1:relation_name}() {
+	return $this->morphTo();
+}
+endsnippet
+
+snippet mtm "MorphToMany"
+/**
+ * Get all of the $1 for the $3
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+ */
+public function ${1:relation_name}() {
+	return $this->morphToMany('$4', '$2');
+}
+endsnippet
+
+snippet mo "MorphOne"
+/**
+ * Get the $1 for this $3
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+ */
+public function ${1:relation_name}() {
+	return $this->morphOne('$4', '$2');
+}
+endsnippet
+
+snippet hmt "HasManyThrough"
+/**
+ * Get the $1 for this $2.
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+ */
+public function ${1:relation_name}() {
+	return $this->hasManyThrough('$e', '$4');
+}
+endsnippet
+
+snippet btm "BelongsToMany"
+/**
+ * Get the $1 for this $2.
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+ */
+public function ${1:relation_name}() {
+	return $this->belongsToMany('$3');
+}
+endsnippet
+
+snippet bt "BelongsTo"
+/**
+ * Get the $1 for this $2.
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ */
+public function ${1:relation_name}() {
+	return $this->belongsTo('$3');
+}
+endsnippet
+
+snippet '(\$[a-zA-Z0-9]+)' "->" r
+`!p
+snip.rv = match.group(1)`->${1:method}($2)
+endsnippet
+
+snippet '[)]\s*' "->" r
+)->${1:method}($2)
+endsnippet
+
+snippet '^(\s*-)' "->" r
+`!p
+snip.rv = match.group(1)`>${1:method}($2)
 endsnippet
