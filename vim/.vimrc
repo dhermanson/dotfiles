@@ -330,13 +330,13 @@ let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_typescript_checkers = ['']
-let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs'] " php, phpcs, phpmd, phplint
+let g:syntastic_php_checkers = ['php', 'phpmd'] " php, phpcs, phpmd, phplint
 "let g:syntastic_php_phpmd_args = 'text unusedcode'
 let g:syntastic_php_phpcs_args = '--standard=~/phpcsconfig.xml'
 let g:syntastic_mode_map = {
     \ "mode": "active",
     \ "active_filetypes": ["javascript", "python", "ruby", "php"],
-    \ "passive_filetypes": ["html", "blade", "php"] }
+    \ "passive_filetypes": ["html", "blade"] }
 
 nnoremap <leader>.sc :SyntasticCheck<CR>
 
@@ -373,10 +373,10 @@ let g:ctrlp_buftag_types = {
     \ 'php'        : '--fields=K --PHP-kinds=mctdfip --languages=php',
   \ }
 
-"if has('nvim')
-if 1
-  nnoremap <Leader>f :Files<CR>
-  "nnoremap <Leader>f :CtrlP<CR>
+if has('nvim')
+"if 1
+  "nnoremap <Leader>f :Files<CR>
+  nnoremap <Leader>f :CtrlP<CR>
   "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
   nnoremap <Leader>b :Buffers<CR>
   "nnoremap <Leader>b :CtrlPBuffer<CR>
@@ -396,8 +396,8 @@ else
   nnoremap <Leader>f :CtrlP<CR>
   nnoremap <Leader>b :CtrlPBuffer<CR>
   "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase -direction=botright<CR>
-  "nnoremap <Leader>k :CtrlPTag<CR>
-  nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview -direction=botright<CR>
+  nnoremap <Leader>k :CtrlPTag<CR>
+  "nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview -direction=botright<CR>
   nnoremap <Leader>l :CtrlPBufTag<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
 endif
