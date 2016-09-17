@@ -18,6 +18,7 @@ if has('gui_macvim') && has('gui_running')
 endif
 
 set timeout timeoutlen=1000 ttimeoutlen=100
+nnoremap <BS> :e 
 
 set tabstop=2
 set shiftwidth=2
@@ -636,9 +637,9 @@ endif
 "let g:alchemist_iex_term_split = 'vsplit'
 
 if has('gui_macvim') && has('gui_running')
-  let g:my_tmux_pane= 'editor.1'
+  let g:my_tmux_pane= 'runner'
 else
-  let g:my_tmux_pane= 'editor.2'
+  let g:my_tmux_pane= 'runner'
 endif
 
 function! SendToTmuxPane()
@@ -649,6 +650,7 @@ endfunction
 inoremap <silent> <M-t> <C-o>:call SendToTmuxPane()<CR>
 vnoremap <M-t> :\<C-u>execute "'<,'>Twrite " . g:my_tmux_pane <CR>
 nnoremap <silent> <M-t> :call SendToTmuxPane()<CR>
+nnoremap <silent> <M-x> :Tmux kill-window -t runner<CR>
 
 "-------- Functions ------------------------------- 
 function! ConfirmBDeleteBang()
@@ -734,7 +736,14 @@ function! RunPhpSpecOnBuffer(buffer_name)
   let l:file = expand('%:p')
   let l:cmd = 'cd ' . l:project_dir . ' && clear && ' . l:phpspec_exe . ' ' . l:file
   "exe "Start phpspec run " . fnameescape(a:buffer_name) . " && read"
-  exe "Tmux send-keys -t runner.1 '" . l:cmd . "' Enter"
+  exe "Tmux neww -t runner"
+  exe "Tmux send-keys -t runner '" . l:cmd . "' Enter"
+endfunction
+
+function! RunArtisanTinkerInProjectRootDirectory()
+  let l:project_dir = fnamemodify('.', ':p')
+  let l:cmd = 'cd ' . l:project_dir . ' && php artisan tinker'
+  exe "Tmux neww -t runner '" . l:cmd . "'"
 endfunction
 
 function! RunBehatOnFile()
@@ -742,7 +751,8 @@ function! RunBehatOnFile()
   let l:behat_exe = fnamemodify('vendor/bin/behat', ':p')
   let l:file = expand('%:p')
   let l:cmd = 'cd ' . l:project_dir . ' && clear && ' . l:behat_exe . ' --append-snippets ' . l:file
-  exe "Tmux send-keys -t runner.1 '" . l:cmd . "' Enter"
+  exe "Tmux neww -t runner"
+  exe "Tmux send-keys -t runner '" . l:cmd . "' Enter"
 endfunction
 
 "-------------Auto-Commands--------------"
@@ -777,6 +787,9 @@ augroup END
 " php
 augroup my_php
   autocmd!
+  " quickly create new php buffers
+  autocmd FileType php nnoremap <buffer> <localleader>nv :exe ":vnew \| setfiletype php"<CR>
+
   " phpspec
   autocmd BufRead,BufNewFile,BufEnter *Spec.php UltiSnipsAddFiletypes php-phpspec
   autocmd FileType php setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
@@ -804,7 +817,9 @@ augroup my_php
   autocmd FileType php nnoremap <buffer> <localleader>rpt :Start phpunit<CR>
 
   " laravel
-  autocmd FileType php nnoremap <buffer> <localleader>lat :Tmux splitw 'php artisan tinker'<CR>
+  "autocmd FileType php nnoremap <buffer> <localleader>lat :Tmux splitw 'php artisan tinker'<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>lat :call RunArtisanTinkerInProjectRootDirectory()<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>t :call RunArtisanTinkerInProjectRootDirectory()<CR>
 
   " codesniffer
   autocmd FileType php nnoremap <buffer> <localleader>cs :Dispatch phpcs % --standard=~/phpcsconfig.xml<CR>
