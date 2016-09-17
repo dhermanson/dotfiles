@@ -291,7 +291,7 @@ nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>gc :Commits<CR>
 
 " gitgutter
-let g:gitgutter_signs = 0
+let g:gitgutter_signs = 1
 
 " netrw
 nnoremap <Leader>1 :edit .<CR>
