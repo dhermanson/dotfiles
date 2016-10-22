@@ -332,3 +332,6 @@
 [submodule "emacs/repos/tern"]
 	path = emacs/repos/tern
 	url = https://github.com/ternjs/tern
+[submodule "vim/.vim/bundle/php.vim"]
+	path = vim/.vim/bundle/php.vim
+	url = https://github.com/StanAngeloff/php.vim.git

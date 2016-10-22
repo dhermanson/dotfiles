@@ -18,7 +18,7 @@ if has('gui_macvim') && has('gui_running')
 endif
 
 set timeout timeoutlen=1000 ttimeoutlen=100
-nnoremap <BS> :e 
+"nnoremap <BS> :e 
 
 set tabstop=2
 set shiftwidth=2
@@ -216,7 +216,7 @@ set undodir=~/.vim/tmp/undo//
 
 let mapleader=" "
 let maplocalleader = ","
-nnoremap ; :
+"nnoremap ; :
 inoremap jk <Esc>
 "nnoremap <Leader>w <C-w>
 
@@ -363,6 +363,8 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_max_files=0
 let g:ctrlp_by_filename=0
 let g:ctrlp_working_path_mode = '0'
+let g:ctrlp_match_window = 'results:100' " overcome limit imposed by max height
+"let g:ctrlp_match_window = 'min:4,max:72'
 "let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
                           "\ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
 "let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
@@ -377,7 +379,7 @@ let g:ctrlp_buftag_types = {
 if has('nvim')
 "if 1
   "nnoremap <Leader>f :Files<CR>
-  nnoremap <Leader>f :CtrlP<CR>
+  nnoremap <Leader>f :Files<CR>
   "nnoremap <Leader>lmru :CtrlPMRUFiles<CR>
   nnoremap <Leader>b :Buffers<CR>
   "nnoremap <Leader>b :CtrlPBuffer<CR>
@@ -387,8 +389,8 @@ if has('nvim')
   "nnoremap <Leader>k :CtrlPTag<CR>
   "nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview<CR>
   "nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
-  nnoremap <Leader>l :CtrlPBufTag<CR>
-  "nnoremap <Leader>l :MyBufferTags<CR>
+  "nnoremap <Leader>l :CtrlPBufTag<CR>
+  nnoremap <Leader>l :MyBufferTags<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
   "nnoremap <Leader>ld :CtrlPDir<CR>
 else
@@ -397,8 +399,8 @@ else
   nnoremap <Leader>f :CtrlP<CR>
   nnoremap <Leader>b :CtrlPBuffer<CR>
   "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase -direction=botright<CR>
-  nnoremap <Leader>k :CtrlPTag<CR>
-  "nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview -direction=botright<CR>
+  "nnoremap <Leader>k :CtrlPTag<CR>
+  nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview -direction=botright<CR>
   nnoremap <Leader>l :CtrlPBufTag<CR>
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
 endif
@@ -787,6 +789,12 @@ augroup END
 " php
 augroup my_php
   autocmd!
+  "autocmd FileType php nnoremap <buffer> <leader>ff :exe ":CtrlP"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>fmi :exe ":CtrlP database/migrations"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>fv :exe ":CtrlP resources/views"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>fj :exe ":CtrlP resources/assets/js"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>fl :exe ":CtrlP resources/assets/less"<CR>
+
   " quickly create new php buffers
   autocmd FileType php nnoremap <buffer> <localleader>nv :exe ":vnew \| setfiletype php"<CR>
 
