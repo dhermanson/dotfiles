@@ -335,3 +335,6 @@
 [submodule "vim/.vim/bundle/php.vim"]
 	path = vim/.vim/bundle/php.vim
 	url = https://github.com/StanAngeloff/php.vim.git
+[submodule "vim/.vim/bundle/vim-vue"]
+	path = vim/.vim/bundle/vim-vue
+	url = https://github.com/posva/vim-vue.git
