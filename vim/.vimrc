@@ -45,12 +45,33 @@ let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 set background=dark
 "colorscheme base16-tomorrow
+"colorscheme base16-twilight
+colorscheme base16-chalk
+"colorscheme base16-ashes
+"colorscheme base16-ocean
+
+" base 16 color tweaks
+highlight VertSplit ctermbg=0
+highlight LineNr ctermbg=0
+highlight CursorLineNr ctermbg=0
+highlight GitGutterAdd ctermbg=0
+highlight GitGutterChange ctermbg=0
+highlight GitGutterDelete ctermbg=0
+highlight GitGutterChangeDelete ctermbg=0
+highlight GitGutterAddLine ctermbg=0
+highlight GitGutterChangeLine ctermbg=0
+highlight GitGutterDeleteLine ctermbg=0
+highlight GitGutterChangeDeleteLine ctermbg=0
+
 let g:gruvbox_italic=0
 let g:gruvbox_invert_signs=1
 "let g:gruvbox_contrast_dark='soft'
 "let g:gruvbox_contrast_light='soft'
-colorscheme gruvbox
+"colorscheme gruvbox
+"highlight VertSplit ctermbg=0
 "highlight Comment cterm=italic
+
+"colorscheme jellybeans
 
 vnoremap <C-g> <esc>
 cnoremap <C-g> <C-c>
@@ -222,7 +243,7 @@ inoremap jk <Esc>
 
 "buffer
 "nnoremap <Return> :w<CR>
-nnoremap <M-s> :w<CR>
+"nnoremap <M-s> :w<CR>
 nnoremap <Leader>q :bdelete<CR>
 nnoremap <Leader>x :call ConfirmBDeleteBang()<CR>
 nnoremap <Leader>ns :new<CR>
@@ -321,7 +342,7 @@ let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 let g:syntastic_aggregate_errors=1
 let g:syntastic_ruby_checkers = ['mri']
-let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['eslint', 'jshint']
 "let g:syntastic_apiblueprint_checkers = ['drafter']
 "let g:syntastic_apiblueprint_drafter_exec = "/usr/local/bin/drafter"
 "let g:syntastic_python_python_exec = '/usr/local/bin/python3'
@@ -394,7 +415,6 @@ if has('nvim')
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
   "nnoremap <Leader>ld :CtrlPDir<CR>
 else
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
   nnoremap <Leader>f :CtrlP<CR>
   nnoremap <Leader>b :CtrlPBuffer<CR>
@@ -405,14 +425,26 @@ else
   nnoremap <Leader>a :CtrlPBufTagAll<CR>
 endif
 
+" unite settings
+"call unite#filters#matcher_default#use(['matcher_fuzzy'])
+"call unite#custom#source('grep', 'max_candidates', 0)
+
+nnoremap <Leader>ug :Unite -buffer-name=grep-results grep<CR>
+nnoremap <Leader>ub :Unite -buffer-name=buffers buffer <CR>
+
+nnoremap <Leader>ur :UniteResume<CR>
+nnoremap <Leader>un :UniteNext<CR>
+nnoremap <Leader>up :UnitePrevious<CR>
+
 
 " delimitmate settings
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-"let g:airline_theme='base16'
-let g:airline_theme='gruvbox'
+let g:airline_theme='base16'
+"let g:airline_theme='gruvbox'
+"let g:airline_theme='jellybeans'
 if !has('gui_running')
   let g:airline_left_sep=''
   let g:airline_right_sep=''
@@ -469,6 +501,7 @@ let g:jedi#popup_select_first = 1
 
 " vim-rest-console
 let g:vrc_trigger = '<Leader>.mr'
+
 
 
 nnoremap <Leader>.p :set paste!<CR>
@@ -585,7 +618,7 @@ nnoremap <Leader>.es :UltiSnipsEdit<CR>
 nnoremap <Leader>.eas :e ~/.vim/Ultisnips/all.snippets<CR>
 
 "inoremap <c-l> <esc>:Unite ultisnips -start-insert<CR>
-inoremap <M-s> <c-o>:Snippets<CR>
+"inoremap <M-s> <c-o>:Snippets<CR>
 "inoremap <M-s> <c-o>:Unite ultisnips -start-insert<CR>
 
 nnoremap <Leader>.os :syntax on<CR>
@@ -606,6 +639,10 @@ nnoremap <Leader>,a yiw:call AckSearchWord(@@, '.')<CR>
 
 
 imap <c-x><c-f> <plug>(fzf-complete-path)
+
+"" omnisharp
+"let g:OmniSharp_selector_ui = 'ctrlp'
+"let g:OmniSharp_server_type = 'roslyn'
 
 
 
@@ -638,21 +675,33 @@ endif
 " alchemist.vim
 "let g:alchemist_iex_term_split = 'vsplit'
 
-if has('gui_macvim') && has('gui_running')
-  let g:my_tmux_pane= 'runner'
-else
-  let g:my_tmux_pane= 'runner'
-endif
+"if has('gui_macvim') && has('gui_running')
+  "let g:my_tmux_pane= 'runner'
+"else
+  "let g:my_tmux_pane= 'runner'
+"endif
 
 function! SendToTmuxPane()
   exe "normal V\<C-[>"
-  exe "silent '<,'>Twrite " . g:my_tmux_pane
+  exe "silent '<,'>Twrite " . b:my_tmux_repl_pane
+endfunction
+
+function! KillTmuxRepl()
+  if exists('b:my_tmux_repl_pane')
+    call system("tmux kill-pane -t " . b:my_tmux_repl_pane)
+  endif
 endfunction
 
 inoremap <silent> <M-t> <C-o>:call SendToTmuxPane()<CR>
-vnoremap <M-t> :\<C-u>execute "'<,'>Twrite " . g:my_tmux_pane <CR>
+vnoremap <M-t> :\<C-u>execute "'<,'>Twrite " . b:my_tmux_repl_pane <CR>
 nnoremap <silent> <M-t> :call SendToTmuxPane()<CR>
-nnoremap <silent> <M-x> :Tmux kill-window -t runner<CR>
+"nnoremap <silent> <M-x> :Tmux kill-pane -t b:my_tmux_repl_pane<CR>
+nnoremap <silent> <M-x> :call KillTmuxRepl()<CR>
+
+" slimux
+nnoremap <M-s> :SlimuxREPLSendLine<CR>
+vnoremap <M-s> :\<C-u>execute "'<,'>SlimuxREPLSendSelection" <CR>
+inoremap <silent> <M-s> <C-o>:SlimuxREPLSendLine<CR>
 
 "-------- Functions ------------------------------- 
 function! ConfirmBDeleteBang()
@@ -748,6 +797,13 @@ function! RunArtisanTinkerInProjectRootDirectory()
   exe "Tmux neww -t runner '" . l:cmd . "'"
 endfunction
 
+function! RunArtisanTinkerInProjectRootDirectoryInTmuxSplit()
+  let l:project_dir = fnamemodify('.', ':p')
+  let l:cmd = 'cd ' . l:project_dir . ' && php artisan tinker'
+  exe "Tmux splitw '" . l:cmd . "'"
+  exe "Tmux last-pane"
+endfunction
+
 function! RunBehatOnFile()
   let l:project_dir = fnamemodify('.', ':p')
   let l:behat_exe = fnamemodify('vendor/bin/behat', ':p')
@@ -755,6 +811,69 @@ function! RunBehatOnFile()
   let l:cmd = 'cd ' . l:project_dir . ' && clear && ' . l:behat_exe . ' --append-snippets ' . l:file
   exe "Tmux neww -t runner"
   exe "Tmux send-keys -t runner '" . l:cmd . "' Enter"
+endfunction
+
+function! GetTmuxSession()
+  return systemlist("tmux display-message -p '#S'")[0]
+endfunction
+
+function! GetTmuxWindowName()
+  return systemlist("tmux display-message -p '#{window_name}'")[0]
+endfunction
+
+function! GetTmuxPaneIndex()
+  return systemlist("tmux display-message -p '#{pane_index}'")[0]
+endfunction
+
+function! GetTmuxPaneId()
+  return systemlist("tmux display-message -p '#{pane_id}'")[0]
+endfunction
+
+function! GetTmuxPane()
+  let l:session = GetTmuxSession()
+  let l:window = GetTmuxWindowName()
+  let l:pane_index = GetTmuxPaneIndex()
+  return l:session . ":" . l:window . "." . l:pane_index
+endfunction
+
+function! CreateTmuxSplit()
+  call system("tmux splitw")
+  "let l:pane = GetTmuxPane()
+  let l:pane = GetTmuxPaneId()
+  call system("tmux last-pane")
+  return l:pane
+endfunction
+
+function! CreateTmuxSplitAndRunCommand(command, split)
+  let l:cmd = shellescape(a:command)
+  call system("tmux splitw " . a:split . " " . l:cmd)
+  "let l:pane = GetTmuxPane()
+  let l:pane = GetTmuxPaneId()
+  call system("tmux last-pane")
+  return l:pane
+endfunction
+
+function! RunCommandInTmuxPane(pane, command)
+  let l:cmd = shellescape(a:command)
+  call system("tmux send-keys -t " . a:pane . " " . l:cmd . " Enter")
+endfunction
+
+function! RunArtisanTinkerInSplit(split)
+  call KillTmuxRepl()
+  let l:project_dir = fnamemodify('.', ':p')
+  let l:cmd = 'cd ' . l:project_dir . ' && php artisan tinker'
+  let l:pane = CreateTmuxSplitAndRunCommand(l:cmd, a:split)
+  let b:my_tmux_repl_pane = l:pane
+
+  "call RunCommandInTmuxPane(l:pane, l:cmd)
+endfunction
+
+function! CreatePhpSplitAndStartRepl(buffersplit, tmuxsplit)
+  execute "normal! :" . a:buffersplit . "\<CR>"
+  :setfiletype php
+  :call RunArtisanTinkerInSplit(a:tmuxsplit)
+  execute "normal! i<?php\<CR>\<CR>"
+  :startinsert
 endfunction
 
 "-------------Auto-Commands--------------"
@@ -797,6 +916,8 @@ augroup my_php
 
   " quickly create new php buffers
   autocmd FileType php nnoremap <buffer> <localleader>nv :exe ":vnew \| setfiletype php"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>S :call CreatePhpSplitAndStartRepl("vnew", "-v")<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>V :call CreatePhpSplitAndStartRepl("new", "-h")<CR>
 
   " phpspec
   autocmd BufRead,BufNewFile,BufEnter *Spec.php UltiSnipsAddFiletypes php-phpspec
@@ -821,13 +942,16 @@ augroup my_php
   " run phpunit tests for file or for project
   "autocmd FileType php nnoremap <localleader>rt :VimuxRunCommand('clear; phpunit ' . bufname('%')) <CR>
   "autocmd FileType php nnoremap <localleader>rpt :VimuxRunCommand('clear; phpunit') <CR>
-  autocmd FileType php nnoremap <buffer> <localleader>rt :Start phpunit %<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>rpt :Start phpunit<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>rt :Start phpunit % && read<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>rpt :Start phpunit && read<CR>
 
   " laravel
   "autocmd FileType php nnoremap <buffer> <localleader>lat :Tmux splitw 'php artisan tinker'<CR>
   autocmd FileType php nnoremap <buffer> <localleader>lat :call RunArtisanTinkerInProjectRootDirectory()<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>t :call RunArtisanTinkerInProjectRootDirectory()<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>tw :call RunArtisanTinkerInProjectRootDirectory()<CR>
+  "autocmd FileType php nnoremap <buffer> <localleader>ts :call RunArtisanTinkerInProjectRootDirectoryInTmuxSplit()<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>ts :call RunArtisanTinkerInSplit("-v")<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>tv :call RunArtisanTinkerInSplit("-h")<CR>
 
   " codesniffer
   autocmd FileType php nnoremap <buffer> <localleader>cs :Dispatch phpcs % --standard=~/phpcsconfig.xml<CR>

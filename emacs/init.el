@@ -1,9 +1,11 @@
+;;; init.el --- Emacs configuration -*- lexical-binding: t; -*-
+
 (require 'package)
 (require 'eldoc)
 
 
 ;; (add-to-list 'load-path "~/.emacs.d/my-lisp")
-(load-file "~/.emacs.d/my-lisp/my-php.el")
+;;(load-file "~/.emacs.d/my-lisp/my-php.el")
 
 
 ;; turn on ede mode
@@ -19,18 +21,29 @@
 (setq package-list
       '(
 	ac-anaconda
+	alchemist
 	anaconda-mode
+	apib-mode
 	auto-complete
 	auto-complete-c-headers
 	ace-jump-mode
+	cider
 	company
 	company-anaconda
 	company-jedi
 	company-php
+	company-restclient
 	company-tern
+	csharp-mode
 	css-eldoc
 	csv-mode
+	dashboard
+	elixir-mode
+	emmet-mode
 	evil
+	evil-surround
+	evil-nerd-commenter
+	exec-path-from-shell
 	expand-region
 	flycheck
 	helm
@@ -38,15 +51,23 @@
 	js2-mode
 	js-comint
 	key-chord
+	linum-relative
 	magit
 	markdown-mode
+	multiple-cursors
+	;; omnisharp
 	paredit
 	projectile
 	rainbow-delimiters
+	rake
+	restclient
 	robe
 	sass-mode
 	scss-mode
+	shut-up
 	smartparens
+	string-utils
+	undo-tree
 	vue-mode
 	web-mode
 	which-key
@@ -56,6 +77,7 @@
 	gruvbox-theme
 	monokai-theme
 	solarized-theme
+	color-theme-sanityinc-tomorrow
 	
 	;; php
 	php-mode
@@ -74,6 +96,12 @@
   (unless (package-installed-p package)
     (package-install package)))
 
+(require 'dashboard)
+(dashboard-setup-startup-hook)
+(setq dashboard-items '((recents  . 5)
+                        (bookmarks . 5)
+			(projects . 5)))
+
 (require 'company)
 (require 'helm-config)
 (require 'smartparens-config)
@@ -83,7 +111,8 @@
 (require 'js-comint)
 (require 'web-mode)
 
-(global-set-key (kbd "s-x") nil)
+
+;; (global-set-key (kbd "s-x") nil)
 
 (setq inhibit-startup-screen t)
 
@@ -99,9 +128,18 @@
 ;; themes
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 ;;(load-theme 'gruvbox t)
+;;(load-theme 'solarized-dark t)
+;;(load-theme 'solarized-light t)
+;;(load-theme 'zenburn t)
+;;(load-theme 'monokai t)
+(require 'color-theme-sanityinc-tomorrow)
+;;(color-theme-sanityinc-tomorrow 'night)
+(color-theme-sanityinc-tomorrow-night)
+;;(color-theme-sanityinc-tomorrow-day)
 
 ;; fonts
-(set-default-font "Source Code Pro Regular-14")
+;; (set-default-font "Source Code Pro Regular-14")
+(set-default-font "Monaco-12")
 
 ;; backups
 (setq backup-directory-alist `(("." . "~/.saves")))
@@ -114,6 +152,12 @@
 (column-number-mode 1) ; display column/row of cursor in mode-line
 (show-paren-mode -1)
 
+;; relative line numbers
+(require 'linum-relative)
+(linum-mode t)
+
+(setq dired-dwim-target t)
+
 ;; auto-complete
 ;;(require 'auto-complete)
 ;;;; do default config for auto-complete
@@ -121,9 +165,10 @@
 ;;(ac-config-default)
 ;;(setq-default ac-sources '(ac-source-semantic))
 
-;; start yasnippet with emas
+;; start yasnippet with emacs
 (require 'yasnippet)
 (yas-global-mode 1)
+
 ;; lets define a function which initializes auto-complete-c-headers and gets called for c/c++
 (defun my-ac-c-header-init ()
   (require 'auto-complete-c-headers)
@@ -146,48 +191,96 @@
 ;; flycheck
 ;;(global-flycheck-mode)
 
+(define-key global-map (kbd "H-u") 'universal-argument)
 
-;; ;; evil mode
-;; (setq evil-want-C-u-scroll t)
-;; (setq evil-want-C-d-scroll t)
-;; (setq evil-want-C-i-jump t)
-;; (require 'evil)
-;; ;;(setq evil-default-state 'emacs)
-;; (evil-mode)
-;; (require 'evil-surround)
-;; (global-evil-surround-mode t)
+;; evil mode
+(setq evil-want-C-u-scroll t)
+(setq evil-want-C-d-scroll t)
+(setq evil-want-C-i-jump t)
+(require 'evil)
+;;(setq evil-default-state 'emacs)
+;; (evil-mode t)
+(require 'evil-surround)
+(global-evil-surround-mode t)
+(require 'evil-matchit)
+(global-evil-matchit-mode 1)
 
-;; ;; normal state mappings
-;; (define-key evil-normal-state-map (kbd "SPC ;") 'ace-jump-char-mode)
-;; ;; (define-key evil-normal-state-map (kbd ";") 'evil-ex)
-;; (define-key evil-normal-state-map (kbd "SPC c c") 'evilnc-comment-or-uncomment-lines)
-;; (define-key evil-normal-state-map (kbd "-") 'dired)
+;; normal state mappings
+(define-key evil-normal-state-map (kbd "SPC ;") 'ace-jump-char-mode)
+;; (define-key evil-normal-state-map (kbd ";") 'evil-ex)
+(define-key evil-normal-state-map (kbd "SPC c c") 'evilnc-comment-or-uncomment-lines)
+;;(define-key evil-normal-state-map (kbd "-") 'dired)
 
 ;; ;; visual state mappings
-;; (define-key evil-visual-state-map (kbd "SPC ;") 'ace-jump-char-mode)
+(define-key evil-visual-state-map (kbd "SPC ;") 'ace-jump-char-mode)
 ;; ;; (define-key evil-visual-state-map (kbd ";") 'evil-ex)
-;; (define-key evil-visual-state-map (kbd "SPC c c") 'evilnc-comment-or-uncomment-lines)
+(define-key evil-visual-state-map (kbd "SPC c c") 'evilnc-comment-or-uncomment-lines)
 
-;; ;; insert state mappings
-;; ;;Exit insert mode by pressing j and then j quickly
+;; insert state mappings
+;; Exit insert mode by pressing j and then j quickly
 ;; (setq key-chord-two-keys-delay 0.5)
 ;; (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-;; (key-chord-mode 1)
+;; (key-chord-mode nil)
+(define-key evil-insert-state-map (kbd "C-SPC") 'company-complete)
 
 ;; ;; tramp
 ;; (setq tramp-default-method "ssh")
 
+;; multiple cursors
+(require 'multiple-cursors)
+
+;; rake
+(setq rake-enable-caching nil)
+(setq rake-completion-system 'helm)
+
+;; run shell command in new frame
+(define-key global-map (kbd "H-&") (lambda (command)
+				     (interactive "sCommand: ")
+				     (save-excursion
+				       (make-frame)
+				       (async-shell-command command))))
+  
+
+;; switch frames
+(define-key global-map (kbd "H-C-n") (lambda () (interactive) (other-frame 1)))
+(define-key global-map (kbd "H-C-p") (lambda () (interactive) (other-frame -1)))
+
 ;; windmove
+;;(define-key global-map (kbd "H-o") 'other-window)
 (define-key global-map (kbd "H-h") 'windmove-left)
 (define-key global-map (kbd "H-j") 'windmove-down)
 (define-key global-map (kbd "H-k") 'windmove-up)
 (define-key global-map (kbd "H-l") 'windmove-right)
+(define-key global-map (kbd "H-H") 'evil-window-move-far-left)
+(define-key global-map (kbd "H-J") 'evil-window-move-very-bottom)
+(define-key global-map (kbd "H-K") 'evil-window-move-very-top)
+(define-key global-map (kbd "H-L") 'evil-window-move-far-right)
+(define-key global-map (kbd "H-M-h") (lambda () (interactive)
+				       (evil-window-vsplit)))
+(define-key global-map (kbd "H-M-j") (lambda () (interactive)
+				       (progn
+					 (evil-window-split)
+					 (windmove-down))))
+(define-key global-map (kbd "H-M-k") (lambda () (interactive)
+				       (progn
+					 (evil-window-split))))
+(define-key global-map (kbd "H-M-l") (lambda () (interactive)
+				       (progn
+					 (evil-window-vsplit)
+					 (windmove-right))))
+;;(define-key global-map (kbd "H-o") 'delete-other-windows)
+;;(define-key global-map (kbd "H-c") 'delete-window)
 
 ;; helm
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "H-x x") 'execute-extended-command)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (helm-mode 1)
+(setq helm-follow-mode 'follow)
 (define-key global-map (kbd "C-x b") 'helm-buffers-list)
+;;(define-key global-map (kbd "H-m h i m") 'helm-imenu)
+(define-key global-map (kbd "H-.") 'helm-etags-select)
+(define-key global-map (kbd "H-i") 'helm-imenu)
 
 ;; wind move
 (when (fboundp 'windmove-default-keybindings)
@@ -197,26 +290,27 @@
 ;;       have a single mode hook per mode
 ;; smartparens
 (add-hook 'js-mode-hook #'smartparens-mode)
-(add-hook 'php-mode-hook #'smartparens-mode)
+
 
 ;; eldoc
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
 (add-hook 'ielm-mode-hook 'eldoc-mode)
 (add-hook 'css-mode-hook 'eldoc-mode)
-(add-hook 'php-mode-hook 'eldoc-mode)
+
 
 
 ;; css-eldoc
 (add-hook 'css-mode-hook 'css-eldoc-enable)
 
 ;; company
-(define-key global-map (kbd "s-SPC") 'company-complete)
+(define-key global-map (kbd "H-SPC") 'company-complete)
 ;; https://www.reddit.com/r/emacs/comments/3s5bkf/companymode_configuration_make_editing_slow/?st=is0w3bc0&sh=f6db1e9c
 (global-company-mode 1)
+
 ;; (add-to-list 'company-backends 'company-tern)
 (setq company-idle-delay nil) ; never start completions automatically
-;;(setq company-idle-delay 0.1)
+
 ; (define-key global-map (kbd "s-i") 'company-complete)
 (setq company-show-numbers t)
 
@@ -226,7 +320,10 @@
 
 
 ;; ace-jump
-(define-key global-map (kbd "H-SPC") 'ace-jump-char-mode)
+(define-key global-map (kbd "H-;") 'ace-jump-char-mode)
+;; (define-key global-map (kbd "H-c") 'ace-jump-char-mode)
+(define-key global-map (kbd "H-w") 'ace-jump-word-mode)
+(define-key global-map (kbd "H-c") 'ace-jump-char-mode)
 
 ;; rainbow delimiters
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -291,6 +388,8 @@
 
 
 ;; js-comint
+(setq inferior-js-program-command "node")
+(setq inferior-js-program-arguments '("/Users/derick/node_repl.js"))
 (js-do-use-nvm)
 (add-hook 'js2-mode-hook '(lambda ()
                             (local-set-key "\C-x\C-e" 'js-send-last-sexp)
@@ -311,23 +410,36 @@
 ;;(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 ;;(add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 
+
+
 ;; tern
 (add-to-list 'load-path "~/.emacs.d/repos/tern/emacs/")
 (autoload 'tern-mode "tern.el" nil t)
 (add-hook 'js-mode-hook (lambda ()
 			  (add-to-list 'company-backends 'company-tern)
+			  ;; (add-to-list 'company-backends 'company-files)
+			  ;; (add-to-list 'company-backends 'company-keywords)
 			  ;;(company-mode t)
 			  ;;(setq company-idle-delay 0.1)
 			  ;;(setq company-show-numbers t)
+			  (linum-relative-on)
+			  (linum-relative-mode t)
 			  (setq js-indent-level 2)
 			  (tern-mode t)))
 (add-hook 'js2-mode-hook (lambda ()
 			   (add-to-list 'company-backends 'company-tern)
+			   ;; (add-to-list 'company-backends 'company-files)
+			   ;; (add-to-list 'company-backends 'company-keywords)
 			   ;;(company-mode t)
 			   ;;(setq company-idle-delay 0.1)
 			   ;;(setq company-show-numbers t)
+			   (linum-relative-mode t)
+			   (linum-relative-on)
 			   (tern-mode t)
 			   (setq js2-basic-offset 2)))
+
+;; geiser
+(require 'geiser)
 
 ;; vue-mode
 (require 'vue-mode)
@@ -353,18 +465,21 @@
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
 ;; projectile
+(setq projectile-keymap-prefix (kbd "C-c C-p"))
+(require 'projectile)
 (projectile-global-mode)
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 (setq projectile-switch-project-action 'helm-projectile)
 
+
 ;; expand-region
 (require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "H-e") 'er/expand-region)
 
 ;; magit
-(define-key global-map (kbd "s-x g s") 'magit-status)
-(define-key global-map (kbd "s-x g i") 'magit-init)
+(define-key global-map (kbd "H-x g s") 'magit-status)
+(define-key global-map (kbd "H-x g i") 'magit-init)
 
 ;; markdown
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
@@ -374,10 +489,52 @@
 
 ;; php
 (add-hook 'php-mode-hook
-          '(lambda ()
-             (require 'company-php)
-             (company-mode t)
-             (add-to-list 'company-backends 'company-ac-php-backend )))
+          (lambda ()
+	    ;; (require 'company-php)
+	    ;;(require 'php-auto-yasnippets)
+	    
+	    ;; modes
+	    (eldoc-mode t)
+	    (smartparens-mode t)
+	    (company-mode t)
+	    (linum-relative-mode t)
+	    ;; (flycheck-mode t)
+	    
+
+	    ;; variables
+	    (setq c-basic-offset 2)	 
+	    (setq tab-width 2)		 
+
+	    ;; company-mode configuration
+	    (set (make-local-variable 'company-backends)
+		 '((
+		    company-etags
+		    ;; company-dabbrev-code
+		    company-yasnippet
+		    company-dabbrev
+		    company-files
+		    ;; company-ac-php-backend
+		    )))
+	    
+	    (setq-local company-idle-delay nil)
+	    (setq-local company-dabbrev-code-other-buffers t) ;; irrelevant
+	    (setq-local company-dabbrev-ignore-buffers "nil")
+	    (setq-local company-dabbrev-downcase nil)
+	    (setq-local company-dabbrev-ignore-case "case-replace")
+	    (setq-local company-dabbrev-code-ignore-case "case-replace")
+
+	    ;; mappings
+	    (define-key php-mode-map (kbd "H-m H-s") 'yas/create-php-snippet)
+	    ))
+
+(defun helm-imenu-all-buffers-in-new-frame ()
+  "docstring"
+  (interactive)
+  (make-frame)
+  (helm-imenu-in-all-buffers))
+
+;;(require 'php-mode)
+;;(define-key php-mode-map (kbd "H-m i") 'helm-imenu-all-buffers-in-new-frame)
 
 ;; sass-mode
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
@@ -399,14 +556,21 @@
         ("blade"  . "\\.blade\\."))
       )
 
+(add-to-list 'web-mode-comment-formats '("blade" . "{{-- "))
+
+(setq web-mode-comment-style 2)
+
 (defun custom-web-mode-hook ()
   "Hooks for Web mode."
   (emmet-mode t)
-  (setq web-mode-markup-indent-offset 4)
-  (setq web-mode-css-indent-offset 4)
-  (setq web-mode-code-indent-offset 4)
-  (setq web-mode-javascript-indentation 4)
-  (setq web-mode-enable-auto-pairing t))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-javascript-indentation 2)
+  (setq web-mode-enable-auto-pairing t)
+  (linum-relative-mode t)
+  (linum-relative-on)
+  )
 
 (add-hook 'web-mode-hook  'custom-web-mode-hook)
 
@@ -414,6 +578,12 @@
 (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
 (add-hook 'html-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook  'emmet-mode)
+
+;; restclient
+(add-to-list 'company-backends 'company-restclient)
+
+;; clojure
+(add-hook 'cider-repl-mode-hook #'eldoc-mode)
 
 ;; ruby
 (defun my-ruby-hook ()
@@ -425,6 +595,8 @@
   ;;(setq company-idle-delay nil) ; never start completions automatically
   ;;(auto-complete-mode nil)
   (company-mode t)
+  (linum-relative-mode t)
+  (linum-relative-on)
   ;;(setq company-idle-delay 0.1)
   ;;(setq company-show-numbers t)
   )
@@ -434,6 +606,25 @@
 (eval-after-load 'company
   '(push 'company-robe company-backends))
 
+;; php
+(defun my-brace-and-bracket-close-action (id action context)
+  "Create line between braces or backets and indent. "
+  (when (eq action 'insert)
+    (newline-and-indent)
+    (forward-line -1)
+    (indent-according-to-mode)))
+
+(sp-with-modes '(php-mode js-mode js2-mode csharp-mode)
+  (sp-local-pair "{" "}"
+		 :when '(("RET"))
+		 :post-handlers '(:add my-brace-and-bracket-close-action)
+		 :actions '(insert)))
+
+(sp-with-modes '(php-mode)
+  (sp-local-pair "[" "]"
+		 :when '(("RET"))
+		 :post-handlers '(:add my-brace-and-bracket-close-action)
+		 :actions '(insert)))
 
 ;; elixir
 (defun my-elixir-do-end-close-action (id action context)
@@ -459,47 +650,69 @@
   (eldoc-mode t)
   (alchemist-mode t)
   ;;(relative-line-numbers-mode)
-  (linum-mode t)
+  ;; (linum-mode t)
+  (linum-relative-mode t)
+  (linum-relative-on)
   (smartparens-mode t))
 
 (add-hook 'elixir-mode-hook 'my-elixir-hook)
 
 
+;; (eval-after-load 'company
+;;   '(add-to-list 'company-backends 'company-omnisharp))
+
+;; csharp
+;; omnisharp-emacs
+(add-to-list 'load-path "~/.emacs.d/repos/omnisharp-emacs")
+(autoload 'omnisharp-mode "omnisharp.el" nil t)
+(add-hook 'csharp-mode-hook (lambda ()
+			      (omnisharp-mode t)
+			      (smartparens-mode t)
+			      (flycheck-mode t)
+			      (eldoc-mode t)
+			      (setq company-idle-delay 0.1)
+			      (add-to-list 'company-backends 'company-omnisharp)
+			      ;; company-mode configuration
+			      (set (make-local-variable 'company-backends)
+				   '(company-omnisharp))
+			      (linum-relative-mode t)))
+(setq omnisharp-server-executable-path "/Users/derick/.repositories/github/OmniSharp/omnisharp-roslyn/artifacts/scripts/OmniSharp")
+;; (setq omnisharp-server-executable-path "/Users/derick/.repositories/github/OmniSharp/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
+
+
 
 ;; lets define a function which adds semantic as a suggestion backend to auto complete andhook this function to c-mode-common-hook
-(defun my-add-semantic-to-autocomplete ()
-  (add-to-list 'ac-sources 'ac-source-semantic))
+;; (defun my-add-semantic-to-autocomplete ()
+;;   (add-to-list 'ac-sources 'ac-source-semantic))
 
-(add-hook 'c-mode-common-hook 'my-add-semantic-to-autocomplete)
+;; (add-hook 'c-mode-common-hook 'my-add-semantic-to-autocomplete)
 
-(defun my-php-init ()
-  '(lambda ()
-     (require 'ac-php)
-     (semantic-mode t)
-     (setq ac-sources '(ac-source-php))))
+;; (defun my-php-init ()
+;;   '(lambda ()
+;;      (require 'ac-php)
+;;      (semantic-mode t)
+;;      (setq ac-sources '(ac-source-php))))
 
-(add-to-list 'load-path "~/.emacs.d/repos/ede-php-autoload")
-(require 'ede-php-autoload-mode)
-(add-hook 'php-mode-hook #'semantic-mode)
-(add-hook 'php-mode-hook #'ede-php-autoload-mode)
-(add-hook 'php-mode-hook 'my-add-semantic-to-autocomplete)
-(ede-php-autoload-project "Demo project" :file "~/workspace/demos/php/emacs/composer.json")
+;;(add-to-list 'load-path "~/.emacs.d/repos/ede-php-autoload")
+;;(require 'ede-php-autoload-mode)
+;;(add-hook 'php-mode-hook #'semantic-mode)
+;; (add-hook 'php-mode-hook #'ede-php-autoload-mode)
+;; (add-hook 'php-mode-hook 'my-add-semantic-to-autocomplete)
+;;(ede-php-autoload-project "Demo project" :file "~/workspace/demos/php/emacs/composer.json")
 
-;; create a project for our program
-;; (ede-cpp-root-project "my project" :file "~/temp.cpp")
+
+
+(put 'dired-find-alternate-file 'disabled nil)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(sql-connection-alist
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
+ '(custom-safe-themes
    (quote
-    (("homestead"
-      (sql-product
-       (quote mysql))
-      (sql-user "homestead")
-      (sql-database "homestead")
-      (sql-server "192.168.10.11"))))))
+    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

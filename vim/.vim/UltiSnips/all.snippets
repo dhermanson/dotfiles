@@ -4,6 +4,12 @@ if not snip.c:
 		snip.rv = uuid.uuid4().hex`
 endsnippet
 
+snippet c "id" w
+`!p import uuid
+if not snip.c:
+		snip.rv = uuid.uuid4().hex[:5]`
+endsnippet
+
 snippet uuids "UUID"
 `!p import uuid
 if not snip.c:

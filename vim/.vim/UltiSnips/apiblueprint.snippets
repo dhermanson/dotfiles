@@ -216,6 +216,17 @@ snippet req "Request"
 
 endsnippet
 
+snippet g "get"
++ Request
+
+		+ Headers
+
+						${1:Accept: application/json}
+						${2:Authorization: Bearer 13b33b33c069455383ae4ee3171b7835}
+						$3
+
+endsnippet
+
 snippet jg "json api get"
 + Request${1: name}
 

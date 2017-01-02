@@ -177,8 +177,12 @@ snippet f.word "$faker->word"
 $faker->word
 endsnippet
 
-snippet fkey "Blueprint foreign key"
+snippet fk "Blueprint foreign key"
 $table->foreign('${1:table}_id')->references('id')->on('$1s');
+endsnippet
+
+snippet fkc "Blueprint foreign key on delete cascade"
+$table->foreign('${1:table}_id')->references('id')->on('$1s')->onDelete('cascade');
 endsnippet
 
 snippet hm "HasMany"
@@ -281,4 +285,38 @@ endsnippet
 snippet '^(\s*-)' "->" r
 `!p
 snip.rv = match.group(1)`>${1:method}($2)
+endsnippet
+
+snippet df "Drop foreign key"
+$table->dropForeign(['${1:table}_id']);
+endsnippet
+
+snippet s "schema"
+Schema::table('$1', function (Blueprint $table) {
+	
+});
+endsnippet
+
+snippet tui "Unsigned Integer"
+$table->unsignedInteger('$1');$0
+endsnippet
+
+snippet tuin "Unsigned Integer (nullable)"
+$table->unsignedInteger('$1')->nullable();$0
+endsnippet
+
+snippet ts "String"
+$table->string('$1');$0
+endsnippet
+
+snippet tsn "String (nullable)"
+$table->string('$1')->nullable();$0
+endsnippet
+
+snippet tdb "Double"
+$table->double('$1');$0
+endsnippet
+
+snippet tdbn "Double (nullable)"
+$table->double('$1')->nullable();$0
 endsnippet
