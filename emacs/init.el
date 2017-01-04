@@ -128,18 +128,18 @@
 ;; themes
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 ;;(load-theme 'gruvbox t)
-;;(load-theme 'solarized-dark t)
+(load-theme 'solarized-dark t)
 ;;(load-theme 'solarized-light t)
 ;;(load-theme 'zenburn t)
 ;;(load-theme 'monokai t)
-(require 'color-theme-sanityinc-tomorrow)
+;;(require 'color-theme-sanityinc-tomorrow)
 ;;(color-theme-sanityinc-tomorrow 'night)
-(color-theme-sanityinc-tomorrow-night)
+;;(color-theme-sanityinc-tomorrow-night)
 ;;(color-theme-sanityinc-tomorrow-day)
 
 ;; fonts
 ;; (set-default-font "Source Code Pro Regular-14")
-(set-default-font "Monaco-12")
+(set-default-font "Monaco-16" nil t)
 
 ;; backups
 (setq backup-directory-alist `(("." . "~/.saves")))
@@ -465,7 +465,7 @@
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
 ;; projectile
-(setq projectile-keymap-prefix (kbd "C-c C-p"))
+;;(setq projectile-keymap-prefix (kbd "C-c C-p"))
 (require 'projectile)
 (projectile-global-mode)
 (setq projectile-completion-system 'helm)
@@ -704,15 +704,15 @@
 
 (put 'dired-find-alternate-file 'disabled nil)
 
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
  '(custom-safe-themes
    (quote
-    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))))
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
