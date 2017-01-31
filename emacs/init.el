@@ -37,9 +37,9 @@
 	csharp-mode
 	css-eldoc
 	csv-mode
-	dashboard
 	elixir-mode
 	emmet-mode
+	emms
 	evil
 	evil-surround
 	evil-nerd-commenter
@@ -57,6 +57,7 @@
 	multiple-cursors
 	;; omnisharp
 	paredit
+	plantuml-mode
 	projectile
 	rainbow-delimiters
 	rake
@@ -96,12 +97,6 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-(require 'dashboard)
-(dashboard-setup-startup-hook)
-(setq dashboard-items '((recents  . 5)
-                        (bookmarks . 5)
-			(projects . 5)))
-
 (require 'company)
 (require 'helm-config)
 (require 'smartparens-config)
@@ -110,6 +105,9 @@
 (require 'rainbow-delimiters)
 (require 'js-comint)
 (require 'web-mode)
+
+;; python
+(elpy-enable)
 
 
 ;; (global-set-key (kbd "s-x") nil)
@@ -130,7 +128,7 @@
 ;;(load-theme 'gruvbox t)
 (load-theme 'solarized-dark t)
 ;;(load-theme 'solarized-light t)
-;;(load-theme 'zenburn t)
+;; (load-theme 'zenburn t)
 ;;(load-theme 'monokai t)
 ;;(require 'color-theme-sanityinc-tomorrow)
 ;;(color-theme-sanityinc-tomorrow 'night)
@@ -139,7 +137,8 @@
 
 ;; fonts
 ;; (set-default-font "Source Code Pro Regular-14")
-(set-default-font "Monaco-16" nil t)
+(set-default-font "Monaco-14" nil t)
+;;(set-default-font "Inconsolata-dz for Powerline-14" nil t)
 
 ;; backups
 (setq backup-directory-alist `(("." . "~/.saves")))
@@ -168,6 +167,7 @@
 ;; start yasnippet with emacs
 (require 'yasnippet)
 (yas-global-mode 1)
+(define-key global-map (kbd "H-s") 'yas-insert-snippet)
 
 ;; lets define a function which initializes auto-complete-c-headers and gets called for c/c++
 (defun my-ac-c-header-init ()
@@ -198,8 +198,8 @@
 (setq evil-want-C-d-scroll t)
 (setq evil-want-C-i-jump t)
 (require 'evil)
-;;(setq evil-default-state 'emacs)
-;; (evil-mode t)
+(setq evil-default-state 'emacs)
+;;(evil-mode t)
 (require 'evil-surround)
 (global-evil-surround-mode t)
 (require 'evil-matchit)
@@ -222,6 +222,7 @@
 ;; (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 ;; (key-chord-mode nil)
 (define-key evil-insert-state-map (kbd "C-SPC") 'company-complete)
+(define-key evil-insert-state-map (kbd "C-h") 'backward-delete-char)
 
 ;; ;; tramp
 ;; (setq tramp-default-method "ssh")
@@ -241,33 +242,38 @@
 				       (async-shell-command command))))
   
 
-;; switch frames
-(define-key global-map (kbd "H-C-n") (lambda () (interactive) (other-frame 1)))
-(define-key global-map (kbd "H-C-p") (lambda () (interactive) (other-frame -1)))
+;; frame management
+(define-key global-map (kbd "H-C-o") (lambda () (interactive) (other-frame 1)))
+(define-key global-map (kbd "H-C-O") (lambda () (interactive) (other-frame -1)))
+(define-key global-map (kbd "H-C-n") (lambda () (interactive) (make-frame)))
 
-;; windmove
-;;(define-key global-map (kbd "H-o") 'other-window)
-(define-key global-map (kbd "H-h") 'windmove-left)
-(define-key global-map (kbd "H-j") 'windmove-down)
-(define-key global-map (kbd "H-k") 'windmove-up)
-(define-key global-map (kbd "H-l") 'windmove-right)
-(define-key global-map (kbd "H-H") 'evil-window-move-far-left)
-(define-key global-map (kbd "H-J") 'evil-window-move-very-bottom)
-(define-key global-map (kbd "H-K") 'evil-window-move-very-top)
-(define-key global-map (kbd "H-L") 'evil-window-move-far-right)
-(define-key global-map (kbd "H-M-h") (lambda () (interactive)
-				       (evil-window-vsplit)))
-(define-key global-map (kbd "H-M-j") (lambda () (interactive)
-				       (progn
-					 (evil-window-split)
-					 (windmove-down))))
-(define-key global-map (kbd "H-M-k") (lambda () (interactive)
-				       (progn
-					 (evil-window-split))))
-(define-key global-map (kbd "H-M-l") (lambda () (interactive)
-				       (progn
-					 (evil-window-vsplit)
-					 (windmove-right))))
+;; window management
+(define-key global-map (kbd "H-M-o") (lambda () (interactive) (other-window 1)))
+(define-key global-map (kbd "H-M-O") (lambda () (interactive) (other-window -1)))
+(define-key global-map (kbd "H-M-n") (lambda () (interactive)
+				     (split-window-below)
+				     (windmove-down)))
+(define-key global-map (kbd "H-M-h") 'windmove-left)
+(define-key global-map (kbd "H-M-j") 'windmove-down)
+(define-key global-map (kbd "H-M-k") 'windmove-up)
+(define-key global-map (kbd "H-M-l") 'windmove-right)
+(define-key global-map (kbd "H-M-H") 'evil-window-move-far-left)
+(define-key global-map (kbd "H-M-J") 'evil-window-move-very-bottom)
+(define-key global-map (kbd "H-M-K") 'evil-window-move-very-top)
+(define-key global-map (kbd "H-M-L") 'evil-window-move-far-right)
+;; (define-key global-map (kbd "H-M-h") (lambda () (interactive)
+;; 				       (evil-window-vsplit)))
+;; (define-key global-map (kbd "H-M-j") (lambda () (interactive)
+;; 				       (progn
+;; 					 (evil-window-split)
+;; 					 (windmove-down))))
+;; (define-key global-map (kbd "H-M-k") (lambda () (interactive)
+;; 				       (progn
+;; 					 (evil-window-split))))
+;; (define-key global-map (kbd "H-M-l") (lambda () (interactive)
+;; 				       (progn
+;; 					 (evil-window-vsplit)
+;; 					 (windmove-right))))
 ;;(define-key global-map (kbd "H-o") 'delete-other-windows)
 ;;(define-key global-map (kbd "H-c") 'delete-window)
 
@@ -305,11 +311,12 @@
 
 ;; company
 (define-key global-map (kbd "H-SPC") 'company-complete)
+(define-key global-map (kbd "C-c c") 'company-complete)
 ;; https://www.reddit.com/r/emacs/comments/3s5bkf/companymode_configuration_make_editing_slow/?st=is0w3bc0&sh=f6db1e9c
 (global-company-mode 1)
 
 ;; (add-to-list 'company-backends 'company-tern)
-(setq company-idle-delay nil) ; never start completions automatically
+;;(setq company-idle-delay nil) ; never start completions automatically
 
 ; (define-key global-map (kbd "s-i") 'company-complete)
 (setq company-show-numbers t)
@@ -320,6 +327,7 @@
 
 
 ;; ace-jump
+(define-key global-map (kbd "C-c j") 'ace-jump-word-mode)
 (define-key global-map (kbd "H-;") 'ace-jump-char-mode)
 ;; (define-key global-map (kbd "H-c") 'ace-jump-char-mode)
 (define-key global-map (kbd "H-w") 'ace-jump-word-mode)
@@ -516,7 +524,7 @@
 		    ;; company-ac-php-backend
 		    )))
 	    
-	    (setq-local company-idle-delay nil)
+	    (setq-local company-idle-delay )
 	    (setq-local company-dabbrev-code-other-buffers t) ;; irrelevant
 	    (setq-local company-dabbrev-ignore-buffers "nil")
 	    (setq-local company-dabbrev-downcase nil)
@@ -525,6 +533,11 @@
 
 	    ;; mappings
 	    (define-key php-mode-map (kbd "H-m H-s") 'yas/create-php-snippet)
+
+	    ;; yasnippets
+	    (setq-local yas-snippet-dirs
+		  '("~/.emacs.d/snippets"                 ;; personal snippets
+		    ))
 	    ))
 
 (defun helm-imenu-all-buffers-in-new-frame ()
@@ -679,6 +692,25 @@
 (setq omnisharp-server-executable-path "/Users/derick/.repositories/github/OmniSharp/omnisharp-roslyn/artifacts/scripts/OmniSharp")
 ;; (setq omnisharp-server-executable-path "/Users/derick/.repositories/github/OmniSharp/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
 
+;; org
+;;(setq org-src-fontify-natively t)
+;; active Org-babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(;; other Babel languages
+   (plantuml . t)))
+(add-to-list
+  'org-src-lang-modes '("plantuml" . plantuml))
+
+(setq org-plantuml-jar-path "~/plantuml.jar")
+(add-hook 'plantuml-mode-hook (lambda ()
+                                (interactive)
+                                (setq-default indent-tabs-mode nil)
+                                (setq-default tab-width 2)
+                                (setq indent-line-function 'insert-tab)
+                                (linum-relative-mode)
+                                ))
+
 
 
 ;; lets define a function which adds semantic as a suggestion backend to auto complete andhook this function to c-mode-common-hook
@@ -701,6 +733,14 @@
 ;;(ede-php-autoload-project "Demo project" :file "~/workspace/demos/php/emacs/composer.json")
 
 
+(require 'emms-setup)
+(emms-standard)
+(emms-default-players)
+;; (emms-add-directory-tree "~/Dropbox/Apps/Easy Voice Recorder")
+(let ((dir "~/Dropbox/Apps/Easy Voice Recorder"))
+  (if (file-accessible-directory-p dir)
+      (emms-add-directory-tree dir)))
+
 
 (put 'dired-find-alternate-file 'disabled nil)
 
@@ -712,7 +752,10 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))))
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "10e231624707d46f7b2059cc9280c332f7c7a530ebc17dba7e506df34c5332c4" default)))
+ '(package-selected-packages
+   (quote
+    (elpy plantuml-mode emms fzf zenburn-theme zenburn which-key web-mode vue-mode tco string-utils sr-speedbar solarized-theme smyx-theme smartparens shut-up scss-mode sass-mode robe rake rainbow-delimiters php-auto-yasnippets perspective paredit multiple-cursors monokai-theme moe-theme magit linum-relative key-chord js2-mode js-comint jdee icicles helm-projectile gruvbox-theme geiser geben expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-matchit emmet-mode doom-themes dashboard csv-mode css-eldoc csharp-mode company-tern company-restclient company-php company-jedi company-anaconda color-theme-sanityinc-tomorrow cider auto-complete-c-headers apib-mode anti-zenburn-theme alchemist ace-jump-mode ac-php ac-anaconda))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -36,6 +36,7 @@ set nocursorline
 set nocursorcolumn
 set noswapfile
 set nohlsearch
+set cursorline
 
 " no bells
 set noerrorbells visualbell t_vb=
@@ -46,29 +47,30 @@ set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 set background=dark
 "colorscheme base16-tomorrow
 "colorscheme base16-twilight
-colorscheme base16-chalk
+"colorscheme base16-chalk
 "colorscheme base16-ashes
 "colorscheme base16-ocean
 
-" base 16 color tweaks
-highlight VertSplit ctermbg=0
-highlight LineNr ctermbg=0
-highlight CursorLineNr ctermbg=0
-highlight GitGutterAdd ctermbg=0
-highlight GitGutterChange ctermbg=0
-highlight GitGutterDelete ctermbg=0
-highlight GitGutterChangeDelete ctermbg=0
-highlight GitGutterAddLine ctermbg=0
-highlight GitGutterChangeLine ctermbg=0
-highlight GitGutterDeleteLine ctermbg=0
-highlight GitGutterChangeDeleteLine ctermbg=0
+"" base 16 color tweaks
+"highlight VertSplit ctermbg=0
+"highlight LineNr ctermbg=0
+"highlight CursorLineNr ctermbg=0
+"highlight GitGutterAdd ctermbg=0
+"highlight GitGutterChange ctermbg=0
+"highlight GitGutterDelete ctermbg=0
+"highlight GitGutterChangeDelete ctermbg=0
+"highlight GitGutterAddLine ctermbg=0
+"highlight GitGutterChangeLine ctermbg=0
+"highlight GitGutterDeleteLine ctermbg=0
+"highlight GitGutterChangeDeleteLine ctermbg=0
 
 let g:gruvbox_italic=0
 let g:gruvbox_invert_signs=1
 "let g:gruvbox_contrast_dark='soft'
 "let g:gruvbox_contrast_light='soft'
-"colorscheme gruvbox
-"highlight VertSplit ctermbg=0
+colorscheme gruvbox
+highlight SignColumn ctermbg=235
+highlight VertSplit ctermbg=235
 "highlight Comment cterm=italic
 
 "colorscheme jellybeans
@@ -76,11 +78,11 @@ let g:gruvbox_invert_signs=1
 vnoremap <C-g> <esc>
 cnoremap <C-g> <C-c>
 
-nnoremap <silent> <C-e> $
-nnoremap <silent> <C-a> ^
+"nnoremap <silent> <C-e> $
+"nnoremap <silent> <C-a> ^
 
-inoremap <silent> <C-e> <esc>$a
-inoremap <silent> <C-a> <esc>^i
+"inoremap <silent> <C-e> <esc>$a
+"inoremap <silent> <C-a> <esc>^i
 
 
 "-------------------------------------------------------------------------------
@@ -199,6 +201,8 @@ inoremap <M-]> <C-x><C-]>
 "inoremap <F21> <C-x><C-]>
 "inoremap <M-k> <C-x><C-]>
 
+
+
 "-----------split management----------------------- 
 set nosplitbelow
 set splitright
@@ -250,7 +254,7 @@ nnoremap <Leader>ns :new<CR>
 nnoremap <Leader>nv :vnew<CR>
 
 "window stuff
-nnoremap <Leader>w <C-w>
+"nnoremap <Leader>w :NERDTreeToggle<CR>
 nnoremap <M-c> <C-w>c
 nnoremap <M-q> :bdelete<CR>
 "nnoremap <Leader>wh <C-w>H
@@ -315,6 +319,9 @@ nnoremap <Leader>gc :Commits<CR>
 let g:gitgutter_signs = 1
 
 " netrw
+let g:netrw_liststyle=3
+"let g:netrw_list_hide= '^.*/tmp/.*$,^.*\.so$,^.*\.swp$,^.*\.zip$,^.*\.class$,^\.\.\=/\=$'
+"let g:netrw_list_hide= '.*\.swp$,.*/$' 
 nnoremap <Leader>1 :edit .<CR>
 nnoremap <Leader>2 :Explore<CR>
 nnoremap <Leader>3 :Sexplore<CR>
@@ -332,6 +339,21 @@ nnoremap <Leader>4 :Vexplore<CR>
 "set statusline+={SyntasticStatuslineFlag()}
 "set statusline+=%*
 
+" neomake
+augroup my_neomake
+  au!
+  autocmd! BufWritePost * Neomake
+augroup END
+let g:neomake_php_enabled_makers = ["php"] " php, phpcs, phpmd, phplint
+"let g:neomake_php_phpcs_args = '--standard=~/phpcsconfig.xml'
+"let g:neomake_php_phpcs_maker = {
+    "\ 'args': '--standard=~/phpcsconfig.xml',
+    "\ 'errorformat':
+      "\ '%-GFile\,Line\,Column\,Type\,Message\,Source\,Severity%.%#,'.
+      "\ '"%f"\,%l\,%c\,%t%*[a-zA-Z]\,"%m"\,%*[a-zA-Z0-9_.-]\,%*[0-9]%.%#',
+"\ }
+
+" TODO: swap out all syntastic stuff with neomake
 " syntastic settings
 let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
@@ -349,10 +371,11 @@ let g:syntastic_javascript_checkers = ['eslint', 'jshint']
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers = ['mypy', 'python']
 "let g:syntastic_python_mypy_exec = '/usr/local/bin/mypy'
+let g:syntastic_cs_checkers = ['mcs']
 "let g:syntastic_typescript_tsc_args = '--module commonjs --target ES5 --experimentalDecorators'
 let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_typescript_checkers = ['']
-let g:syntastic_php_checkers = ['php', 'phpmd'] " php, phpcs, phpmd, phplint
+let g:syntastic_php_checkers = ["php"] " php, phpcs, phpmd, phplint
 "let g:syntastic_php_phpmd_args = 'text unusedcode'
 let g:syntastic_php_phpcs_args = '--standard=~/phpcsconfig.xml'
 let g:syntastic_mode_map = {
@@ -366,11 +389,11 @@ nnoremap <leader>.sc :SyntasticCheck<CR>
 
 " table mode
 let g:table_mode_corner = "|"
-let g:table_mode_map_prefix = '<Leader>t'
+let g:table_mode_map_prefix = '<Leader>5'
 
 " dispatch
-nnoremap <Leader>dp :Dispatch <CR>
-nnoremap <Leader>ds :Start <CR>
+nnoremap <Leader>dp :Dispatch 
+nnoremap <Leader>ds :Start 
 vnoremap <Leader>dp y:call DispatchCommand(@@)<CR>
 vnoremap <Leader>ds y:call DispatchCommand(@@, "Start")<CR>
 
@@ -397,7 +420,7 @@ let g:ctrlp_buftag_types = {
     \ 'php'        : '--fields=K --PHP-kinds=mctdfip --languages=php',
   \ }
 
-if has('nvim')
+"if has('nvim')
 "if 1
   "nnoremap <Leader>f :Files<CR>
   nnoremap <Leader>f :Files<CR>
@@ -412,18 +435,18 @@ if has('nvim')
   "nnoremap <Leader>a :Unite tag -start-insert -ignorecase<CR>
   "nnoremap <Leader>l :CtrlPBufTag<CR>
   nnoremap <Leader>l :MyBufferTags<CR>
-  nnoremap <Leader>a :CtrlPBufTagAll<CR>
+  "nnoremap <Leader>a :CtrlPBufTagAll<CR>
   "nnoremap <Leader>ld :CtrlPDir<CR>
-else
+"else
 
-  nnoremap <Leader>f :CtrlP<CR>
-  nnoremap <Leader>b :CtrlPBuffer<CR>
-  "nnoremap <Leader>b :Unite buffer -start-insert -ignorecase -direction=botright<CR>
-  "nnoremap <Leader>k :CtrlPTag<CR>
-  nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview -direction=botright<CR>
-  nnoremap <Leader>l :CtrlPBufTag<CR>
-  nnoremap <Leader>a :CtrlPBufTagAll<CR>
-endif
+  "nnoremap <Leader>f :CtrlP<CR>
+  "nnoremap <Leader>b :CtrlPBuffer<CR>
+  ""nnoremap <Leader>b :Unite buffer -start-insert -ignorecase -direction=botright<CR>
+  ""nnoremap <Leader>k :CtrlPTag<CR>
+  "nnoremap <Leader>k :Unite tag -start-insert -ignorecase -vertical-preview -direction=botright<CR>
+  "nnoremap <Leader>l :CtrlPBufTag<CR>
+  "nnoremap <Leader>a :CtrlPBufTagAll<CR>
+"endif
 
 " unite settings
 "call unite#filters#matcher_default#use(['matcher_fuzzy'])
@@ -442,8 +465,8 @@ let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
 " airline settings
-let g:airline_theme='base16'
-"let g:airline_theme='gruvbox'
+"let g:airline_theme='base16'
+let g:airline_theme='gruvbox'
 "let g:airline_theme='jellybeans'
 if !has('gui_running')
   let g:airline_left_sep=''
@@ -486,7 +509,7 @@ let g:slime_target = "tmux"
 " dbext configuration
 " TODO: configure dbext, cuz i just turned off all mapping with
 "       the line below this one
-let g:dbext_default_usermaps = 1
+let g:dbext_default_usermaps = 0
 let g:dbext_default_use_sep_result_buffer = 1
 let g:dbext_default_buffer_lines = 25
 "let g:dbext_default_window_use_horiz = 0  " Use vertical split
@@ -638,7 +661,7 @@ nnoremap <Leader>,jt :%!python -m json.tool<CR>
 nnoremap <Leader>,a yiw:call AckSearchWord(@@, '.')<CR>
 
 
-imap <c-x><c-f> <plug>(fzf-complete-path)
+"imap <c-x><c-f> <plug>(fzf-complete-path)
 
 "" omnisharp
 "let g:OmniSharp_selector_ui = 'ctrlp'
@@ -670,6 +693,12 @@ let g:vim_markdown_conceal = 0
 " deoplete.
 if has('nvim')
   let g:deoplete#enable_at_startup = 1
+  let g:deoplete#omni_patterns = {}
+  let g:deoplete#omni_patterns.java = '[^. *\t]\.\w*'
+  let g:deoplete#auto_completion_start_length = 2
+  let g:deoplete#sources = {}
+  let g:deoplete#sources._ = []
+  let g:deoplete#file#enable_buffer_path = 1
 endif
 
 " alchemist.vim
@@ -683,20 +712,25 @@ endif
 
 function! SendToTmuxPane()
   exe "normal V\<C-[>"
-  exe "silent '<,'>Twrite " . b:my_tmux_repl_pane
+  exe "silent '<,'>Twrite " . g:my_tmux_repl_pane
 endfunction
 
 function! KillTmuxRepl()
-  if exists('b:my_tmux_repl_pane')
-    call system("tmux kill-pane -t " . b:my_tmux_repl_pane)
+  if exists('g:my_tmux_repl_pane')
+    call system("tmux kill-pane -t " . g:my_tmux_repl_pane)
   endif
 endfunction
 
+function! ClearRepl()
+  call system("tmux send-keys -t " . g:my_tmux_repl_pane . " 'C-l'")
+endfunction
+
 inoremap <silent> <M-t> <C-o>:call SendToTmuxPane()<CR>
-vnoremap <M-t> :\<C-u>execute "'<,'>Twrite " . b:my_tmux_repl_pane <CR>
+vnoremap <M-t> :\<C-u>execute "'<,'>Twrite " . g:my_tmux_repl_pane <CR>
 nnoremap <silent> <M-t> :call SendToTmuxPane()<CR>
-"nnoremap <silent> <M-x> :Tmux kill-pane -t b:my_tmux_repl_pane<CR>
+"nnoremap <silent> <M-x> :Tmux kill-pane -t g:my_tmux_repl_pane<CR>
 nnoremap <silent> <M-x> :call KillTmuxRepl()<CR>
+"nnoremap <silent> <M-l> :call ClearRepl()<CR>
 
 " slimux
 nnoremap <M-s> :SlimuxREPLSendLine<CR>
@@ -787,14 +821,17 @@ function! RunPhpSpecOnBuffer(buffer_name)
   let l:file = expand('%:p')
   let l:cmd = 'cd ' . l:project_dir . ' && clear && ' . l:phpspec_exe . ' ' . l:file
   "exe "Start phpspec run " . fnameescape(a:buffer_name) . " && read"
-  exe "Tmux neww -t runner"
-  exe "Tmux send-keys -t runner '" . l:cmd . "' Enter"
+  "exe "Tmux neww -t runner"
+  "exe "Tmux send-keys -t runner '" . l:cmd . "' Enter"
+  "exe "Tmux neww -t runner '" . l:cmd . "'"
+  exe "Tmux splitw '" . l:cmd . " ; read'"
 endfunction
 
 function! RunArtisanTinkerInProjectRootDirectory()
   let l:project_dir = fnamemodify('.', ':p')
   let l:cmd = 'cd ' . l:project_dir . ' && php artisan tinker'
-  exe "Tmux neww -t runner '" . l:cmd . "'"
+  exe "Tmux neww -t runner -n artisan '" . l:cmd . "'"
+  let g:my_tmux_repl_pane = "runner:artisan.0"
 endfunction
 
 function! RunArtisanTinkerInProjectRootDirectoryInTmuxSplit()
@@ -853,9 +890,31 @@ function! CreateTmuxSplitAndRunCommand(command, split)
   return l:pane
 endfunction
 
+
 function! RunCommandInTmuxPane(pane, command)
   let l:cmd = shellescape(a:command)
   call system("tmux send-keys -t " . a:pane . " " . l:cmd . " Enter")
+endfunction
+
+function! RunCommandInSplit(command, split)
+  call KillTmuxRepl()
+  let l:escaped_cmd = shellescape(a:command)
+  let l:project_dir = fnamemodify('.', ':p')
+  let l:cmd = 'cd ' . l:project_dir . ' && ' . l:escaped_cmd
+  let l:pane = CreateTmuxSplitAndRunCommand(l:cmd, a:split)
+  let g:my_tmux_repl_pane = l:pane
+
+  "call RunCommandInTmuxPane(l:pane, l:cmd)
+endfunction
+
+function! RunNodeInSplit(split)
+  call KillTmuxRepl()
+  let l:project_dir = fnamemodify('.', ':p')
+  let l:cmd = 'cd ' . l:project_dir . ' && node ~/node_repl.js'
+  let l:pane = CreateTmuxSplitAndRunCommand(l:cmd, a:split)
+  let g:my_tmux_repl_pane = l:pane
+
+  "call RunCommandInTmuxPane(l:pane, l:cmd)
 endfunction
 
 function! RunArtisanTinkerInSplit(split)
@@ -863,7 +922,7 @@ function! RunArtisanTinkerInSplit(split)
   let l:project_dir = fnamemodify('.', ':p')
   let l:cmd = 'cd ' . l:project_dir . ' && php artisan tinker'
   let l:pane = CreateTmuxSplitAndRunCommand(l:cmd, a:split)
-  let b:my_tmux_repl_pane = l:pane
+  let g:my_tmux_repl_pane = l:pane
 
   "call RunCommandInTmuxPane(l:pane, l:cmd)
 endfunction
@@ -875,6 +934,24 @@ function! CreatePhpSplitAndStartRepl(buffersplit, tmuxsplit)
   execute "normal! i<?php\<CR>\<CR>"
   :startinsert
 endfunction
+
+function! RemoveUnusedPhpUseStatementsForCurrentFile()
+  " check if buffer has been modified
+  if (&mod)
+    "let l:choice = confirm("Save buffer first?", "&Yes\n&No")
+    "if l:choice == 1
+      execute "w"
+    "endif
+  endif
+
+  let l:filename = bufname("%")
+  let l:cmd = "php-cs-fixer fix " . l:filename . " --fixers=unused_use"
+  call system(l:cmd)
+  exe "edit!"
+endfunction
+
+nnoremap <silent> <leader>rs :call RunCommandInSplit("bash", "-v")<CR>
+nnoremap <silent> <leader>rv :call RunCommandInSplit("bash", "-h")<CR>
 
 "-------------Auto-Commands--------------"
 
@@ -909,15 +986,22 @@ augroup END
 augroup my_php
   autocmd!
   "autocmd FileType php nnoremap <buffer> <leader>ff :exe ":CtrlP"<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>fmi :exe ":CtrlP database/migrations"<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>fv :exe ":CtrlP resources/views"<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>fj :exe ":CtrlP resources/assets/js"<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>fl :exe ":CtrlP resources/assets/less"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>rus :call RemoveUnusedPhpUseStatementsForCurrentFile()<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>fmig :exe ":FZF database/migrations"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>fmid :exe ":FZF app/Http/Middleware"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>fv :exe ":FZF resources/views"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>fj :exe ":FZF resources/assets/js"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>fl :exe ":FZF resources/assets/less"<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>fcf :exe ":FZF config"<CR>
 
   " quickly create new php buffers
   autocmd FileType php nnoremap <buffer> <localleader>nv :exe ":vnew \| setfiletype php"<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>S :call CreatePhpSplitAndStartRepl("vnew", "-v")<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>V :call CreatePhpSplitAndStartRepl("new", "-h")<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>ns :exe ":new \| setfiletype php"<CR>
+
+
+  autocmd FileType php nnoremap <buffer> <localleader><leader>mamo :Dispatch php artisan make:model 
+  autocmd FileType php nnoremap <buffer> <localleader><leader>mi<Space> :Dispatch php artisan migrate<CR>
+  autocmd FileType php nnoremap <buffer> <localleader><leader><localleader> :Dispatch php artisan 
 
   " phpspec
   autocmd BufRead,BufNewFile,BufEnter *Spec.php UltiSnipsAddFiletypes php-phpspec
@@ -937,7 +1021,8 @@ augroup my_php
   autocmd FileType php nnoremap <buffer> <localleader>rs :call RunPhpSpecOnBuffer(bufname('%')) <CR>
   "autocmd FileType php nnoremap <localleader>rs :Start 'phpspec run ' . (bufname('%') . ' && read' <CR>
   "autocmd FileType php nnoremap <localleader>rps :VimuxRunCommand('clear; phpspec run') <CR>
-  autocmd FileType php nnoremap <buffer> <localleader>rps :Start phpspec run && read<CR>
+  "autocmd FileType php nnoremap <buffer> <localleader>rps :Start phpspec run && read<CR>
+  autocmd FileType php nnoremap <buffer> <localleader>rps :Tmux splitw 'phpspec run ; read'<CR>
 
   " run phpunit tests for file or for project
   "autocmd FileType php nnoremap <localleader>rt :VimuxRunCommand('clear; phpunit ' . bufname('%')) <CR>
@@ -950,8 +1035,12 @@ augroup my_php
   autocmd FileType php nnoremap <buffer> <localleader>lat :call RunArtisanTinkerInProjectRootDirectory()<CR>
   autocmd FileType php nnoremap <buffer> <localleader>tw :call RunArtisanTinkerInProjectRootDirectory()<CR>
   "autocmd FileType php nnoremap <buffer> <localleader>ts :call RunArtisanTinkerInProjectRootDirectoryInTmuxSplit()<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>ts :call RunArtisanTinkerInSplit("-v")<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>tv :call RunArtisanTinkerInSplit("-h")<CR>
+  autocmd FileType php nnoremap <buffer> <silent> <leader>rr :call RunArtisanTinkerInProjectRootDirectory()<CR>
+  autocmd FileType php nnoremap <buffer> <silent> <leader>rs :call RunArtisanTinkerInSplit("-v")<CR>
+  autocmd FileType php nnoremap <buffer> <silent> <leader>rv :call RunArtisanTinkerInSplit("-h")<CR>
+  autocmd FileType php nnoremap <buffer> <silent> <leader>rc :call ClearRepl()<CR>
+  autocmd FileType php nnoremap <buffer> <silent><localleader>ts :call CreatePhpSplitAndStartRepl("vnew", "-v")<CR>
+  autocmd FileType php nnoremap <buffer> <silent><localleader>tv :call CreatePhpSplitAndStartRepl("new", "-h")<CR>
 
   " codesniffer
   autocmd FileType php nnoremap <buffer> <localleader>cs :Dispatch phpcs % --standard=~/phpcsconfig.xml<CR>
@@ -977,66 +1066,6 @@ augroup phpNamespaces
   autocmd FileType php inoremap <buffer> <localleader>.s <Esc>:call PhpSortUse()<CR>
   autocmd FileType php nnoremap <buffer> <localleader>.s :call PhpSortUse()<CR>
 
-  autocmd FileType php nnoremap <buffer> <localleader>emo :Emodel 
-  autocmd FileType php nnoremap <buffer> <localleader>vmo :Vmodel 
-  autocmd FileType php nnoremap <buffer> <localleader>smo :Smodel 
-  autocmd FileType php nnoremap <buffer> <localleader>eev :Eevent 
-  autocmd FileType php nnoremap <buffer> <localleader>vev :Vevent 
-  autocmd FileType php nnoremap <buffer> <localleader>sev :Sevent 
-  autocmd FileType php nnoremap <buffer> <localleader>eex :Eexception 
-  autocmd FileType php nnoremap <buffer> <localleader>vex :Vexception 
-  autocmd FileType php nnoremap <buffer> <localleader>sex :Sexception 
-  autocmd FileType php nnoremap <buffer> <localleader>ero :Eroutes <CR>
-  autocmd FileType php nnoremap <buffer> <localleader>vro :Vroutes <CR>
-  autocmd FileType php nnoremap <buffer> <localleader>sro :Sroutes <CR>
-  autocmd FileType php nnoremap <buffer> <localleader>ek :Ekernel <CR>
-  autocmd FileType php nnoremap <buffer> <localleader>vk :Vkernel <CR>
-  autocmd FileType php nnoremap <buffer> <localleader>sk :Skernel <CR>
-  autocmd FileType php nnoremap <buffer> <localleader>eco :Econtroller 
-  autocmd FileType php nnoremap <buffer> <localleader>vco :Vcontroller 
-  autocmd FileType php nnoremap <buffer> <localleader>sco :Scontroller 
-  autocmd FileType php nnoremap <buffer> <localleader>emid :Emiddleware 
-  autocmd FileType php nnoremap <buffer> <localleader>vmid :Vmiddleware 
-  autocmd FileType php nnoremap <buffer> <localleader>smid :Smiddleware 
-  autocmd FileType php nnoremap <buffer> <localleader>ere :Erequest 
-  autocmd FileType php nnoremap <buffer> <localleader>vre :Vrequest 
-  autocmd FileType php nnoremap <buffer> <localleader>sre :Srequest 
-  autocmd FileType php nnoremap <buffer> <localleader>ej :Ejob 
-  autocmd FileType php nnoremap <buffer> <localleader>vj :Vjob 
-  autocmd FileType php nnoremap <buffer> <localleader>sj :Sjob 
-  autocmd FileType php nnoremap <buffer> <localleader>el :Elistener 
-  autocmd FileType php nnoremap <buffer> <localleader>vl :Vlistener 
-  autocmd FileType php nnoremap <buffer> <localleader>sl :Slistener 
-  autocmd FileType php nnoremap <buffer> <localleader>epo :Epolicy 
-  autocmd FileType php nnoremap <buffer> <localleader>vpo :Vpolicy 
-  autocmd FileType php nnoremap <buffer> <localleader>spo :Spolicy 
-  autocmd FileType php nnoremap <buffer> <localleader>epr :Eprovider 
-  autocmd FileType php nnoremap <buffer> <localleader>vpr :Vprovider 
-  autocmd FileType php nnoremap <buffer> <localleader>spr :Sprovider 
-  autocmd FileType php nnoremap <buffer> <localleader>ecfg :Econfig 
-  autocmd FileType php nnoremap <buffer> <localleader>vcfg :Vconfig 
-  autocmd FileType php nnoremap <buffer> <localleader>scfg :Sconfig 
-  autocmd FileType php nnoremap <buffer> <localleader>emig :Emigration 
-  autocmd FileType php nnoremap <buffer> <localleader>vmig :Vmigration 
-  autocmd FileType php nnoremap <buffer> <localleader>smig :Smigration 
-  autocmd FileType php nnoremap <buffer> <localleader>ese :Eseeder 
-  autocmd FileType php nnoremap <buffer> <localleader>vse :Vseeder 
-  autocmd FileType php nnoremap <buffer> <localleader>sse :Sseeder 
-  autocmd FileType php nnoremap <buffer> <localleader>ed :Edoc 
-  autocmd FileType php nnoremap <buffer> <localleader>vd :Vdoc 
-  autocmd FileType php nnoremap <buffer> <localleader>sd :Sdoc 
-  autocmd FileType php nnoremap <buffer> <localleader>ev :Eview 
-  autocmd FileType php nnoremap <buffer> <localleader>vv :Vview 
-  autocmd FileType php nnoremap <buffer> <localleader>sv :Sview 
-  autocmd FileType php nnoremap <buffer> <localleader>etr :Etransformer 
-  autocmd FileType php nnoremap <buffer> <localleader>vtr :Vtransformer 
-  autocmd FileType php nnoremap <buffer> <localleader>str :Stransformer 
-  autocmd FileType php nnoremap <buffer> <localleader>ete :Etest 
-  autocmd FileType php nnoremap <buffer> <localleader>vte :Vtest 
-  autocmd FileType php nnoremap <buffer> <localleader>ste :Stest 
-  autocmd FileType php nnoremap <buffer> <localleader>ea :A<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>sa :AS<CR>
-  autocmd FileType php nnoremap <buffer> <localleader>va :AV<CR>
 augroup END
 
 augroup phpDocumentor
@@ -1057,10 +1086,21 @@ augroup html
   autocmd FileType html nnoremap <buffer> <localleader>e :echo "You've opened a html file!"<CR>
 augroup END
 
+augroup my_java
+  autocmd!
+  autocmd FileType java setlocal omnifunc=javacomplete#Complete
+  autocmd FileType java setlocal tags+=~/tags/java.tags
+augroup END
+
 augroup javascript
+  autocmd!
   autocmd FileType javascript nnoremap <buffer> <localleader>e :echo "You've opened a javascript file!"<CR>
+  autocmd FileType javascript nnoremap <buffer> <localleader>e :echo "You've opened a javascript file!"<CR>
+  autocmd FileType javascript nnoremap <buffer> <leader>rs :call RunNodeInSplit("-v")<CR>
+  autocmd FileType javascript nnoremap <buffer> <leader>rv :call RunNodeInSplit("-h")<CR>
   autocmd Filetype *.txt set spell
 augroup END
+
 
 augroup typescript
   autocmd!
@@ -1078,30 +1118,32 @@ augroup END
 
 augroup my_ruby
   autocmd!
+  autocmd FileType ruby nnoremap <buffer> <leader>rs :call RunCommandInSplit("pry", "-v")<CR>
+  autocmd FileType ruby nnoremap <buffer> <leader>rv :call RunCommandInSplit("pry", "-h")<CR>
   " rails
-  autocmd FileType ruby nnoremap <localleader>rr :Rake 
-  autocmd FileType ruby nnoremap <localleader>rev :Eview<CR>
-  autocmd FileType ruby nnoremap <localleader>rem :Emodel<CR>
-  autocmd FileType ruby nnoremap <localleader>rec :Econtroller<CR>
-  autocmd FileType ruby nnoremap <localleader>rsv :Sview<CR>
-  autocmd FileType ruby nnoremap <localleader>rsm :Smodel<CR>
-  autocmd FileType ruby nnoremap <localleader>rsc :Scontroller<CR>
-  autocmd FileType ruby nnoremap <localleader>rvv :Vview<CR>
-  autocmd FileType ruby nnoremap <localleader>rvm :Vmodel<CR>
-  autocmd FileType ruby nnoremap <localleader>rvc :Vcontroller<CR>
-  autocmd FileType ruby nnoremap <localleader>rgc :Rgenerate controller 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rr :Rake 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rev :Eview<CR>
+  autocmd FileType ruby nnoremap <buffer> <localleader>rem :Emodel<CR>
+  autocmd FileType ruby nnoremap <buffer> <localleader>rec :Econtroller<CR>
+  autocmd FileType ruby nnoremap <buffer> <localleader>rsv :Sview<CR>
+  autocmd FileType ruby nnoremap <buffer> <localleader>rsm :Smodel<CR>
+  autocmd FileType ruby nnoremap <buffer> <localleader>rsc :Scontroller<CR>
+  autocmd FileType ruby nnoremap <buffer> <localleader>rvv :Vview<CR>
+  autocmd FileType ruby nnoremap <buffer> <localleader>rvm :Vmodel<CR>
+  autocmd FileType ruby nnoremap <buffer> <localleader>rvc :Vcontroller<CR>
+  autocmd FileType ruby nnoremap <buffer> <localleader>rgc :Rgenerate controller 
 
-  autocmd FileType ruby nnoremap <localleader>rev<Space> :Eview 
-  autocmd FileType ruby nnoremap <localleader>rem<Space> :Emodel 
-  autocmd FileType ruby nnoremap <localleader>rec<Space> :Econtroller 
-  autocmd FileType ruby nnoremap <localleader>rsv<Space> :Sview 
-  autocmd FileType ruby nnoremap <localleader>rsm<Space> :Smodel 
-  autocmd FileType ruby nnoremap <localleader>rsc<Space> :Scontroller 
-  autocmd FileType ruby nnoremap <localleader>rvv<Space> :Vview 
-  autocmd FileType ruby nnoremap <localleader>rvm<Space> :Vmodel 
-  autocmd FileType ruby nnoremap <localleader>rvc<Space> :Vcontroller 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rev<Space> :Eview 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rem<Space> :Emodel 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rec<Space> :Econtroller 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rsv<Space> :Sview 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rsm<Space> :Smodel 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rsc<Space> :Scontroller 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rvv<Space> :Vview 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rvm<Space> :Vmodel 
+  autocmd FileType ruby nnoremap <buffer> <localleader>rvc<Space> :Vcontroller 
 
-  autocmd FileType ruby nnoremap <localleader>mtp :Dispatch create-ruby-ctags.sh<CR>
+  autocmd FileType ruby nnoremap <buffer> <localleader>mtp :Dispatch create-ruby-ctags.sh<CR>
 augroup END
 
 augroup my_elixir
@@ -1110,9 +1152,258 @@ augroup my_elixir
   autocmd FileType elixir imap <buffer> <M-d> <Esc><s-k> <C-w>pa<C-x><C-o>
 augroup END
 
+augroup my_vimscript
+  autocmd!
+  autocmd FileType vim setlocal omnifunc=syntaxcomplete#Complete
+augroup END
+
+"augroup my_netrw
+    "au!
+    ""au VimEnter * sil! au! FileExplorer *
+    ""au BufEnter * if s:isdir(expand('%')) | bd | exe 'Ranger' | endif
+    "au BufEnter * if s:isdir(expand('%')) | let g:netrw_list_hide= '^.*/tmp/.*$,^.*\.so$,^.*\.swp$,^.*\.zip$,^.*\.class$,^\.\.\=/\=$' | endif
+"augroup END
+
+"fu! s:isdir(dir) abort
+    "return !empty(a:dir) && (isdirectory(a:dir) ||
+                "\ (!empty($SYSTEMDRIVE) && isdirectory('/'.tolower($SYSTEMDRIVE[0]).a:dir)))
+"endfu
+
 "inoremap <c-space> <esc>:CtrlPBufTagAll <CR>
 
 
 "let g:dbext_default_profile_homestead = 'type=MYSQL:user=dev:passwd=dev:srvname=192.168.10.10:dbname=home    stead:host=192.168.10.10:port=3306'
 "let g:dbext_default_profile = 'homestead'
 
+
+" nerdtree
+"nnoremap <leader>t :NERDTreeToggle<CR>
+
+
+function! SetupLaravelProject()
+  let g:projectionist_heuristics = {
+        \   "artisan": {
+        \     "app/*.php": {
+        \       "alternate": "spec/{}Spec.php"
+        \     },
+        \     "app/Models/*.php": {
+        \       "type": "model",
+        \       "template": ["<?php", "", "namespace App/Models;", "", "class {} {", "}"]
+        \     },
+        \     "app/Events/*.php": {
+        \       "type": "event"
+        \     },
+        \     "app/Exceptions/*.php": {
+        \       "type": "exception"
+        \     },
+        \     "app/Http/routes.php": {
+        \       "type": "routes"
+        \     },
+        \     "app/Http/Kernel.php": {
+        \       "type": "kernel"
+        \     },
+        \     "app/Http/Controllers/*.php": {
+        \       "type": "controller"
+        \     },
+        \     "app/Http/Middleware/*.php": {
+        \       "type": "middleware"
+        \     },
+        \     "app/Http/Requests/*Request.php": {
+        \       "type": "request"
+        \     },
+        \     "app/Jobs/*.php": {
+        \       "type": "job"
+        \     },
+        \     "app/Listeners/*.php": {
+        \       "type": "listener"
+        \     },
+        \     "app/Policies/*.php": {
+        \       "type": "policy"
+        \     },
+        \     "app/Providers/*.php": {
+        \       "type": "provider"
+        \     },
+        \     "app/Repositories/*.php": {
+        \       "type": "repository"
+        \     },
+        \     "app/Services/*.php": {
+        \       "type": "service"
+        \     },
+        \     "config/*.php": {
+        \       "type": "config"
+        \     },
+        \     "database/migrations/*.php": {
+        \       "type": "migration"
+        \     },
+        \     "database/seeds/*Seeder.php": {
+        \       "type": "seeder"
+        \     },
+        \     "resources/assets/docs/*.md": {
+        \       "type": "doc"
+        \     },
+        \     "resources/views/*.blade.php": {
+        \       "type": "view"
+        \     },
+        \     "spec/*Spec.php": {
+        \       "type": "spec",
+        \       "alternate": "app/{}.php",
+        \       "dispatch": "vendor/bin/phpspec run {file}",
+        \       "start": "vendor/bin/phpspec run {file}"
+        \     },
+        \     "tests/*Test.php": {
+        \       "type": "test",
+        \       "alternate": "app/{}.php",
+        \       "dispatch": "vendor/bin/phpunit {file}",
+        \       "start": "vendor/bin/phpunit {file}"
+        \     },
+        \     "phpspec.yml": {
+        \       "type": "phpspec.yml",
+        \       "template": [
+        \         "suites:",
+        \         "    main:",
+        \         "        namespace: App",
+        \         "        psr4_prefix: App",
+        \         "        src_path: app",
+        \         "        src_path: app"
+        \       ]
+        \     }
+        \   }
+        \ }
+
+  nnoremap <leader>emo :Emodel 
+  nnoremap <leader>vmo :Vmodel 
+  nnoremap <leader>smo :Smodel 
+  nnoremap <leader>eev :Eevent 
+  nnoremap <leader>vev :Vevent 
+  nnoremap <leader>sev :Sevent 
+  nnoremap <leader>eex :Eexception 
+  nnoremap <leader>vex :Vexception 
+  nnoremap <leader>sex :Sexception 
+  nnoremap <leader>ero :Eroutes <CR>
+  nnoremap <leader>vro :Vroutes <CR>
+  nnoremap <leader>sro :Sroutes <CR>
+  nnoremap <leader>ek :Ekernel <CR>
+  nnoremap <leader>vk :Vkernel <CR>
+  nnoremap <leader>sk :Skernel <CR>
+  nnoremap <leader>eco :Econtroller 
+  nnoremap <leader>vco :Vcontroller 
+  nnoremap <leader>sco :Scontroller 
+  nnoremap <leader>emid :Emiddleware 
+  nnoremap <leader>vmid :Vmiddleware 
+  nnoremap <leader>smid :Smiddleware 
+  nnoremap <leader>ere :Erequest 
+  nnoremap <leader>vre :Vrequest 
+  nnoremap <leader>sre :Srequest 
+  nnoremap <leader>ej :Ejob 
+  nnoremap <leader>vj :Vjob 
+  nnoremap <leader>sj :Sjob 
+  nnoremap <leader>el :Elistener 
+  nnoremap <leader>vl :Vlistener 
+  nnoremap <leader>sl :Slistener 
+  nnoremap <leader>epo :Epolicy 
+  nnoremap <leader>vpo :Vpolicy 
+  nnoremap <leader>spo :Spolicy 
+  nnoremap <leader>epr :Eprovider 
+  nnoremap <leader>vpr :Vprovider 
+  nnoremap <leader>spr :Sprovider 
+  nnoremap <leader>ecfg :Econfig 
+  nnoremap <leader>vcfg :Vconfig 
+  nnoremap <leader>scfg :Sconfig 
+  nnoremap <leader>emig :Emigration 
+  nnoremap <leader>vmig :Vmigration 
+  nnoremap <leader>smig :Smigration 
+  nnoremap <leader>ese :Eseeder 
+  nnoremap <leader>vse :Vseeder 
+  nnoremap <leader>sse :Sseeder 
+  nnoremap <leader>esp :Espec 
+  nnoremap <leader>vsp :Vspec 
+  nnoremap <leader>ssp :Sspec 
+  nnoremap <leader>ed :Edoc 
+  nnoremap <leader>vd :Vdoc 
+  nnoremap <leader>sd :Sdoc 
+  nnoremap <leader>ev :Eview 
+  nnoremap <leader>vv :Vview 
+  nnoremap <leader>sv :Sview 
+  nnoremap <leader>etr :Etransformer 
+  nnoremap <leader>vtr :Vtransformer 
+  nnoremap <leader>str :Stransformer 
+  nnoremap <leader>ete :Etest 
+  nnoremap <leader>vte :Vtest 
+  nnoremap <leader>ste :Stest 
+  nnoremap <leader>ea :A<CR>
+  nnoremap <leader>sa :AS<CR>
+  nnoremap <leader>va :AV<CR>
+  nnoremap <leader>sp :Dispatch phpspec describe App/
+
+  function! RunArtisanCommand(cmd)
+    let escaped_cmd = "php artisan " . shellescape(a:cmd)
+
+    let run_script = $HOME."/.vim/bin/run_then_close_tmux_window"
+
+    let script_command = run_script . " " . escaped_cmd
+
+    call dispatch#start("tmux neww '" . script_command . "'")
+  endfunction
+
+  function! GetAvailableArtisanCommands()
+    let results = system("php artisan list")
+    let lines = split(results, "\n")
+
+    let commands = []
+    let available_commands_hit = 0
+
+    for line in lines
+      if !available_commands_hit
+        if line == "Available commands:"
+          let available_commands_hit = 1
+          continue
+        endif
+      else
+        let cmd = split(line)
+        if (len(cmd) > 1)
+          let c = cmd[0]
+          "let trimmed = substitute(c, '^\s*', '', '') 
+          let commands = commands + [c]
+        endif
+      endif
+    endfor
+
+    return commands
+
+  endfunction
+
+  function! RunArtisan()
+    let width = +system("tput cols")
+    let preview = 'down:75%'
+
+    " TODO: fix this
+    let width = 200
+    if width > 160
+      let preview = 'right:70%'
+    endif
+
+    call fzf#run({
+        \  'source': GetAvailableArtisanCommands(),
+        \  'sink': function('RunArtisanCommand'),
+        \  'options': '--ansi -i --preview-window=' . l:preview . ' --preview="php artisan {} --help" --bind alt-j:preview-down,alt-k:preview-up',
+        \  })
+  endfunction
+
+  nnoremap <silent> <leader>a :call RunArtisan()<CR>
+  "nnoremap <silent> <leader>a :call fzf#run({
+        "\  'source': GetAvailableArtisanCommands(),
+        "\  'sink': function('RunArtisanCommand'),
+        "\  'options': '--ansi -i --preview="php artisan {} --help" --bind alt-j:preview-down,alt-k:preview-up',
+        "\  })<CR>
+endfunction
+
+function! SetupProjectType()
+  if filereadable("artisan")
+    call SetupLaravelProject()
+  endif
+endfunction
+
+augroup my_vimenter
+  autocmd!
+  autocmd VimEnter * call SetupProjectType()
+augroup END

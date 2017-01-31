@@ -58,10 +58,6 @@
 	path = vim/.vim/bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
   branch = master
-[submodule "vim/.vim/bundle/syntastic"]
-	path = vim/.vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic
-  branch = master
 [submodule "vim/.vim/bundle/vim-gitgutter"]
 	path = vim/.vim/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter

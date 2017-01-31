@@ -291,8 +291,14 @@ snippet df "Drop foreign key"
 $table->dropForeign(['${1:table}_id']);
 endsnippet
 
-snippet s "schema"
+snippet st "schema"
 Schema::table('$1', function (Blueprint $table) {
+	
+});
+endsnippet
+
+snippet sc "schema"
+Schema::create('$1', function (Blueprint $table) {
 	
 });
 endsnippet
@@ -318,5 +324,67 @@ $table->double('$1');$0
 endsnippet
 
 snippet tdbn "Double (nullable)"
-$table->double('$1')->nullable();$0
+$table->dateTime('$1');$0
 endsnippet
+
+snippet tdt "DateTime"
+$table->dateTime('$1');$0
+endsnippet
+
+snippet tdtn "DateTime (nullable)"
+$table->dateTime('$1')->nullable();$0
+endsnippet
+
+snippet tn "Nullable" w
+->nullable()$0
+endsnippet
+
+snippet tsd "table->softDeletes()"
+$table->softDeletes();
+endsnippet
+
+snippet tuuid "Eloquent UUID"
+$table->uuid('${1:id}');$0
+endsnippet
+
+snippet fil "Fillable"
+/**
+ * The attributes that are mass assignable.
+ *
+ * @var array
+ */
+protected $fillable = [
+	'$0'
+];
+endsnippet
+
+snippet hid "Hidden"
+/**
+ * The attributes that should be hidden for arrays.
+ *
+ * @var array
+ */
+protected $hidden = [
+	$0
+];
+endsnippet
+
+snippet dates "Dates"
+/**
+ * The date columns for this type.
+ *
+ * @var string[]
+ */
+protected $dates = [
+	$0
+];
+endsnippet
+
+snippet usd "use SoftDeletes"
+use SoftDeletes$0;
+endsnippet
+
+snippet table "protected $table = ''"
+protected $table = '$1';$0
+endsnippet
+
