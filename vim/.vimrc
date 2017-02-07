@@ -294,7 +294,8 @@ let g:EasyMotion_do_mapping = 0 " Disable default mappings
 let g:EasyMotion_smartcase = 1
 map <silent> / <Plug>(easymotion-sn)
 omap <silent> / <Plug>(easymotion-tn)
-map  <Leader>; <Plug>(easymotion-bd-f)
+map <Leader>; <Plug>(easymotion-bd-f)
+map s <Plug>(easymotion-bd-f)
 "nmap <Leader>; <Plug>(easymotion-overwin-f)
 "map  <M-Space> <Plug>(easymotion-bd-f)
 "nmap <M-Space> <Plug>(easymotion-overwin-f)
@@ -339,12 +340,16 @@ nnoremap <Leader>4 :Vexplore<CR>
 "set statusline+={SyntasticStatuslineFlag()}
 "set statusline+=%*
 
+" editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+
 " neomake
+let g:neomake_verbose=3
 augroup my_neomake
   au!
   autocmd! BufWritePost * Neomake
 augroup END
-let g:neomake_php_enabled_makers = ["php"] " php, phpcs, phpmd, phplint
+let g:neomake_php_enabled_makers = ["php", "phpstan"] " php, phpcs, phpmd, phplint
 "let g:neomake_php_phpcs_args = '--standard=~/phpcsconfig.xml'
 "let g:neomake_php_phpcs_maker = {
     "\ 'args': '--standard=~/phpcsconfig.xml',
@@ -352,6 +357,14 @@ let g:neomake_php_enabled_makers = ["php"] " php, phpcs, phpmd, phplint
       "\ '%-GFile\,Line\,Column\,Type\,Message\,Source\,Severity%.%#,'.
       "\ '"%f"\,%l\,%c\,%t%*[a-zA-Z]\,"%m"\,%*[a-zA-Z0-9_.-]\,%*[0-9]%.%#',
 "\ }
+let g:neomake_php_phpstan_maker = {
+      \ 'args': ['analyse', '--no-ansi', '--no-progress'],
+      \ 'errorformat':
+      \   '%-G\ -%.%#,'.
+      \   '%-G\ \[%.%#,'.
+      \   '%E\ \ %l\ %m,'.
+      \   '%-G%.%#'
+      \}
 
 " TODO: swap out all syntastic stuff with neomake
 " syntastic settings
@@ -468,10 +481,10 @@ let g:delimitMate_expand_space=1
 "let g:airline_theme='base16'
 let g:airline_theme='gruvbox'
 "let g:airline_theme='jellybeans'
-if !has('gui_running')
-  let g:airline_left_sep=''
-  let g:airline_right_sep=''
-endif
+"if !has('gui_running')
+  "let g:airline_left_sep=''
+  "let g:airline_right_sep=''
+"endif
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -641,7 +654,7 @@ nnoremap <Leader>.es :UltiSnipsEdit<CR>
 nnoremap <Leader>.eas :e ~/.vim/Ultisnips/all.snippets<CR>
 
 "inoremap <c-l> <esc>:Unite ultisnips -start-insert<CR>
-"inoremap <M-s> <c-o>:Snippets<CR>
+inoremap <M-s> <c-o>:Snippets<CR>
 "inoremap <M-s> <c-o>:Unite ultisnips -start-insert<CR>
 
 nnoremap <Leader>.os :syntax on<CR>
@@ -693,12 +706,19 @@ let g:vim_markdown_conceal = 0
 " deoplete.
 if has('nvim')
   let g:deoplete#enable_at_startup = 1
-  let g:deoplete#omni_patterns = {}
-  let g:deoplete#omni_patterns.java = '[^. *\t]\.\w*'
-  let g:deoplete#auto_completion_start_length = 2
+  "let g:deoplete#omni_patterns = {}
+  "let g:deoplete#omni_patterns.java = '[^. *\t]\.\w*'
+  "let g:deoplete#auto_completion_start_length = 2
   let g:deoplete#sources = {}
-  let g:deoplete#sources._ = []
-  let g:deoplete#file#enable_buffer_path = 1
+  let g:deoplete#sources['php'] = ['omni', 'tag', 'file', 'ultisnips', 'buffer', 'member']
+  let g:deoplete#enable_ignore_case = 1
+  let g:deoplete#enable_smart_case = 1
+  "let g:deoplete#keyword_patterns = {}
+  "let g:deoplete#keyword_patterns['php'] = 'function\w*'
+  "let g:deoplete#sources._ = []
+  "let g:deoplete#file#enable_buffer_path = 1
+  
+  "call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
 endif
 
 " alchemist.vim
@@ -733,9 +753,9 @@ nnoremap <silent> <M-x> :call KillTmuxRepl()<CR>
 "nnoremap <silent> <M-l> :call ClearRepl()<CR>
 
 " slimux
-nnoremap <M-s> :SlimuxREPLSendLine<CR>
-vnoremap <M-s> :\<C-u>execute "'<,'>SlimuxREPLSendSelection" <CR>
-inoremap <silent> <M-s> <C-o>:SlimuxREPLSendLine<CR>
+"nnoremap <M-s> :SlimuxREPLSendLine<CR>
+"vnoremap <M-s> :\<C-u>execute "'<,'>SlimuxREPLSendSelection" <CR>
+"inoremap <silent> <M-s> <C-o>:SlimuxREPLSendLine<CR>
 
 "-------- Functions ------------------------------- 
 function! ConfirmBDeleteBang()
@@ -1184,7 +1204,7 @@ function! SetupLaravelProject()
   let g:projectionist_heuristics = {
         \   "artisan": {
         \     "app/*.php": {
-        \       "alternate": "spec/{}Spec.php"
+        \       "alternate": "tests/{}Test.php"
         \     },
         \     "app/Models/*.php": {
         \       "type": "model",
@@ -1334,6 +1354,7 @@ function! SetupLaravelProject()
   nnoremap <leader>sa :AS<CR>
   nnoremap <leader>va :AV<CR>
   nnoremap <leader>sp :Dispatch phpspec describe App/
+  nnoremap <leader>db :call RunMycli()<CR>
 
   function! RunArtisanCommand(cmd)
     let escaped_cmd = "php artisan " . shellescape(a:cmd)
@@ -1343,6 +1364,33 @@ function! SetupLaravelProject()
     let script_command = run_script . " " . escaped_cmd
 
     call dispatch#start("tmux neww '" . script_command . "'")
+  endfunction
+
+  " make sure dependencies installed...can run in background
+  "Tmux neww 'ruby '.$HOME."/.vim/bin/laravel/open_mycli.rb"
+  call system("tmux splitw -b -p 5 'ruby " . $HOME . "/.vim/bin/laravel/open_mycli.rb'")
+  "call system("tmux splitw -p 20")
+  "call system("tmux send-keys 'ruby " . $HOME . "/.vim/bin/laravel/open_mycli.rb' && read")
+  call system("tmux last-pane")
+  "call dispatch#start('ruby '.$HOME."/.vim/bin/laravel/open_mycli.rb")
+
+  function! RunMycli()
+    "let run_script = "ruby ".$HOME."/.vim/bin/laravel/open_mycli.rb"
+    "call dispatch#start("tmux neww '".run_script."'")
+    ruby <<EOD
+require 'dotenv'
+
+Dotenv.load '.env'
+
+host = ENV['DB_HOST']
+port = ENV['DB_PORT']
+db = ENV['DB_DATABASE']
+user = ENV['DB_USERNAME']
+pass = ENV['DB_PASSWORD']
+
+system "tmux splitw 'mycli -h #{host} -P #{port} -D #{db} -u #{user} -p #{pass}'"
+EOD
+
   endfunction
 
   function! GetAvailableArtisanCommands()

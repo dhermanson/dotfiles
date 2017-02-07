@@ -126,7 +126,7 @@ endsnippet
 snippet tm "Test Method"
 /** @test */
 public function ${1:somethingAwesome}() {
-	${2:$this->assertTrue(true);}
+	${0:$this->assertTrue(true);}
 }
 endsnippet
 
@@ -139,6 +139,10 @@ endsnippet
 
 snippet f.create "Create an instance of faker"
 $faker = \Faker\Factory::create()
+endsnippet
+
+snippet f.randomNumber "Create a random number"
+$faker->randomNumber($1)$0
 endsnippet
 
 snippet f.fname "$faker->firstName"

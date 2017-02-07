@@ -340,3 +340,9 @@
 [submodule "vim/.vim/bundle/neomake"]
 	path = vim/.vim/bundle/neomake
 	url = https://github.com/neomake/neomake
+[submodule "vim/.vim/bundle/vim-commentary"]
+	path = vim/.vim/bundle/vim-commentary
+	url = https://github.com/tpope/vim-commentary
+[submodule "vim/.vim/bundle/vim-repeat"]
+	path = vim/.vim/bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat

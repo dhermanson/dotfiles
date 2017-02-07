@@ -37,6 +37,7 @@
 	csharp-mode
 	css-eldoc
 	csv-mode
+	diminish
 	elixir-mode
 	emmet-mode
 	emms
@@ -48,6 +49,7 @@
 	flycheck
 	helm
 	helm-projectile
+	htmlize
 	js2-mode
 	js-comint
 	key-chord
@@ -56,7 +58,9 @@
 	markdown-mode
 	multiple-cursors
 	;; omnisharp
+	ox-gfm
 	paredit
+	perspective
 	plantuml-mode
 	projectile
 	rainbow-delimiters
@@ -105,9 +109,14 @@
 (require 'rainbow-delimiters)
 (require 'js-comint)
 (require 'web-mode)
+(require 'diminish)
+(require 'perspective)
 
 ;; python
 (elpy-enable)
+
+;; perspective mode
+(persp-mode t)
 
 
 ;; (global-set-key (kbd "s-x") nil)
@@ -535,10 +544,11 @@
 	    (define-key php-mode-map (kbd "H-m H-s") 'yas/create-php-snippet)
 
 	    ;; yasnippets
-	    (setq-local yas-snippet-dirs
-		  '("~/.emacs.d/snippets"                 ;; personal snippets
-		    ))
-	    ))
+	    ;; (setq-local yas-snippet-dirs
+	    ;; 	  '("~/.emacs.d/snippets"                 ;; personal snippets
+	    ;; 	    ))
+	    )
+	  )
 
 (defun helm-imenu-all-buffers-in-new-frame ()
   "docstring"
@@ -612,6 +622,10 @@
   (linum-relative-on)
   ;;(setq company-idle-delay 0.1)
   ;;(setq company-show-numbers t)
+
+  (diminish 'robe-mode)
+
+  
   )
 
 (add-hook 'ruby-mode-hook 'my-ruby-hook)
@@ -711,6 +725,21 @@
                                 (linum-relative-mode)
                                 ))
 
+(eval-after-load "org"
+  '(require 'ox-md nil t))
+(eval-after-load "org"
+  '(require 'ox-gfm nil t))
+
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+(setq org-agenda-files (list "~/org/work.org"
+			     "~/org/school.org"
+			     "~/org/home.org"
+			     "~/workspace/projects/animal-health/desktop/project.org"))
+(setq org-agenda-diary-file 'diary-file)
+
 
 
 ;; lets define a function which adds semantic as a suggestion backend to auto complete andhook this function to c-mode-common-hook
@@ -741,6 +770,15 @@
   (if (file-accessible-directory-p dir)
       (emms-add-directory-tree dir)))
 
+;; diminish
+;;(diminish 'paredit-mode)
+(diminish 'projectile-mode)
+(diminish 'which-key-mode)
+(diminish 'helm-mode)
+(diminish 'undo-tree-mode)
+(diminish 'linum-relative-mode)
+(diminish 'smartparens-mode)
+
 
 (put 'dired-find-alternate-file 'disabled nil)
 
@@ -753,9 +791,12 @@
  '(custom-safe-themes
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "10e231624707d46f7b2059cc9280c332f7c7a530ebc17dba7e506df34c5332c4" default)))
+ '(org-agenda-files
+   (quote
+    ("~/org/home.org" "~/workspace/projects/animal-health/desktop/project.org")))
  '(package-selected-packages
    (quote
-    (elpy plantuml-mode emms fzf zenburn-theme zenburn which-key web-mode vue-mode tco string-utils sr-speedbar solarized-theme smyx-theme smartparens shut-up scss-mode sass-mode robe rake rainbow-delimiters php-auto-yasnippets perspective paredit multiple-cursors monokai-theme moe-theme magit linum-relative key-chord js2-mode js-comint jdee icicles helm-projectile gruvbox-theme geiser geben expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-matchit emmet-mode doom-themes dashboard csv-mode css-eldoc csharp-mode company-tern company-restclient company-php company-jedi company-anaconda color-theme-sanityinc-tomorrow cider auto-complete-c-headers apib-mode anti-zenburn-theme alchemist ace-jump-mode ac-php ac-anaconda))))
+    (diminish ox-gfm htmlize elpy plantuml-mode emms fzf zenburn-theme zenburn which-key web-mode vue-mode tco string-utils sr-speedbar solarized-theme smyx-theme smartparens shut-up scss-mode sass-mode robe rake rainbow-delimiters php-auto-yasnippets perspective paredit multiple-cursors monokai-theme moe-theme magit linum-relative key-chord js2-mode js-comint jdee icicles helm-projectile gruvbox-theme geiser geben expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-matchit emmet-mode doom-themes dashboard csv-mode css-eldoc csharp-mode company-tern company-restclient company-php company-jedi company-anaconda color-theme-sanityinc-tomorrow cider auto-complete-c-headers apib-mode anti-zenburn-theme alchemist ace-jump-mode ac-php ac-anaconda))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
