@@ -70,10 +70,6 @@
 	path = vim/.vim/bundle/ctrlp.vim
 	url = https://github.com/ctrlpvim/ctrlp.vim
   branch = master
-[submodule "vim/.vim/bundle/vim-airline"]
-	path = vim/.vim/bundle/vim-airline
-	url = https://github.com/bling/vim-airline
-  branch = master
 [submodule "vim/.vim/bundle/tagbar"]
 	path = vim/.vim/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar
@@ -240,10 +236,6 @@
 	path = rbenv/plugins/rbenv-ctags
 	url = https://github.com/tpope/rbenv-ctags.git
   branch = master
-[submodule "vim/.vim/bundle/vim-airline-themes"]
-	path = vim/.vim/bundle/vim-airline-themes
-	url = https://github.com/vim-airline/vim-airline-themes.git
-  branch = master
 [submodule "vim/.vim/bundle/csv.vim"]
 	path = vim/.vim/bundle/csv.vim
 	url = https://github.com/chrisbra/csv.vim.git
@@ -346,3 +338,6 @@
 [submodule "vim/.vim/bundle/vim-repeat"]
 	path = vim/.vim/bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat
+[submodule "vim/.vim/bundle/vim-expand-region"]
+	path = vim/.vim/bundle/vim-expand-region
+	url = https://github.com/terryma/vim-expand-region

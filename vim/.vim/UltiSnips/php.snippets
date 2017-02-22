@@ -126,7 +126,7 @@ endsnippet
 snippet tm "Test Method"
 /** @test */
 public function ${1:somethingAwesome}() {
-	${0:$this->assertTrue(true);}
+	${2:$this->assertTrue(true);}$0
 }
 endsnippet
 
@@ -137,47 +137,47 @@ $factory->define(${1:ModelName}::class, function(Faker\Generator $faker) {
 });
 endsnippet
 
-snippet f.create "Create an instance of faker"
+snippet fakecreate "Create an instance of faker"
 $faker = \Faker\Factory::create()
 endsnippet
 
-snippet f.randomNumber "Create a random number"
+snippet fakerandomNumber "Create a random number"
 $faker->randomNumber($1)$0
 endsnippet
 
-snippet f.fname "$faker->firstName"
+snippet fakefname "$faker->firstName"
 $faker->firstName
 endsnippet
 
-snippet f.lname "$faker->lastName"
+snippet fakelname "$faker->lastName"
 $faker->lastName
 endsnippet
 
-snippet f.postcode "$faker->postcode"
+snippet fakepostcode "$faker->postcode"
 $faker->postcode
 endsnippet
 
-snippet f.email "$faker->email"
+snippet fakeemail "$faker->email"
 $faker->email
 endsnippet
 
-snippet f.phone "$faker->phoneNumber"
+snippet fakephone "$faker->phoneNumber"
 $faker->phoneNumber
 endsnippet
 
-snippet f.bool "$faker->boolean()"
+snippet fakebool "$faker->boolean()"
 $faker->boolean($1)
 endsnippet
 
-snippet f.rel "$faker->randomElement()"
+snippet fakerel "$faker->randomElement()"
 $faker->randomElement([${1:'element1', 'element2'}])
 endsnippet
 
-snippet f.num "$faker->randomNumber()"
+snippet fakenum "$faker->randomNumber()"
 $faker->randomNumber($1)
 endsnippet
 
-snippet f.word "$faker->word"
+snippet fakeword "$faker->word"
 $faker->word
 endsnippet
 
@@ -391,4 +391,3 @@ endsnippet
 snippet table "protected $table = ''"
 protected $table = '$1';$0
 endsnippet
-

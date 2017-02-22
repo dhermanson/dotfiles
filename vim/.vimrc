@@ -317,7 +317,7 @@ nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>gc :Commits<CR>
 
 " gitgutter
-let g:gitgutter_signs = 1
+let g:gitgutter_signs = 0
 
 " netrw
 let g:netrw_liststyle=3
@@ -344,12 +344,14 @@ nnoremap <Leader>4 :Vexplore<CR>
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 " neomake
-let g:neomake_verbose=3
+let g:neomake_open_list=2
+let g:neomake_verbose=0
 augroup my_neomake
   au!
   autocmd! BufWritePost * Neomake
 augroup END
-let g:neomake_php_enabled_makers = ["php", "phpstan"] " php, phpcs, phpmd, phplint
+let g:neomake_php_enabled_makers = ["php"] " php, phpstan, phpcs, phpmd, phplint
+  "let g:neomake_php_enabled_makers = ["php", "phpstan"] " php, phpstan, phpcs, phpmd, phplint
 "let g:neomake_php_phpcs_args = '--standard=~/phpcsconfig.xml'
 "let g:neomake_php_phpcs_maker = {
     "\ 'args': '--standard=~/phpcsconfig.xml',
@@ -357,13 +359,30 @@ let g:neomake_php_enabled_makers = ["php", "phpstan"] " php, phpcs, phpmd, phpli
       "\ '%-GFile\,Line\,Column\,Type\,Message\,Source\,Severity%.%#,'.
       "\ '"%f"\,%l\,%c\,%t%*[a-zA-Z]\,"%m"\,%*[a-zA-Z0-9_.-]\,%*[0-9]%.%#',
 "\ }
+
+      "\ 'mapexpr': 'neomake_bufdir . "/" . neomake_bufname . v:val'
+"function! ProcessEntry(entry)
+  ""a:entry.file = call bufname('%')
+  "a:entry.type = 'W'
+"endfunction
+function! ProcessEntry(entry)
+  let a:entry.type = 'E'
+  "for ent in keys(a:entry)
+    "echom a:entry[ent]
+    "endfor
+endfunction
+
+      "\ 'mapexpr': '"File:app/Models/Associate.php:37:This is a stupid error"',
 let g:neomake_php_phpstan_maker = {
-      \ 'args': ['analyse', '--no-ansi', '--no-progress'],
+      \ 'args': ['analyse', '--no-ansi', '--no-progress', '--autoload-file=vendor/autoload.php'],
       \ 'errorformat':
       \   '%-G\ -%.%#,'.
       \   '%-G\ \[%.%#,'.
+      \   '%EFile:%f:\ \ %l\ %m,'.
       \   '%E\ \ %l\ %m,'.
-      \   '%-G%.%#'
+      \   '%-G%.%#',
+      \ 'mapexpr': '"File:" . neomake_bufname . ":" . v:val',
+      \ 'postprocess': function('ProcessEntry')
       \}
 
 " TODO: swap out all syntastic stuff with neomake
@@ -476,22 +495,6 @@ nnoremap <Leader>up :UnitePrevious<CR>
 " delimitmate settings
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
-
-" airline settings
-"let g:airline_theme='base16'
-let g:airline_theme='gruvbox'
-"let g:airline_theme='jellybeans'
-"if !has('gui_running')
-  "let g:airline_left_sep=''
-  "let g:airline_right_sep=''
-"endif
-let g:airline_powerline_fonts = 1
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#show_buffers = 1
 
 " vim-ruby settings
 let g:rubycomplete_buffer_loading=1
@@ -980,6 +983,7 @@ augroup filetype_dosini
   autocmd BufRead,BufNewFile php-fpm.conf set syntax=dosini
   autocmd BufRead,BufNewFile php.ini set syntax=dosini
   autocmd BufRead,BufNewFile www.conf set syntax=dosini
+  autocmd BufRead,BufNewFile *.conf set syntax=dosini
 augroup END
 
 augroup filetype_css
@@ -1056,11 +1060,11 @@ augroup my_php
   autocmd FileType php nnoremap <buffer> <localleader>tw :call RunArtisanTinkerInProjectRootDirectory()<CR>
   "autocmd FileType php nnoremap <buffer> <localleader>ts :call RunArtisanTinkerInProjectRootDirectoryInTmuxSplit()<CR>
   autocmd FileType php nnoremap <buffer> <silent> <leader>rr :call RunArtisanTinkerInProjectRootDirectory()<CR>
-  autocmd FileType php nnoremap <buffer> <silent> <leader>rs :call RunArtisanTinkerInSplit("-v")<CR>
-  autocmd FileType php nnoremap <buffer> <silent> <leader>rv :call RunArtisanTinkerInSplit("-h")<CR>
   autocmd FileType php nnoremap <buffer> <silent> <leader>rc :call ClearRepl()<CR>
   autocmd FileType php nnoremap <buffer> <silent><localleader>ts :call CreatePhpSplitAndStartRepl("vnew", "-v")<CR>
   autocmd FileType php nnoremap <buffer> <silent><localleader>tv :call CreatePhpSplitAndStartRepl("new", "-h")<CR>
+  autocmd FileType php nnoremap <buffer> <silent> <leader>rs :call RunCommandInSplit("psysh", "-v")<CR>
+  autocmd FileType php nnoremap <buffer> <silent> <leader>rv :call RunCommandInSplit("psysh", "-h")<CR>
 
   " codesniffer
   autocmd FileType php nnoremap <buffer> <localleader>cs :Dispatch phpcs % --standard=~/phpcsconfig.xml<CR>
@@ -1208,7 +1212,7 @@ function! SetupLaravelProject()
         \     },
         \     "app/Models/*.php": {
         \       "type": "model",
-        \       "template": ["<?php", "", "namespace App/Models;", "", "class {} {", "}"]
+        \       "template": ["<?php", "", "namespace App\Models;", "", "class {} {", "}"]
         \     },
         \     "app/Events/*.php": {
         \       "type": "event"
@@ -1355,6 +1359,11 @@ function! SetupLaravelProject()
   nnoremap <leader>va :AV<CR>
   nnoremap <leader>sp :Dispatch phpspec describe App/
   nnoremap <leader>db :call RunMycli()<CR>
+  augroup my_laravel
+    autocmd!
+    autocmd FileType php nnoremap <buffer> <silent> <leader>rs :call RunArtisanTinkerInSplit("-v")<CR>
+    autocmd FileType php nnoremap <buffer> <silent> <leader>rv :call RunArtisanTinkerInSplit("-h")<CR>
+augroup END
 
   function! RunArtisanCommand(cmd)
     let escaped_cmd = "php artisan " . shellescape(a:cmd)
@@ -1378,17 +1387,19 @@ function! SetupLaravelProject()
     "let run_script = "ruby ".$HOME."/.vim/bin/laravel/open_mycli.rb"
     "call dispatch#start("tmux neww '".run_script."'")
     ruby <<EOD
-require 'dotenv'
+fork do
+  require 'dotenv'
 
-Dotenv.load '.env'
+  Dotenv.load '.env'
 
-host = ENV['DB_HOST']
-port = ENV['DB_PORT']
-db = ENV['DB_DATABASE']
-user = ENV['DB_USERNAME']
-pass = ENV['DB_PASSWORD']
+  host = ENV['DB_HOST']
+  port = ENV['DB_PORT']
+  db = ENV['DB_DATABASE']
+  user = ENV['DB_USERNAME']
+  pass = ENV['DB_PASSWORD']
 
-system "tmux splitw 'mycli -h #{host} -P #{port} -D #{db} -u #{user} -p #{pass}'"
+  system "tmux splitw 'mycli -h #{host} -P #{port} -D #{db} -u #{user} -p #{pass}'"
+end
 EOD
 
   endfunction
