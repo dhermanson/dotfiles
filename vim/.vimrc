@@ -329,16 +329,37 @@ nnoremap <Leader>3 :Sexplore<CR>
 nnoremap <Leader>4 :Vexplore<CR>
 
 " statusline settings
-"set statusline=%t         " Path to the file
-"set statusline+=\ -\      " separator
-"set statusline+=FileType: " label
-"set statusline+=%y        " Filetype of the file
-"set statusline+=\ -\      " separator
-"set statusline+=%{fugitive#statusline()}
-"set statusline+=%=        " switch to right side
-"set statusline+=%#warningsmsg#
+set statusline=%t         " Path to the file
+set statusline+=\ -\      " separator
+set statusline+=FileType: " label
+set statusline+=%y        " Filetype of the file
+set statusline+=\ -\      " separator
+set statusline+=%{fugitive#statusline()}
+set statusline+=%=        " switch to right side
+set statusline+=%#warningsmsg#
 "set statusline+={SyntasticStatuslineFlag()}
-"set statusline+=%*
+set statusline+=\ %#ErrorMsg#%{neomake#statusline#QflistStatus('qf:\ ')}
+set statusline+=%*
+
+" toggle status line
+let s:hidden_all = 0
+function! ToggleHiddenAll()
+    if s:hidden_all  == 0
+        let s:hidden_all = 1
+        set noshowmode
+        set noruler
+        set laststatus=0
+        set noshowcmd
+    else
+        let s:hidden_all = 0
+        set showmode
+        set ruler
+        set laststatus=2
+        set showcmd
+    endif
+endfunction
+
+nnoremap <S-h> :call ToggleHiddenAll()<CR>
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
