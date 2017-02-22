@@ -1376,16 +1376,10 @@ augroup END
   endfunction
 
   " make sure dependencies installed...can run in background
-  "Tmux neww 'ruby '.$HOME."/.vim/bin/laravel/open_mycli.rb"
   call system("tmux splitw -b -p 5 'ruby " . $HOME . "/.vim/bin/laravel/open_mycli.rb'")
-  "call system("tmux splitw -p 20")
-  "call system("tmux send-keys 'ruby " . $HOME . "/.vim/bin/laravel/open_mycli.rb' && read")
   call system("tmux last-pane")
-  "call dispatch#start('ruby '.$HOME."/.vim/bin/laravel/open_mycli.rb")
 
   function! RunMycli()
-    "let run_script = "ruby ".$HOME."/.vim/bin/laravel/open_mycli.rb"
-    "call dispatch#start("tmux neww '".run_script."'")
     ruby <<EOD
 fork do
   require 'dotenv'
