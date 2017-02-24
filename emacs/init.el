@@ -58,6 +58,8 @@
 	markdown-mode
 	multiple-cursors
 	;; omnisharp
+	org
+	org2blog
 	ox-gfm
 	paredit
 	perspective
@@ -65,6 +67,7 @@
 	projectile
 	rainbow-delimiters
 	rake
+	rbenv
 	restclient
 	robe
 	sass-mode
@@ -87,10 +90,21 @@
 	;; php
 	php-mode
 	ac-php
+	ob-php
+	php-boris
+
+	;; vim
+	vimrc-mode
 	))
 
 ;; activate all the packages (in particular autoloads)
-(package-initialize)
+(package-initialize nil)
+(setq package-enable-at-startup nil)
+
+
+;; override org mode
+;;(add-to-list 'load-path "./elpa/org-20170210")
+;;(add-to-list 'load-path "./elpa/org-20170210")
 
 ;; fetch the list of packages available 
 (unless package-archive-contents
@@ -146,7 +160,7 @@
 
 ;; fonts
 ;; (set-default-font "Source Code Pro Regular-14")
-(set-default-font "Monaco-14" nil t)
+(set-default-font "Monaco-12" nil t)
 ;;(set-default-font "Inconsolata-dz for Powerline-14" nil t)
 
 ;; backups
@@ -199,6 +213,10 @@
 
 ;; flycheck
 ;;(global-flycheck-mode)
+
+;; rbenv
+(require 'rbenv)
+(global-rbenv-mode)
 
 (define-key global-map (kbd "H-u") 'universal-argument)
 
@@ -464,13 +482,7 @@
 (add-hook 'vue-mode-hook 'tern-mode)
 
 
-;; org-mode stuff
-(defun org-summary-todo (n-done n-not-done)
-       "Switch entry to DONE when all subentries are done, to TODO otherwise."
-       (let (org-log-done org-log-states)   ; turn off logging
-         (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-     
-(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
 
 ;; paredit
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
@@ -533,20 +545,20 @@
 		    ;; company-ac-php-backend
 		    )))
 	    
-	    (setq-local company-idle-delay )
-	    (setq-local company-dabbrev-code-other-buffers t) ;; irrelevant
-	    (setq-local company-dabbrev-ignore-buffers "nil")
-	    (setq-local company-dabbrev-downcase nil)
-	    (setq-local company-dabbrev-ignore-case "case-replace")
-	    (setq-local company-dabbrev-code-ignore-case "case-replace")
+	    ;; (setq-local company-idle-delay )
+	     (setq-local company-dabbrev-code-other-buffers t) ;; irrelevant
+	     (setq-local company-dabbrev-ignore-buffers "nil")
+	     (setq-local company-dabbrev-downcase nil)
+	     (setq-local company-dabbrev-ignore-case "case-replace")
+	     (setq-local company-dabbrev-code-ignore-case "case-replace")
 
-	    ;; mappings
-	    (define-key php-mode-map (kbd "H-m H-s") 'yas/create-php-snippet)
+	     ;; mappings
+	     (define-key php-mode-map (kbd "H-m H-s") 'yas/create-php-snippet)
 
-	    ;; yasnippets
-	    ;; (setq-local yas-snippet-dirs
-	    ;; 	  '("~/.emacs.d/snippets"                 ;; personal snippets
-	    ;; 	    ))
+	     ;; yasnippets
+	     ;; (setq-local yas-snippet-dirs
+	     ;; 	  '("~/.emacs.d/snippets"                 ;; personal snippets
+	     ;; 	    ))
 	    )
 	  )
 
@@ -607,6 +619,10 @@
 
 ;; clojure
 (add-hook 'cider-repl-mode-hook #'eldoc-mode)
+
+;; vim
+(require 'vimrc-mode)
+(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
 
 ;; ruby
 (defun my-ruby-hook ()
@@ -707,14 +723,41 @@
 ;; (setq omnisharp-server-executable-path "/Users/derick/.repositories/github/OmniSharp/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
 
 ;; org
+(require 'org)
+(require 'ob-ruby)
+
+(setq org-latex-listings 'minted)
+(setq org-latex-minted-options
+      '(("frame" "lines") ("linenos=true")))
+
+
+(defun org-summary-todo (n-done n-not-done)
+       "Switch entry to DONE when all subentries are done, to TODO otherwise."
+       (let (org-log-done org-log-states)   ; turn off logging
+         (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+     
+(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
+(setq org-confirm-babel-evaluate nil)
 ;;(setq org-src-fontify-natively t)
 ;; active Org-babel languages
 (org-babel-do-load-languages
  'org-babel-load-languages
  '(;; other Babel languages
-   (plantuml . t)))
+   (plantuml . t)
+   (ruby . t)
+   (python . t)
+   (sh . t)
+   (js . t)
+   (php . t)))
+
 (add-to-list
-  'org-src-lang-modes '("plantuml" . plantuml))
+ 'org-src-lang-modes '("plantuml" . plantuml))
+(add-to-list 'org-src-lang-modes '("html" . web))
+
+(add-hook 'org-mode-hook (lambda ()
+			   (interactive)
+			   ))
 
 (setq org-plantuml-jar-path "~/plantuml.jar")
 (add-hook 'plantuml-mode-hook (lambda ()
@@ -734,11 +777,40 @@
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 
-(setq org-agenda-files (list "~/org/work.org"
-			     "~/org/school.org"
-			     "~/org/home.org"
-			     "~/workspace/projects/animal-health/desktop/project.org"))
+(setq org-agenda-files (list "~/workspace/projects/schoolproject-api/project.org"))
 (setq org-agenda-diary-file 'diary-file)
+(setq org-src-preserve-indentation nil)
+
+(defun my-src-block-filter (text backend info)
+  "Fix the ugly background color on dollar signs in php"
+  (when (org-export-derived-backend-p backend 'html)
+    (princ info)
+    (let ((pattern "<span style=\"color: #\\([0123456789aAbBcCdDeEfF]*\\); background-color: #[0123456789aAbBcCdDeEfF]*;\">$</span>"))
+      (if (string-match pattern text)
+	  (replace-regexp-in-string
+	   pattern
+	   (concat "<span style=\"color: #" (match-string 1 text) ";\">$</span>")
+	   text)))))
+;; add my filter to the list
+(add-to-list 'org-export-filter-src-block-functions 'my-src-block-filter)
+
+
+;; org2blog
+(require 'org2blog-autoloads)
+(setq org2blog/wp-use-sourcecode-shortcode nil)
+(setq org2blog/wp-blog-alist
+      '(("my-blog"
+         :url "http://localhost/xmlrpc.php"
+         :username "derick"
+         :default-title "Hello from org2blog"
+         :default-categories ("org2blog" "emacs")
+         :tags-as-categories nil)
+	("myriad-devblog"
+         :url "https://devblog.myriadmobile.com/xmlrpc.php"
+         :username "dhermanson@myriadmobile.com"
+         :default-title "Post from Derick"
+         :default-categories ("web")
+         :tags-as-categories nil)))
 
 
 
