@@ -1,5 +1,4 @@
 set nocompatible
-
 " setup pathogen
 filetype off
 runtime bundle/vim-pathogen/autoload/pathogen.vim
@@ -66,12 +65,20 @@ set background=dark
 
 let g:gruvbox_italic=0
 let g:gruvbox_invert_signs=1
-"let g:gruvbox_contrast_dark='soft'
+let g:gruvbox_contrast_dark='soft'
 "let g:gruvbox_contrast_light='soft'
+let g:gruvbox_invert_selection=0
+let g:gruvbox_italic=1
 colorscheme gruvbox
-highlight SignColumn ctermbg=235
-highlight VertSplit ctermbg=235
-"highlight Comment cterm=italic
+" check Normal highlight and set this to whatever bg is
+highlight SignColumn ctermbg=236
+highlight VertSplit ctermbg=236
+
+"colorscheme jellybeans
+"highlight SignColumn ctermbg=233
+"highlight VertSplit ctermbg=233
+
+highlight Comment cterm=italic
 
 "colorscheme jellybeans
 
@@ -316,8 +323,56 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>gc :Commits<CR>
 
+
+" lightline
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'fugitive': 'LightlineFugitive',
+      \   'readonly': 'LightlineReadonly',
+      \   'modified': 'LightlineModified',
+      \   'filename': 'LightlineFilename'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' }
+      \ }
+
+function! LightlineModified()
+  if &filetype == "help"
+    return ""
+  elseif &modified
+    return "+"
+  elseif &modifiable
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function! LightlineReadonly()
+	return &readonly ? '' : ''
+endfunction
+function! LightlineFugitive()
+	if exists('*fugitive#head')
+		let branch = fugitive#head()
+		return branch !=# '' ? ''.branch : ''
+	endif
+	return ''
+endfunction
+
+
+function! LightlineFilename()
+  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+
 " gitgutter
-let g:gitgutter_signs = 0
+let g:gitgutter_signs = 1
 
 " netrw
 let g:netrw_liststyle=3
@@ -329,17 +384,18 @@ nnoremap <Leader>3 :Sexplore<CR>
 nnoremap <Leader>4 :Vexplore<CR>
 
 " statusline settings
-set statusline=%t         " Path to the file
-set statusline+=\ -\      " separator
-set statusline+=FileType: " label
-set statusline+=%y        " Filetype of the file
-set statusline+=\ -\      " separator
-set statusline+=%{fugitive#statusline()}
-set statusline+=%=        " switch to right side
-set statusline+=%#warningsmsg#
-"set statusline+={SyntasticStatuslineFlag()}
-set statusline+=\ %#ErrorMsg#%{neomake#statusline#QflistStatus('qf:\ ')}
-set statusline+=%*
+"set statusline+=\ \      " separator
+"set statusline=%t         " Path to the file
+"set statusline+=\ \      " separator
+""set statusline+=FileType: " label
+"set statusline+=%y        " Filetype of the file
+"set statusline+=\ \      " separator
+"set statusline+=%{fugitive#statusline()}
+"set statusline+=%=        " switch to right side
+"set statusline+=%#warningsmsg#
+""set statusline+={SyntasticStatuslineFlag()}
+"set statusline+=\ %#ErrorMsg#%{neomake#statusline#QflistStatus('qf:\ ')}
+"set statusline+=%*
 
 " toggle status line
 let s:hidden_all = 0
@@ -359,18 +415,20 @@ function! ToggleHiddenAll()
     endif
 endfunction
 
-nnoremap <S-h> :call ToggleHiddenAll()<CR>
+nnoremap <Leader>.h :call ToggleHiddenAll()<CR>
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 " neomake
-let g:neomake_open_list=2
+let g:neomake_open_list=0
 let g:neomake_verbose=0
 augroup my_neomake
   au!
   autocmd! BufWritePost * Neomake
 augroup END
+let g:neomake_ruby_enabled_makers = ['mri']
+let g:neomake_javascript_enabled_makers = ['eslint', 'jshint']
 let g:neomake_php_enabled_makers = ["php"] " php, phpstan, phpcs, phpmd, phplint
   "let g:neomake_php_enabled_makers = ["php", "phpstan"] " php, phpstan, phpcs, phpmd, phplint
 "let g:neomake_php_phpcs_args = '--standard=~/phpcsconfig.xml'
@@ -392,6 +450,12 @@ function! ProcessEntry(entry)
     "echom a:entry[ent]
     "endfor
 endfunction
+
+
+" vimux
+let g:VimuxOrientation = "h"
+let g:VimuxHeight = "40"
+
 
       "\ 'mapexpr': '"File:app/Models/Associate.php:37:This is a stupid error"',
 let g:neomake_php_phpstan_maker = {
@@ -954,7 +1018,11 @@ endfunction
 function! RunNodeInSplit(split)
   call KillTmuxRepl()
   let l:project_dir = fnamemodify('.', ':p')
-  let l:cmd = 'cd ' . l:project_dir . ' && node ~/node_repl.js'
+  let l:file = '~/node_repl.js'
+  if findfile('.derick/node_repl.js', l:project_dir) == '.derick/node_repl.js'
+    let l:file = '.derick/node_repl.js'
+  endif
+  let l:cmd = 'cd ' . l:project_dir . ' && node ' . l:file
   let l:pane = CreateTmuxSplitAndRunCommand(l:cmd, a:split)
   let g:my_tmux_repl_pane = l:pane
 
@@ -1126,9 +1194,9 @@ augroup END
 
 augroup html
   autocmd!
-  autocmd BufWritePre,BufRead *.html :normal; gg=G
+  "autocmd BufWritePre,BufRead *.html :normal; gg=G
   autocmd BufNewFile,BufRead *.html setlocal nowrap
-  autocmd FileType html nnoremap <buffer> <localleader>e :echo "You've opened a html file!"<CR>
+  "autocmd FileType html nnoremap <buffer> <localleader>e :echo "You've opened a html file!"<CR>
 augroup END
 
 augroup my_java
@@ -1137,12 +1205,16 @@ augroup my_java
   autocmd FileType java setlocal tags+=~/tags/java.tags
 augroup END
 
-augroup javascript
+augroup my_javascript
   autocmd!
   autocmd FileType javascript nnoremap <buffer> <localleader>e :echo "You've opened a javascript file!"<CR>
   autocmd FileType javascript nnoremap <buffer> <localleader>e :echo "You've opened a javascript file!"<CR>
   autocmd FileType javascript nnoremap <buffer> <leader>rs :call RunNodeInSplit("-v")<CR>
   autocmd FileType javascript nnoremap <buffer> <leader>rv :call RunNodeInSplit("-h")<CR>
+  autocmd FileType javascript nnoremap <buffer> <M-r> :w<CR> :VimuxRunCommand("clear && node " . bufname("%") . ' \| tap-spec')<CR>
+  autocmd FileType javascript inoremap <buffer> <M-r> <Esc>:w<CR>:call VimuxRunCommand("clear && node " . bufname("%") . ' \| tap-spec')<CR>
+  "autocmd FileType javascript nnoremap <buffer> <localleader>rr :call RunCommandInSplit("node " . bufname("%") . ' \| tap-spec && read', '-h')<CR>
+  "autocmd FileType javascript nnoremap <buffer> <localleader>rr :call RunTapeOnFile('%')<CR>
   autocmd Filetype *.txt set spell
 augroup END
 
@@ -1224,6 +1296,148 @@ augroup END
 " nerdtree
 "nnoremap <leader>t :NERDTreeToggle<CR>
 
+function! DropProjectDatabase()
+  ruby <<EOD
+fork do
+  require 'dotenv'
+
+  if File.exists? '.env'
+    Dotenv.load '.env'
+
+    db = ENV['DB_DATABASE']
+    user = ENV['DB_USERNAME']
+    pass = ENV['DB_PASSWORD']
+
+    unless user.nil? and pass.nil?
+     if db.nil?
+       puts "No database configured"
+     else
+      cmd = %Q( tmux splitw 'mysqladmin -u #{user} --password=#{pass} drop #{db} ')
+      system cmd
+     end
+
+    end
+  end
+end
+EOD
+endfunction
+
+
+"command DropProjectDatabase :call DropProjectDatabase()
+
+ruby << EOD
+require 'dotenv'
+
+def project_database_exists
+  if File.exists? '.env'
+    Dotenv.load '.env'
+
+    db = ENV['DB_DATABASE']
+    user = ENV['DB_USERNAME']
+    pass = ENV['DB_PASSWORD']
+
+    if db.nil? or user.nil? or pass.nil?
+      false
+    else
+      system %Q( mysql -u #{user} --password=#{pass} -e 'use  #{db}')
+    end
+
+  else
+    false
+  end
+end
+
+def create_database
+  if File.exists? '.env'
+    Dotenv.load '.env'
+
+    db = ENV['DB_DATABASE']
+    user = ENV['DB_USERNAME']
+    pass = ENV['DB_PASSWORD']
+
+    unless user.nil? and pass.nil?
+     if db.nil?
+       puts "No database configured"
+     else
+      create = %Q( mysqladmin -u #{user} --password=#{pass} create #{db})
+      grant = %Q( mysql -u #{user} --password=#{pass} -e "grant all on #{db}.* to #{user}@localhost" )
+      system create
+      system grant
+     end
+
+    end
+  end
+end
+EOD
+
+function! CreateProjectDatabase()
+  ruby <<EOD
+fork do
+  unless project_database_exists
+    create_database
+  end
+  #require 'dotenv'
+
+  #if File.exists? '.env'
+  #  Dotenv.load '.env'
+
+  #  db = ENV['DB_DATABASE']
+  #  user = ENV['DB_USERNAME']
+  #  pass = ENV['DB_PASSWORD']
+
+  #  unless user.nil? and pass.nil?
+  #   if db.nil?
+  #     puts "No database configured"
+  #   else
+  #    create = %Q( tmux splitw 'mysqladmin -u #{user} --password=#{pass} create #{db} ')
+  #    grant = %Q( tmux splitw 'mysql -u #{user} --password=#{pass} -e "grant all on #{db}.* to #{user}@localhost"' )
+  #    system create
+  #    sleep 1
+  #    system grant
+  #   end
+
+  #  end
+  #end
+end
+EOD
+endfunction
+
+function! RunMycli(split)
+  ruby <<EOD
+split = VIM::evaluate('a:split')
+fork do
+  require 'dotenv'
+
+  create_database
+
+  if File.exists? '.env'
+    Dotenv.load '.env'
+
+    host = ENV['DB_HOST']
+    port = ENV['DB_PORT']
+    db = ENV['DB_DATABASE']
+    user = ENV['DB_USERNAME']
+    pass = ENV['DB_PASSWORD']
+
+    unless host.nil? and
+           port.nil? and
+           user.nil? and
+           pass.nil?
+     if db.nil?
+      system "tmux splitw #{split} 'mycli -h #{host} -P #{port} -u #{user} -p #{pass}'"
+     else
+      system "tmux splitw #{split} 'mycli -h #{host} -P #{port} -D #{db} -u #{user} -p #{pass}'"
+     end
+
+    end
+  else
+    system "tmux splitw 'mycli --login-path=local'"
+  end
+end
+EOD
+endfunction
+nnoremap <leader>dbj :call RunMycli('-v')<CR>
+nnoremap <leader>dbl :call RunMycli('-h')<CR>
 
 function! SetupLaravelProject()
   let g:projectionist_heuristics = {
@@ -1379,7 +1593,6 @@ function! SetupLaravelProject()
   nnoremap <leader>sa :AS<CR>
   nnoremap <leader>va :AV<CR>
   nnoremap <leader>sp :Dispatch phpspec describe App/
-  nnoremap <leader>db :call RunMycli()<CR>
   augroup my_laravel
     autocmd!
     autocmd FileType php nnoremap <buffer> <silent> <leader>rs :call RunArtisanTinkerInSplit("-v")<CR>
@@ -1400,27 +1613,9 @@ augroup END
   call system("tmux splitw -b -p 5 'ruby " . $HOME . "/.vim/bin/laravel/open_mycli.rb'")
   call system("tmux last-pane")
 
-  function! RunMycli()
-    ruby <<EOD
-fork do
-  require 'dotenv'
-
-  Dotenv.load '.env'
-
-  host = ENV['DB_HOST']
-  port = ENV['DB_PORT']
-  db = ENV['DB_DATABASE']
-  user = ENV['DB_USERNAME']
-  pass = ENV['DB_PASSWORD']
-
-  system "tmux splitw 'mycli -h #{host} -P #{port} -D #{db} -u #{user} -p #{pass}'"
-end
-EOD
-
-  endfunction
 
   function! GetAvailableArtisanCommands()
-    let results = system("php artisan list")
+    let results = system("php artisan --no-ansi list")
     let lines = split(results, "\n")
 
     let commands = []
