@@ -27,9 +27,11 @@
 	auto-complete
 	auto-complete-c-headers
 	ace-jump-mode
+	bundler
 	cider
 	company
 	company-anaconda
+	company-ghc
 	company-jedi
 	company-php
 	company-restclient
@@ -47,6 +49,7 @@
 	exec-path-from-shell
 	expand-region
 	flycheck
+	haskell-mode
 	helm
 	helm-projectile
 	htmlize
@@ -61,6 +64,7 @@
 	org
 	org2blog
 	ox-gfm
+	ox-twbs
 	paredit
 	perspective
 	plantuml-mode
@@ -125,6 +129,7 @@
 (require 'web-mode)
 (require 'diminish)
 (require 'perspective)
+(require 'bundler)
 
 ;; python
 (elpy-enable)
@@ -151,7 +156,7 @@
 ;;(load-theme 'gruvbox t)
 (load-theme 'solarized-dark t)
 ;;(load-theme 'solarized-light t)
-;; (load-theme 'zenburn t)
+;;(load-theme 'zenburn t)
 ;;(load-theme 'monokai t)
 ;;(require 'color-theme-sanityinc-tomorrow)
 ;;(color-theme-sanityinc-tomorrow 'night)
@@ -522,28 +527,28 @@
 	    ;; (require 'company-php)
 	    ;;(require 'php-auto-yasnippets)
 	    
-	    ;; modes
-	    (eldoc-mode t)
-	    (smartparens-mode t)
-	    (company-mode t)
-	    (linum-relative-mode t)
-	    ;; (flycheck-mode t)
+	     ;; modes
+	     (eldoc-mode t)
+	     (smartparens-mode t)
+	     (company-mode t)
+	     (linum-relative-mode t)
+	     ;; (flycheck-mode t)
 	    
 
-	    ;; variables
-	    (setq c-basic-offset 2)	 
-	    (setq tab-width 2)		 
+	     ;; variables
+	     (setq c-basic-offset 2)	 
+	     (setq tab-width 2)		 
 
-	    ;; company-mode configuration
-	    (set (make-local-variable 'company-backends)
-		 '((
-		    company-etags
-		    ;; company-dabbrev-code
-		    company-yasnippet
-		    company-dabbrev
-		    company-files
-		    ;; company-ac-php-backend
-		    )))
+	     ;; company-mode configuration
+	     (set (make-local-variable 'company-backends)
+	     	 '((
+	     	    company-etags
+	     	    ;; company-dabbrev-code
+	     	    company-yasnippet
+	     	    company-dabbrev
+	     	    company-files
+	     	    ;; company-ac-php-backend
+	     	    )))
 	    
 	    ;; (setq-local company-idle-delay )
 	     (setq-local company-dabbrev-code-other-buffers t) ;; irrelevant
@@ -700,6 +705,30 @@
 
 (add-hook 'elixir-mode-hook 'my-elixir-hook)
 
+;; haskell
+(require 'haskell-interactive-mode)
+(require 'haskell-process)
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+
+(define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
+(define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
+(define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
+(define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
+(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+(define-key haskell-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+(define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
+
+(define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
+(define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+(define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
+
+(add-hook 'haskell-mode-hook
+          (lambda ()
+            (set (make-local-variable 'company-backends)
+                 (append '((company-capf company-dabbrev-code))
+                         company-backends))))
+
 
 ;; (eval-after-load 'company
 ;;   '(add-to-list 'company-backends 'company-omnisharp))
@@ -725,6 +754,7 @@
 ;; org
 (require 'org)
 (require 'ob-ruby)
+(require 'ob-haskell)
 
 (setq org-latex-listings 'minted)
 (setq org-latex-minted-options
@@ -749,7 +779,9 @@
    (python . t)
    (sh . t)
    (js . t)
-   (php . t)))
+   (php . t)
+   (sql . t)
+   (haskell . t)))
 
 (add-to-list
  'org-src-lang-modes '("plantuml" . plantuml))
@@ -772,6 +804,8 @@
   '(require 'ox-md nil t))
 (eval-after-load "org"
   '(require 'ox-gfm nil t))
+(eval-after-load "org"
+  '(require 'ox-twbs nil t))
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -811,6 +845,13 @@
          :default-title "Post from Derick"
          :default-categories ("web")
          :tags-as-categories nil)))
+(setq org2blog/wp-buffer-template
+      "-----------------------
+#+CATEGORY: web
+#+TITLE: New Web Post
+-----------------------\n")
+
+
 
 
 
@@ -855,23 +896,23 @@
 (put 'dired-find-alternate-file 'disabled nil)
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "10e231624707d46f7b2059cc9280c332f7c7a530ebc17dba7e506df34c5332c4" default)))
- '(org-agenda-files
-   (quote
-    ("~/org/home.org" "~/workspace/projects/animal-health/desktop/project.org")))
- '(package-selected-packages
-   (quote
-    (diminish ox-gfm htmlize elpy plantuml-mode emms fzf zenburn-theme zenburn which-key web-mode vue-mode tco string-utils sr-speedbar solarized-theme smyx-theme smartparens shut-up scss-mode sass-mode robe rake rainbow-delimiters php-auto-yasnippets perspective paredit multiple-cursors monokai-theme moe-theme magit linum-relative key-chord js2-mode js-comint jdee icicles helm-projectile gruvbox-theme geiser geben expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-matchit emmet-mode doom-themes dashboard csv-mode css-eldoc csharp-mode company-tern company-restclient company-php company-jedi company-anaconda color-theme-sanityinc-tomorrow cider auto-complete-c-headers apib-mode anti-zenburn-theme alchemist ace-jump-mode ac-php ac-anaconda))))
+
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t)
+ '(haskell-process-suggest-remove-import-lines t)
+ '(helm-external-programs-associations (quote (("html" . "open"))))
+ '(package-selected-packages
+   (quote
+    (ox-twbs bundler zenburn-theme zenburn which-key web-mode vue-mode vimrc-mode tco string-utils sr-speedbar solarized-theme smyx-theme smartparens shut-up scss-mode sass-mode robe rbenv rake rainbow-delimiters plantuml-mode php-boris php-auto-yasnippets perspective paredit ox-gfm org2blog ob-php multiple-cursors monokai-theme moe-theme magit linum-relative key-chord js2-mode js-comint jdee icicles htmlize helm-projectile gruvbox-theme geiser geben fzf expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-matchit emms emmet-mode elpy doom-themes diminish dashboard csv-mode css-eldoc csharp-mode company-tern company-restclient company-php company-jedi company-ghc company-anaconda color-theme-sanityinc-tomorrow cider auto-complete-c-headers apib-mode anti-zenburn-theme alchemist ace-jump-mode ac-php ac-anaconda))))

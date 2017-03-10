@@ -113,26 +113,27 @@ snippet php "<?php"
 endsnippet
 
 snippet ast "Assert"
-\PHPUnit_Framework_Assert::$1
+\PHPUnit_Framework_Assert::$0
 endsnippet
 
 snippet setup "PHPUnit Setup"
 public function setUp() {
 	parent::setUp();
-	$1
+	$0
 }
 endsnippet
 
 snippet tm "Test Method"
 /** @test */
 public function ${1:somethingAwesome}() {
-	${2:$this->assertTrue(true);}$0
+  $0
 }
 endsnippet
 
 snippet modelfactory "Model Factory"
 $factory->define(${1:ModelName}::class, function(Faker\Generator $faker) {
 	return [
+	  $0
 	];
 });
 endsnippet
@@ -390,4 +391,12 @@ endsnippet
 
 snippet table "protected $table = ''"
 protected $table = '$1';$0
+endsnippet
+
+snippet dj "Dump json"
+header('Content-Type: application/json');
+
+echo $0
+
+die(500);
 endsnippet
